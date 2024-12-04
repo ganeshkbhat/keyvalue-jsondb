@@ -80,83 +80,85 @@ function flattenJsonWithEscaping(obj, prefix = "") {
 }
 
 
-class JsonManager {
-    constructor() {
-        this.data = {};
-    }
+function JsonManager() {
+    var data = {};
+
+    // constructor() {
+    //     this.data = {};
+    // }
 
     // Read method with createKey functionality
-    read(key, createKey = false) {
-        if (this.data.hasOwnProperty(key)) {
-            return this.data[key];
+    function read(key, createKey = false) {
+        if (data.hasOwnProperty(key)) {
+            return data[key];
         }
         if (createKey) {
-            this.data[key] = null;
-            return this.data[key];
+            data[key] = null;
+            return data[key];
         }
         return undefined;
     }
 
     // Write method to set a value for a key
-    write(key, value) {
-        this.data[key] = value;
+    function write(key, value) {
+        data[key] = value;
     }
 
     // Dumps the entire JSON object
-    dump() {
-        return { ...unflattenJson(this.data) }; // Return a shallow copy to prevent direct modification
+    function dump() {
+        return { ...unflattenJson(data) }; // Return a shallow copy to prevent direct modification
     }
 
     // Checks if a key exists
-    hasKey(key) {
-        return this.data.hasOwnProperty(key);
+    function hasKey(key) {
+        return data.hasOwnProperty(key);
     }
 
     // Gets the value of a key
-    getKey(key) {
-        return this.data[key];
+    function getKey(key) {
+        return data[key];
     }
 
     // instantiates the new value
-    init(obj) {
-        return this.data = flattenJsonWithEscaping(obj);
+    function init(obj) {
+        return data = flattenJsonWithEscaping(obj);
     }
 
     // updates the json with new json structure
-    update(obj) {
-        return { ...this.data, ...flattenJsonWithEscaping(obj) };
+    function update(obj) {
+        return { ...data, ...flattenJsonWithEscaping(obj) };
     }
 
     // Searches keys and returns an array of key-value pairs
-    search(criteria, options = { like: false, regex: false }) {
+    function search(criteria, options = { like: false, regex: false }) {
         const results = [];
 
         if (Array.isArray(criteria)) {
             // Search for keys in an array
             for (const key of criteria) {
-                if (this.data.hasOwnProperty(key)) {
-                    results.push({ key, value: this.data[key] });
+                if (data.hasOwnProperty(key)) {
+                    results.push({ key, value: data[key] });
                 }
             }
         } else if (options.regex) {
             // Search using a regex
             const regex = new RegExp(criteria);
-            for (const key of Object.keys(this.data)) {
+            for (const key of Object.keys(data)) {
                 if (regex.test(key)) {
-                    results.push({ key, value: this.data[key] });
+                    results.push({ key, value: data[key] });
                 }
             }
         } else if (options.like) {
             // Partial matching
-            for (const key of Object.keys(this.data)) {
+            for (const key of Object.keys(data)) {
                 if (key.includes(criteria)) {
-                    results.push({ key, value: this.data[key] });
+                    results.push({ key, value: data[key] });
                 }
             }
         } else {
             // Exact key match
-            if (this.data.hasOwnProperty(criteria)) {
-                results.push({ key: criteria, value: this.data[criteria] });
+            if (data.hasOwnProperty(criteria)) {
+                results.push({ key: criteria, value: data[criteria] });
             }
         }
 
@@ -164,12 +166,12 @@ class JsonManager {
     }
 
     // Searches values and returns an array of key-value pairs
-    searchValue(criteria, options = { like: false, regex: false }) {
+    function searchValue(criteria, options = { like: false, regex: false }) {
         const results = [];
 
         if (Array.isArray(criteria)) {
             // Search for values in an array
-            for (const [key, value] of Object.entries(this.data)) {
+            for (const [key, value] of Object.entries(data)) {
                 if (criteria.includes(value)) {
                     results.push({ key, value });
                 }
@@ -177,21 +179,21 @@ class JsonManager {
         } else if (options.regex) {
             // Search using a regex
             const regex = new RegExp(criteria);
-            for (const [key, value] of Object.entries(this.data)) {
+            for (const [key, value] of Object.entries(data)) {
                 if (regex.test(String(value))) {
                     results.push({ key, value });
                 }
             }
         } else if (options.like) {
             // Partial matching
-            for (const [key, value] of Object.entries(this.data)) {
+            for (const [key, value] of Object.entries(data)) {
                 if (String(value).includes(criteria)) {
                     results.push({ key, value });
                 }
             }
         } else {
             // Exact value match
-            for (const [key, value] of Object.entries(this.data)) {
+            for (const [key, value] of Object.entries(data)) {
                 if (value === criteria) {
                     results.push({ key, value });
                 }
@@ -201,39 +203,38 @@ class JsonManager {
         return results;
     }
 
-
     // Searches both keys and values and returns an array of key-value pairs
-    searchKeyValue(criteria, options = { like: false, regex: false }) {
+    function searchKeyValue(criteria, options = { like: false, regex: false }) {
         const results = [];
 
         if (Array.isArray(criteria)) {
             // Search for keys or values in an array
-            for (const key of Object.keys(this.data)) {
+            for (const key of Object.keys(data)) {
                 if (
                     criteria.includes(key) ||
-                    criteria.includes(this.data[key])
+                    criteria.includes(data[key])
                 ) {
-                    results.push({ key, value: this.data[key] });
+                    results.push({ key, value: data[key] });
                 }
             }
         } else if (options.regex) {
             // Search using a regex
             const regex = new RegExp(criteria);
-            for (const [key, value] of Object.entries(this.data)) {
+            for (const [key, value] of Object.entries(data)) {
                 if (regex.test(key) || regex.test(String(value))) {
                     results.push({ key, value });
                 }
             }
         } else if (options.like) {
             // Partial matching
-            for (const [key, value] of Object.entries(this.data)) {
+            for (const [key, value] of Object.entries(data)) {
                 if (key.includes(criteria) || String(value).includes(criteria)) {
                     results.push({ key, value });
                 }
             }
         } else {
             // Exact match for either key or value
-            for (const [key, value] of Object.entries(this.data)) {
+            for (const [key, value] of Object.entries(data)) {
                 if (key === criteria || value === criteria) {
                     results.push({ key, value });
                 }
@@ -243,6 +244,19 @@ class JsonManager {
         return results;
     }
 
+    return {
+        read,
+        write,
+        update,
+        dump,
+        init,
+        hasKey,
+        getKey,
+        search,
+        searchValue,
+        searchKeyValue
+    }
+
 }
 
 module.exports = {
@@ -250,3 +264,4 @@ module.exports = {
     flattenJsonWithEscaping,
     unflattenJson
 } 
+
