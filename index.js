@@ -1,4 +1,9 @@
 
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+const url = require('url');
+const WebSocket = require('ws');
 
 /**
  * Converts a single-level JSON object with dot notation keys into a nested JSON object.
@@ -259,9 +264,225 @@ function JsonManager() {
 
 }
 
+
+// Dummy function search (replace with your actual logic)
+function run(body, queryParams) {
+    try {
+        // Attempt to parse body as JSON
+        const parsedBody = JSON.parse(body);
+        // Example: Search based on a 'query' parameter in the body or URL
+        const searchQuery = parsedBody.query || queryParams.query;
+        // if (searchQuery === "search") {
+        //     return {
+        //         results: [`Result for: ${searchQuery}`, `Another result for: ${searchQuery}`, JSON.stringify(parsedBody)],
+        //     };
+        // } else if (searchQuery === "create") {
+        //     return {
+        //         results: [`Result for: ${searchQuery}`, `Another result for: ${searchQuery}`, JSON.stringify(parsedBody)],
+        //     };
+        // } else if (searchQuery === "update") {
+        //     return {
+        //         results: [`Result for: ${searchQuery}`, `Another result for: ${searchQuery}`, JSON.stringify(parsedBody)],
+        //     };
+        // } else if (searchQuery === "delete") {
+        //     return {
+        //         results: [`Result for: ${searchQuery}`, `Another result for: ${searchQuery}`, JSON.stringify(parsedBody)],
+        //     };
+        // } else {
+        //     return { error: 'No search query provided' };
+        // }
+        if (parsedBody.event === "search") {
+            return {
+                results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            };
+        } else if (parsedBody.event === "create") {
+            return {
+                results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            };
+        } else if (parsedBody.event === "update") {
+            return {
+                results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            };
+        } else if (parsedBody.event === "delete") {
+            return {
+                results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            };
+        } else {
+            return { error: 'No search query provided' };
+        }
+    } catch (error) {
+        return { error: 'Invalid JSON body or query parameter' };
+    }
+}
+
+
+function startHttpServer(port = 3000) {
+
+    // HTTP Server
+    const httpServer = http.createServer((req, res) => {
+        const parsedUrl = url.parse(req.url, true);
+        const path = parsedUrl.pathname;
+        const queryParams = parsedUrl.query;
+
+        if (path === '/') {
+            if (req.method === 'POST') {
+                let body = '';
+                req.on('data', (chunk) => {
+                    body += chunk.toString();
+                });
+                req.on('end', () => {
+                    const searchResult = run(body, queryParams);
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(searchResult));
+                });
+            } else if (req.method === 'GET') {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(`{"health": "alive", "since": ${datetime} }`);
+            } else {
+                res.writeHead(405, { 'Content-Type': 'text/plain' });
+                res.end('Method Not Allowed');
+            }
+        } else if (req.method === 'GET') {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(`{"health": "alive", "since": ${datetime} }`);
+        } else {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('Not Found');
+        }
+    });
+
+    return httpServer.listen(port, () => {
+        console.log('HTTP Server listening on port 3000');
+    });
+
+}
+
+
+function startHttpsServer(key, cert, port = 3443) {
+    var datetime = new Date.now();
+    // HTTPS Server (requires certificate and key)
+    try {
+        const privateKey = fs.readFileSync(key, 'utf8');
+        const certificate = fs.readFileSync(cert, 'utf8');
+
+        const credentials = { key: privateKey, cert: certificate };
+
+        const httpsServer = https.createServer(credentials, (req, res) => {
+            const parsedUrl = url.parse(req.url, true);
+            const path = parsedUrl.pathname;
+            const queryParams = parsedUrl.query;
+
+            if (path === '/') {
+                if (req.method === 'POST') {
+                    let body = '';
+                    req.on('data', (chunk) => {
+                        body += chunk.toString();
+                    });
+                    req.on('end', () => {
+                        const searchResult = run(body, queryParams);
+                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify(searchResult));
+                    });
+                } else if (req.method === 'GET') {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(`{"health": "alive", "since": ${datetime} }`);
+                } else {
+                    res.writeHead(405, { 'Content-Type': 'text/plain' });
+                    res.end('Method Not Allowed');
+                }
+            } else if (path === '/health') {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(`{"health": "alive", "since": ${datetime} }`);
+            } else {
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.end('Not Found');
+            }
+        });
+
+        return httpsServer.listen(port, () => {
+            console.log(`HTTPS Server listening on port ${port}`);
+        });
+
+    } catch (error) {
+        console.error("HTTPS server could not be started. Missing or invalid certificate/key files or other error:", error);
+    }
+}
+
+
+// WebSocket Server
+// { "event": "search", "data": { "query": "websocket test" } }
+// { "event": "create", "data": { "item": "new item" } }
+function startWebsocketServer(port = 3000) {
+    const httpServer = startHttpServer(port);
+    const wss = new WebSocket.Server({ server: httpServer });
+    wss.on('connection', (ws, req) => {
+        const queryParams = url.parse(req.url, true).query;
+
+        ws.on('message', (message) => {
+            try {
+                const { event, data } = JSON.parse(message);
+                if (['search', 'create', 'update', 'delete'].includes(event)) {
+                    if (event === 'search') {
+                        const result = run(JSON.stringify(data), queryParams);
+                        ws.send(JSON.stringify({ event: 'searchResult', data: result }));
+                    } else {
+                        // Handle create, update, delete events
+                        console.log(`Received ${event} event with data:`, data, queryParams);
+                        ws.send(JSON.stringify({ event: `${event}Result`, data: { status: 'OK', received: data } }));
+                    }
+                } else {
+                    ws.send(JSON.stringify({ error: 'Invalid event name' }));
+                }
+            } catch (error) {
+                ws.send(JSON.stringify({ error: 'Invalid JSON message' }));
+            }
+        });
+    });
+}
+
+
+// WebSocket Secure Server
+// { "event": "search", "data": { "query": "websocket test" } }
+// { "event": "create", "data": { "item": "new item" } }
+function startWebsocketSecureServer(key, cert, port = 3443) {
+    const httpsServer = startHttpsServer(key, cert, port);
+    if (httpsServer) {
+        const wssSecure = new WebSocket.Server({ server: httpsServer });
+
+        wssSecure.on('connection', (ws, req) => {
+            const queryParams = url.parse(req.url, true).query;
+
+            ws.on('message', (message) => {
+                try {
+                    const { event, data } = JSON.parse(message);
+                    if (['search', 'create', 'update', 'delete'].includes(event)) {
+                        if (event === 'search') {
+                            const result = run(JSON.stringify(data), queryParams);
+                            ws.send(JSON.stringify({ event: 'searchResult', data: result }));
+                        } else {
+                            // Handle create, update, delete events
+                            console.log(`Received ${event} event (secure) with data:`, data, queryParams);
+                            ws.send(JSON.stringify({ event: `${event}Result`, data: { status: 'OK', received: data } }));
+                        }
+                    } else {
+                        ws.send(JSON.stringify({ error: 'Invalid event name' }));
+                    }
+                } catch (error) {
+                    ws.send(JSON.stringify({ error: 'Invalid JSON message' }));
+                }
+            });
+        });
+    }
+}
+
+
 module.exports = {
     JsonManager,
     flattenJsonWithEscaping,
-    unflattenJson
-} 
+    unflattenJson,
+    startHttpServer,
+    startHttpsServer,
+    startWebsocketServer,
+    startWebsocketSecureServer
+}
 
