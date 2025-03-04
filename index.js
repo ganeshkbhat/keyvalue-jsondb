@@ -480,6 +480,7 @@ function startWebsocketSecureServer(key, cert, port = 3443, middlewares = []) {
 }
 
 
+// Clients
 function clients() {
 
     async function Http(serverPath, message, callback) {
@@ -518,7 +519,7 @@ function clients() {
             }
         }
     }
-    // httpFetchRequest();
+    // http();
 
     async function Https(serverPath, cert, message, callback) {
         //
@@ -558,9 +559,9 @@ function clients() {
             }
         }
     }
-    // httpsFetchRequest();
+    // https();
 
-    function Ws(serverPath, open, message, close, error) {
+    function Ws(serverPath, callback) {
         // 'ws://localhost:3000'
         const ws = new WebSocket(serverPath);
 
@@ -568,23 +569,27 @@ function clients() {
             console.log('WebSocket connected');
             ws.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
             ws.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
-            open(ws);
+            // open(ws);
+            callback(ws, "open");
         });
 
         ws.on('message', (data) => {
             console.log('WS Message:', JSON.parse(data));
-            message(ws)
+            // message(ws)
+            callback(ws, "message", data);
             // ws.close();
         });
 
         ws.on('close', () => {
             console.log('WebSocket disconnected');
-            close(ws)
+            // close(ws)
+            callback(ws, "close");
         });
 
         ws.on('error', (err) => {
             console.error('WebSocket Error:', err);
-            error(ws, err)
+            // error(ws, err)
+            callback(ws, "error", err);
         });
     }
 
