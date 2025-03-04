@@ -67,6 +67,7 @@ function startHttpServer(port = 3000, middlewares = [], app) {
     const datetime = Date.now();
     const apps = express();
     if (!!app) apps.use(app);
+
     apps.all('/', middlewares, (req, res) => {
         const parsedUrl = url.parse(req.url, true);
         const path = parsedUrl.pathname;
@@ -112,9 +113,10 @@ function startHttpServer(port = 3000, middlewares = [], app) {
 function startHttpsServer(key, cert, port = 3443, middlewares = [], app) {
     const datetime = new Date.now();
     const apps = express();
+    if (!!app) apps.use(app);
+
     // HTTPS Server (requires certificate and key)
     try {
-        if (!!app) apps.use(app);
         app.all('/', middlewares, (req, res) => {
             const parsedUrl = url.parse(req.url, true);
             const path = parsedUrl.pathname;
@@ -150,7 +152,6 @@ function startHttpsServer(key, cert, port = 3443, middlewares = [], app) {
         const certificate = fs.readFileSync(cert, 'utf8');
         const credentials = { key: privateKey, cert: certificate };
         const httpsServer = https.createServer(credentials, apps);
-
         return httpsServer.listen(port, () => {
             console.log(`HTTPS Server listening on port ${port}`);
         });
@@ -164,9 +165,10 @@ function startHttpsServer(key, cert, port = 3443, middlewares = [], app) {
 // WebSocket Server
 // { "event": "search", "data": { "query": "websocket test" } }
 // { "event": "create", "data": { "item": "new item" } }
-function startWebsocketServer(port = 3000, middlewares = []) {
-    const httpServer = startHttpServer(port);
+function startWebsocketServer(port = 3000, middlewares = [], app) {
+    const httpServer = startHttpServer(port, middlewares, app);
     const wss = new WebSocket.Server({ server: httpServer });
+
     wss.on('connection', (ws, req) => {
         const queryParams = url.parse(req.url, true).query;
         ws.on('message', (message) => {
@@ -195,8 +197,9 @@ function startWebsocketServer(port = 3000, middlewares = []) {
 // WebSocket Secure Server
 // { "event": "search", "data": { "query": "websocket test" } }
 // { "event": "create", "data": { "item": "new item" } }
-function startWebsocketSecureServer(key, cert, port = 3443, middlewares = []) {
-    const httpsServer = startHttpsServer(key, cert, port);
+function startWebsocketSecureServer(key, cert, port = 3443, middlewares = [], app) {
+    const httpsServer = startHttpsServer(key, cert, port, middlewares, app);
+
     if (httpsServer) {
         const wssSecure = new WebSocket.Server({ server: httpsServer });
         wssSecure.on('connection', (ws, req) => {
