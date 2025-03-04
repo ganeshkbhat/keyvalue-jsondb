@@ -83,6 +83,16 @@ function run(body, queryParams) {
             //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
             // };
             return del(body, queryParams);
+        } else if (parsedBody.event === "clear") {
+            // return {
+            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            // };
+            return del(body, queryParams);
+        } else if (parsedBody.event === "init") {
+            // return {
+            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            // };
+            return del(body, queryParams);
         } else {
             return { error: 'No search query provided' };
         }
