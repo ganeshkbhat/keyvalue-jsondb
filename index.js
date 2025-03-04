@@ -34,7 +34,15 @@ function dump(body, queryParams) {
 }
 
 
-function loaddata(body, queryParams) {
+function load(body, queryParams) {
+
+}
+
+function init(body, queryParams) {
+
+}
+
+function clear(body, queryParams) {
 
 }
 
@@ -54,45 +62,21 @@ function run(body, queryParams) {
         const searchQuery = parsedBody.query || queryParams.query;
 
         if (parsedBody.event === "search") {
-            // return {
-            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            // };
             return search(body, queryParams);
+        } else if (parsedBody.event === "init") {
+            return init(body, queryParams);
+        } else if (parsedBody.event === "clear") {
+            return clear(body, queryParams);
+        } else if (parsedBody.event === "load") {
+            return load(body, queryParams);
         } else if (parsedBody.event === "create") {
-            // return {
-            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            // };
             return create(body, queryParams);
         } else if (parsedBody.event === "update") {
-            // return {
-            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            // };
             return update(body, queryParams);
         } else if (parsedBody.event === "delete") {
-            // return {
-            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            // };
             return del(body, queryParams);
         } else if (parsedBody.event === "dump") {
-            // return {
-            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            // };
-            return del(body, queryParams);
-        } else if (parsedBody.event === "load") {
-            // return {
-            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            // };
-            return del(body, queryParams);
-        } else if (parsedBody.event === "clear") {
-            // return {
-            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            // };
-            return del(body, queryParams);
-        } else if (parsedBody.event === "init") {
-            // return {
-            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            // };
-            return del(body, queryParams);
+            return dump(body, queryParams);
         } else {
             return { error: 'No search query provided' };
         }
