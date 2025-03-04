@@ -5,6 +5,8 @@ const https = require('https');
 const fs = require('fs');
 const url = require('url');
 const WebSocket = require('ws');
+const fetch = require('node-fetch');
+
 
 /**
  * Converts a single-level JSON object with dot notation keys into a nested JSON object.
@@ -478,6 +480,204 @@ function startWebsocketSecureServer(key, cert, port = 3443, middlewares = []) {
 }
 
 
+function ClientsHttp() {
+
+    // // Using axios
+    // const axios = require('axios');
+    // async function httpPostRequest() {
+    //     try {
+    //         const response = await axios.post('http://localhost:3000/api/data', {
+    //             event: 'search',
+    //             data: { query: 'websocket test' },
+    //         });
+    //         console.log('HTTP Response:', response.data);
+    //     } catch (error) {
+    //         console.error('HTTP Error:', error.message);
+    //     }
+    // }
+    // httpPostRequest();
+    // async function httpPostCreate(serverPath) {
+    //     try {
+    //         const response = await axios.post(serverPath, {
+    //             event: 'create',
+    //             data: { item: 'new item' }
+    //         });
+    //         console.log("HTTP create response", response.data);
+    //     } catch (error) {
+    //         console.error("HTTP create error", error.message);
+    //     }
+    // }
+    // httpPostCreate();
+
+    // //Using fetch
+    // const fetch = require('node-fetch');
+
+    async function httpFetchPostSearch(serverPath) {
+        try {
+            const response = await fetch(serverPath, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ event: 'search', data: { query: "websocket test" } })
+            });
+            const data = await response.json();
+            console.log("Fetch http search response:", data);
+        } catch (error) {
+            console.error("Fetch http search error:", error);
+        }
+    }
+    // httpFetchPostSearch();
+
+    async function httpFetchPostCreate(serverPath) {
+        try {
+            const response = await fetch(serverPath, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ event: "create", data: { item: "new item" } })
+            });
+            const data = await response.json();
+            console.log("Fetch http create response:", data);
+        } catch (error) {
+            console.error("Fetch http create error:", error);
+        }
+    }
+    // httpFetchPostCreate();
+}
+
+
+function ClientsHttps() {
+    // // Using axios
+    // const axios = require('axios');
+    // const fs = require('fs');
+    // const https = require('https');
+    //
+    // async function httpsPostRequest(serverPath) {
+    //     try {
+    //         const cert = fs.readFileSync('path/to/certificate.crt');
+    //         const httpsAgent = new https.Agent({ ca: cert });
+
+    //         const response = await axios.post(serverPath, {
+    //             event: 'search',
+    //             data: { query: 'websocket test' },
+    //         }, { httpsAgent });
+    //         console.log('HTTPS Response:', response.data);
+    //     } catch (error) {
+    //         console.error('HTTPS Error:', error.message);
+    //     }
+    // }
+    // httpsPostRequest();
+    // async function httpsPostCreate(serverPath) {
+    //     try {
+    //         const cert = fs.readFileSync('path/to/certificate.crt');
+    //         const httpsAgent = new https.Agent({ ca: cert });
+
+    //         const response = await axios.post(serverPath, {
+    //             event: 'create',
+    //             data: { item: 'new item' }
+    //         }, { httpsAgent });
+    //         console.log("HTTPS create response", response.data);
+    //     } catch (error) {
+    //         console.error("HTTPS create error", error.message);
+    //     }
+    // }
+    // httpsPostCreate();
+
+    // //Using fetch
+    // const fetch = require('node-fetch');
+
+    async function httpsFetchPostSearch(serverPath) {
+        try {
+            const cert = fs.readFileSync('path/to/certificate.crt');
+            const agent = new https.Agent({ ca: cert });
+            const response = await fetch(serverPath, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event: 'search', data: { query: 'websocket test' } }),
+                agent: agent
+            });
+            const data = await response.json();
+            console.log("HTTPS fetch search response:", data);
+        } catch (error) {
+            console.error("HTTPS fetch search error:", error);
+        }
+    }
+    // httpsFetchPostSearch();
+
+    async function httpsFetchPostCreate(serverPath) {
+        try {
+            const cert = fs.readFileSync('path/to/certificate.crt');
+            const agent = new https.Agent({ ca: cert });
+            const response = await fetch(serverPath, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event: 'create', data: { item: 'new item' } }),
+                agent: agent
+            });
+            const data = await response.json();
+            console.log("HTTPS fetch create response:", data);
+        } catch (error) {
+            console.error("HTTPS fetch create error:", error);
+        }
+    }
+    // httpsFetchPostCreate();
+}
+
+
+function ClientsWs(serverPath) {
+    // 'ws://localhost:3000'
+    const ws = new WebSocket(serverPath);
+
+    ws.on('open', () => {
+        console.log('WebSocket connected');
+        ws.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
+        ws.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
+    });
+
+    ws.on('message', (data) => {
+        console.log('WS Message:', JSON.parse(data));
+        ws.close();
+    });
+
+    ws.on('close', () => {
+        console.log('WebSocket disconnected');
+    });
+
+    ws.on('error', (error) => {
+        console.error('WebSocket Error:', error);
+    });
+}
+
+function ClientsWss(serverPath) {
+    // 'wss://localhost:443'
+    
+    const cert = fs.readFileSync('path/to/certificate.crt');
+    const wss = new WebSocket(serverPath, {
+        ca: cert,
+    });
+
+    wss.on('open', () => {
+        console.log('WSS connected');
+        wss.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
+        wss.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
+    });
+
+    wss.on('message', (data) => {
+        console.log('WSS Message:', JSON.parse(data));
+        wss.close();
+    });
+
+    wss.on('close', () => {
+        console.log('WSS disconnected');
+    });
+
+    wss.on('error', (error) => {
+        console.error("WSS error:", error);
+    });
+}
+
 module.exports = {
     JsonManager,
     flattenJsonWithEscaping,
@@ -485,6 +685,10 @@ module.exports = {
     startHttpServer,
     startHttpsServer,
     startWebsocketServer,
-    startWebsocketSecureServer
+    startWebsocketSecureServer,
+    ClientsHttp,
+    ClientsHttps,
+    ClientsWs,
+    ClientsWss
 }
 
