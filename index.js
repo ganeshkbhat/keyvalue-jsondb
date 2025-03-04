@@ -9,6 +9,26 @@ const express = require('express');
 const { JsonManager, flattenJsonWithEscaping, unflattenJson } = require("json-faster");
 
 
+function search(body, queryParams) {
+
+}
+
+
+function create(body, queryParams) {
+
+}
+
+
+function update(body, queryParams) {
+
+}
+
+
+function del(body, queryParams) {
+
+}
+
+
 /**
  *
  *
@@ -24,21 +44,25 @@ function run(body, queryParams) {
         const searchQuery = parsedBody.query || queryParams.query;
 
         if (parsedBody.event === "search") {
-            return {
-                results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            };
+            // return {
+            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            // };
+            return search(body, queryParams);
         } else if (parsedBody.event === "create") {
-            return {
-                results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            };
+            // return {
+            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            // };
+            return create(body, queryParams);
         } else if (parsedBody.event === "update") {
-            return {
-                results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            };
+            // return {
+            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            // };
+            return update(body, queryParams);
         } else if (parsedBody.event === "delete") {
-            return {
-                results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
-            };
+            // return {
+            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            // };
+            return del(body, queryParams);
         } else {
             return { error: 'No search query provided' };
         }
