@@ -8,42 +8,71 @@ const fetch = require('node-fetch');
 const express = require('express');
 const { JsonManager, flattenJsonWithEscaping, unflattenJson } = require("json-faster");
 
+const manager = new JsonManager();
+
+
+function hasKey(body, queryParams) {
+    return manager.hasKey();
+}
+
+
+function read(body, queryParams) {
+    return manager.read();
+}
+
 
 function search(body, queryParams) {
+    return manager.search();
+}
 
+
+function searchValue(body, queryParams) {
+    return manager.searchValue();
+}
+
+
+function searchKeyValue(body, queryParams) {
+    return manager.searchKeyValue();
+}
+
+
+function read(body, queryParams) {
+    return manager.read();
 }
 
 
 function create(body, queryParams) {
-
+    return manager.write();
 }
 
 
 function update(body, queryParams) {
-
+    return manager.update();
 }
 
 
 function del(body, queryParams) {
-
+    return manager.update();
 }
 
 
 function dump(body, queryParams) {
-
+    return manager.dump();
 }
 
 
 function load(body, queryParams) {
-
+    return manager.update(); // use previous data plus load new data
 }
+
 
 function init(body, queryParams) {
-
+    return manager.init(); // load data
 }
 
-function clear(body, queryParams) {
 
+function clear(body, queryParams) {
+    return manager.init({}); // clear with blank object
 }
 
 
@@ -63,12 +92,24 @@ function run(body, queryParams) {
 
         if (parsedBody.event === "search") {
             return search(body, queryParams);
+        } else if (parsedBody.event === "searchKey") {
+            return hasKey(body, queryParams);
+        } else if (parsedBody.event === "searchValue") {
+            return searchValue(body, queryParams);
+        } else if (parsedBody.event === "searchKeyValue") {
+            return searchKeyValue(body, queryParams);
+        } else if (parsedBody.event === "hasKey") {
+            return hasKey(body, queryParams);
+        } else if (parsedBody.event === "getKey") {
+            return getKey(body, queryParams);
         } else if (parsedBody.event === "init") {
             return init(body, queryParams);
         } else if (parsedBody.event === "clear") {
             return clear(body, queryParams);
         } else if (parsedBody.event === "load") {
             return load(body, queryParams);
+        } else if (parsedBody.event === "read") {
+            return read(body, queryParams);
         } else if (parsedBody.event === "create") {
             return create(body, queryParams);
         } else if (parsedBody.event === "update") {
