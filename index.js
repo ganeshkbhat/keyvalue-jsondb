@@ -29,6 +29,16 @@ function del(body, queryParams) {
 }
 
 
+function dump(body, queryParams) {
+
+}
+
+
+function loaddata(body, queryParams) {
+
+}
+
+
 /**
  *
  *
@@ -59,6 +69,16 @@ function run(body, queryParams) {
             // };
             return update(body, queryParams);
         } else if (parsedBody.event === "delete") {
+            // return {
+            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            // };
+            return del(body, queryParams);
+        } else if (parsedBody.event === "dump") {
+            // return {
+            //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
+            // };
+            return del(body, queryParams);
+        } else if (parsedBody.event === "load") {
             // return {
             //     results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
             // };
