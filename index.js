@@ -512,36 +512,38 @@ function ClientsHttp() {
     // //Using fetch
     // const fetch = require('node-fetch');
 
-    async function httpFetchPostSearch(serverPath) {
+    async function httpFetchPostSearch(serverPath, message) {
         try {
-            const response = await fetch(serverPath, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ event: 'search', data: { query: "websocket test" } })
-            });
+            // {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({ event: 'search', data: { query: "websocket test" } })
+            // }
+            const response = await fetch(serverPath, message);
             const data = await response.json();
             console.log("Fetch http search response:", data);
-        } catch (error) {
-            console.error("Fetch http search error:", error);
+        } catch (err) {
+            console.error("Fetch http search error:", err);
         }
     }
     // httpFetchPostSearch();
 
-    async function httpFetchPostCreate(serverPath) {
+    async function httpFetchPostCreate(serverPath, message) {
         try {
-            const response = await fetch(serverPath, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ event: "create", data: { item: "new item" } })
-            });
+            // {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({ event: "create", data: { item: "new item" } })
+            // }
+            const response = await fetch(serverPath, message);
             const data = await response.json();
             console.log("Fetch http create response:", data);
-        } catch (error) {
-            console.error("Fetch http create error:", error);
+        } catch (err) {
+            console.error("Fetch http create error:", err);
         }
     }
     // httpFetchPostCreate();
@@ -588,45 +590,49 @@ function ClientsHttps() {
     // //Using fetch
     // const fetch = require('node-fetch');
 
-    async function httpsFetchPostSearch(serverPath) {
+    async function httpsFetchPostSearch(serverPath, cert, message) {
         try {
-            const cert = fs.readFileSync('path/to/certificate.crt');
-            const agent = new https.Agent({ ca: cert });
-            const response = await fetch(serverPath, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ event: 'search', data: { query: 'websocket test' } }),
-                agent: agent
-            });
+            const certificate = fs.readFileSync(cert);
+            const agent = new https.Agent({ ca: certificate });
+
+            // {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ event: 'search', data: { query: 'websocket test' } }),
+            //     agent: agent
+            // }
+            const response = await fetch(serverPath, message);
             const data = await response.json();
             console.log("HTTPS fetch search response:", data);
-        } catch (error) {
-            console.error("HTTPS fetch search error:", error);
+        } catch (err) {
+            console.error("HTTPS fetch search error:", err);
         }
     }
     // httpsFetchPostSearch();
 
-    async function httpsFetchPostCreate(serverPath) {
+    async function httpsFetchPostCreate(serverPath, cert, message) {
         try {
-            const cert = fs.readFileSync('path/to/certificate.crt');
-            const agent = new https.Agent({ ca: cert });
-            const response = await fetch(serverPath, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ event: 'create', data: { item: 'new item' } }),
-                agent: agent
-            });
+            const certificate = fs.readFileSync(cert);
+            const agent = new https.Agent({ ca: certificate });
+
+            // {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ event: 'create', data: { item: 'new item' } }),
+            //     agent: agent
+            // }
+            const response = await fetch(serverPath, message);
             const data = await response.json();
             console.log("HTTPS fetch create response:", data);
-        } catch (error) {
-            console.error("HTTPS fetch create error:", error);
+        } catch (err) {
+            console.error("HTTPS fetch create error:", err);
         }
     }
     // httpsFetchPostCreate();
 }
 
 
-function ClientsWs(serverPath) {
+function ClientsWs(serverPath, open, message, close, error) {
     // 'ws://localhost:3000'
     const ws = new WebSocket(serverPath);
 
@@ -634,26 +640,30 @@ function ClientsWs(serverPath) {
         console.log('WebSocket connected');
         ws.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
         ws.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
+        open(ws);
     });
 
     ws.on('message', (data) => {
         console.log('WS Message:', JSON.parse(data));
-        ws.close();
+        message(ws)
+        // ws.close();
     });
 
     ws.on('close', () => {
         console.log('WebSocket disconnected');
+        close(ws)
     });
 
-    ws.on('error', (error) => {
-        console.error('WebSocket Error:', error);
+    ws.on('error', (err) => {
+        console.error('WebSocket Error:', err);
+        error(ws, err)
     });
 }
 
-function ClientsWss(serverPath) {
+function ClientsWss(serverPath, cert, open, message, close, error) {
     // 'wss://localhost:443'
-    
-    const cert = fs.readFileSync('path/to/certificate.crt');
+
+    const cert = fs.readFileSync(cert);
     const wss = new WebSocket(serverPath, {
         ca: cert,
     });
@@ -662,19 +672,23 @@ function ClientsWss(serverPath) {
         console.log('WSS connected');
         wss.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
         wss.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
+        open(wss)
     });
 
     wss.on('message', (data) => {
         console.log('WSS Message:', JSON.parse(data));
-        wss.close();
+        message(wss)
+        // wss.close();
     });
 
     wss.on('close', () => {
         console.log('WSS disconnected');
+        close(wss)
     });
 
-    wss.on('error', (error) => {
-        console.error("WSS error:", error);
+    wss.on('error', (err) => {
+        console.error("WSS error:", err);
+        error(wss)
     });
 }
 
