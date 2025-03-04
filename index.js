@@ -8,7 +8,6 @@ const fetch = require('node-fetch');
 const express = require('express');
 const { JsonManager, flattenJsonWithEscaping, unflattenJson } = require("json-faster");
 
-
 // Dummy function search (replace with your actual logic)
 function run(body, queryParams) {
     try {
@@ -59,7 +58,6 @@ function run(body, queryParams) {
     }
 }
 
-
 // // HTTP Server
 // { "event": "search", "data": { "query": "websocket test" } }
 // { "event": "create", "data": { "item": "new item" } }
@@ -105,7 +103,6 @@ function startHttpServer(port = 3000, middlewares = [], app) {
     });
 
 }
-
 
 // // HTTPS Server
 // { "event": "search", "data": { "query": "websocket test" } }
@@ -161,7 +158,6 @@ function startHttpsServer(key, cert, port = 3443, middlewares = [], app) {
     }
 }
 
-
 // WebSocket Server
 // { "event": "search", "data": { "query": "websocket test" } }
 // { "event": "create", "data": { "item": "new item" } }
@@ -192,7 +188,6 @@ function startWebsocketServer(port = 3000, middlewares = [], app) {
         });
     });
 }
-
 
 // WebSocket Secure Server
 // { "event": "search", "data": { "query": "websocket test" } }
@@ -226,7 +221,6 @@ function startWebsocketSecureServer(key, cert, port = 3443, middlewares = [], ap
         });
     }
 }
-
 
 // Clients
 function clients() {
@@ -384,7 +378,6 @@ function clients() {
         Wss
     }
 }
-
 
 module.exports = {
     JsonManager,
