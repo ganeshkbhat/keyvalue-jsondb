@@ -64,9 +64,9 @@ function run(body, queryParams) {
 // { "event": "search", "data": { "query": "websocket test" } }
 // { "event": "create", "data": { "item": "new item" } }
 function startHttpServer(port = 3000, middlewares = []) {
-    const datetime = new Date.now();
+    const datetime = Date.now();
     const app = express();
-    app.request('/', middlewares, (req, res) => {
+    app.all('/', middlewares, (req, res) => {
         const parsedUrl = url.parse(req.url, true);
         const path = parsedUrl.pathname;
         const queryParams = parsedUrl.query;
@@ -113,7 +113,7 @@ function startHttpsServer(key, cert, port = 3443, middlewares = []) {
     const app = express();
     // HTTPS Server (requires certificate and key)
     try {
-        app.request('/', middlewares, (req, res) => {
+        app.all('/', middlewares, (req, res) => {
             const parsedUrl = url.parse(req.url, true);
             const path = parsedUrl.pathname;
             const queryParams = parsedUrl.query;
@@ -339,9 +339,9 @@ function clients() {
     // callback(wss, event /* open, message, close, error */)
     function Wss(serverPath, cert, callback) {
         // 'wss://localhost:443'
-        const cert = fs.readFileSync(cert);
+        const certificate = fs.readFileSync(cert);
         const wss = new WebSocket(serverPath, {
-            ca: cert,
+            ca: certificate,
         });
 
         wss.on('open', () => {
