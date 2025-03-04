@@ -22,7 +22,7 @@ function run(body, queryParams) {
         const parsedBody = JSON.parse(body);
         // Example: Search based on a 'query' parameter in the body or URL
         const searchQuery = parsedBody.query || queryParams.query;
-        
+
         if (parsedBody.event === "search") {
             return {
                 results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
@@ -260,25 +260,25 @@ function startWebsocketSecureServer(key, cert, port = 3443, middlewares = [], ap
  */
 function clients() {
 
-    async function Http(serverPath, message, callback) {
-        //
-        // {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ event: 'search', data: { query: "websocket test" } })
-        // }
-        // {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ event: "create", data: { item: "new item" } })
-        // }
-        //
-        try {
+    //
+    // {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ event: 'search', data: { query: "websocket test" } })
+    // }
+    // {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ event: "create", data: { item: "new item" } })
+    // }
+    //
 
+    async function Http(serverPath, message, callback) {
+        try {
             const response = await fetch(serverPath, message);
             const data = await response.json();
             console.log("Fetch http search response:", data);
@@ -296,30 +296,14 @@ function clients() {
             }
         }
     }
-    // http();
+    // Http(...);
 
     async function Https(serverPath, cert, message, callback) {
-        //
-        // {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ event: 'search', data: { query: 'websocket test' } }),
-        //     agent: agent
-        // }
-        // {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ event: 'create', data: { item: 'new item' } }),
-        //     agent: agent
-        // }
-        //
-
         try {
             const certificate = fs.readFileSync(cert);
             const agent = new https.Agent({ ca: certificate });
 
-
-            const response = await fetch(serverPath, message);
+            const response = await fetch(serverPath, message, agent);
             const data = await response.json();
             console.log("HTTPS fetch search response:", data);
             if (!!callback) {
@@ -336,7 +320,7 @@ function clients() {
             }
         }
     }
-    // https();
+    // Https(...);
 
     function Ws(serverPath, callback) {
         // 'ws://localhost:3000'
@@ -369,6 +353,7 @@ function clients() {
             callback(ws, "error", err);
         });
     }
+    // Ws(...)
 
     // callback(wss, event /* open, message, close, error */)
     function Wss(serverPath, cert, callback) {
@@ -405,6 +390,7 @@ function clients() {
             callback(wss, "error", err)
         });
     }
+    // Ws(...)
 
     return {
         Http,
