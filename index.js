@@ -8,32 +8,21 @@ const fetch = require('node-fetch');
 const express = require('express');
 const { JsonManager, flattenJsonWithEscaping, unflattenJson } = require("json-faster");
 
-// Dummy function search (replace with your actual logic)
+
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function run(body, queryParams) {
     try {
         // Attempt to parse body as JSON
         const parsedBody = JSON.parse(body);
         // Example: Search based on a 'query' parameter in the body or URL
         const searchQuery = parsedBody.query || queryParams.query;
-        // if (searchQuery === "search") {
-        //     return {
-        //         results: [`Result for: ${searchQuery}`, `Another result for: ${searchQuery}`, JSON.stringify(parsedBody)],
-        //     };
-        // } else if (searchQuery === "create") {
-        //     return {
-        //         results: [`Result for: ${searchQuery}`, `Another result for: ${searchQuery}`, JSON.stringify(parsedBody)],
-        //     };
-        // } else if (searchQuery === "update") {
-        //     return {
-        //         results: [`Result for: ${searchQuery}`, `Another result for: ${searchQuery}`, JSON.stringify(parsedBody)],
-        //     };
-        // } else if (searchQuery === "delete") {
-        //     return {
-        //         results: [`Result for: ${searchQuery}`, `Another result for: ${searchQuery}`, JSON.stringify(parsedBody)],
-        //     };
-        // } else {
-        //     return { error: 'No search query provided' };
-        // }
+        
         if (parsedBody.event === "search") {
             return {
                 results: [`Result for: ${parsedBody}`, `Another result for: ${parsedBody}`, JSON.stringify(parsedBody)],
@@ -58,9 +47,19 @@ function run(body, queryParams) {
     }
 }
 
-// // HTTP Server
-// { "event": "search", "data": { "query": "websocket test" } }
-// { "event": "create", "data": { "item": "new item" } }
+
+/**
+ *
+ * HTTP Server
+ * 
+ * { "event": "search", "data": { "query": "websocket test" } }, 
+ * { "event": "create", "data": { "item": "new item" } }
+ * 
+ * @param {number} [port=3000]
+ * @param {*} [middlewares=[]]
+ * @param {*} app
+ * @return {*} 
+ */
 function startHttpServer(port = 3000, middlewares = [], app) {
     const datetime = Date.now();
     const apps = express();
@@ -104,9 +103,21 @@ function startHttpServer(port = 3000, middlewares = [], app) {
 
 }
 
-// // HTTPS Server
-// { "event": "search", "data": { "query": "websocket test" } }
-// { "event": "create", "data": { "item": "new item" } }
+
+/**
+ *
+ * HTTPS Server
+ * 
+ * { "event": "search", "data": { "query": "websocket test" } },
+ * { "event": "create", "data": { "item": "new item" } }
+ *
+ * @param {*} key
+ * @param {*} cert
+ * @param {number} [port=3443]
+ * @param {*} [middlewares=[]]
+ * @param {*} app
+ * @return {*} 
+ */
 function startHttpsServer(key, cert, port = 3443, middlewares = [], app) {
     const datetime = new Date.now();
     const apps = express();
@@ -158,9 +169,18 @@ function startHttpsServer(key, cert, port = 3443, middlewares = [], app) {
     }
 }
 
-// WebSocket Server
-// { "event": "search", "data": { "query": "websocket test" } }
-// { "event": "create", "data": { "item": "new item" } }
+
+/**
+ *
+ * WebSocket Server
+ * 
+ * { "event": "search", "data": { "query": "websocket test" } }, 
+ * { "event": "create", "data": { "item": "new item" } }
+ * 
+ * @param {number} [port=3000]
+ * @param {*} [middlewares=[]]
+ * @param {*} app
+ */
 function startWebsocketServer(port = 3000, middlewares = [], app) {
     const httpServer = startHttpServer(port, middlewares, app);
     const wss = new WebSocket.Server({ server: httpServer });
@@ -189,9 +209,20 @@ function startWebsocketServer(port = 3000, middlewares = [], app) {
     });
 }
 
-// WebSocket Secure Server
-// { "event": "search", "data": { "query": "websocket test" } }
-// { "event": "create", "data": { "item": "new item" } }
+
+/**
+ *
+ * WebSocket Secure Server
+ * 
+ * { "event": "search", "data": { "query": "websocket test" } }, 
+ * { "event": "create", "data": { "item": "new item" } }
+ *
+ * @param {*} key
+ * @param {*} cert
+ * @param {number} [port=3443]
+ * @param {*} [middlewares=[]]
+ * @param {*} app
+ */
 function startWebsocketSecureServer(key, cert, port = 3443, middlewares = [], app) {
     const httpsServer = startHttpsServer(key, cert, port, middlewares, app);
 
@@ -222,7 +253,11 @@ function startWebsocketSecureServer(key, cert, port = 3443, middlewares = [], ap
     }
 }
 
-// Clients
+/**
+ * Clients
+ *
+ * @return { * } Http, Https, Ws, Wss
+ */
 function clients() {
 
     async function Http(serverPath, message, callback) {
