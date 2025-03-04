@@ -1,4 +1,5 @@
 
+const express = require('express');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
@@ -317,13 +318,12 @@ function run(body, queryParams) {
 
 
 function startHttpServer(port = 3000) {
-
-    // HTTP Server
-    const httpServer = http.createServer((req, res) => {
+    const datetime = new Date.now();
+    const app = express();
+    app.request('/', (req, res) => {
         const parsedUrl = url.parse(req.url, true);
         const path = parsedUrl.pathname;
         const queryParams = parsedUrl.query;
-
         if (path === '/') {
             if (req.method === 'POST') {
                 let body = '';
@@ -351,6 +351,7 @@ function startHttpServer(port = 3000) {
         }
     });
 
+    const httpServer = http.createServer(app);
     return httpServer.listen(port, () => {
         console.log('HTTP Server listening on port 3000');
     });
@@ -359,19 +360,14 @@ function startHttpServer(port = 3000) {
 
 
 function startHttpsServer(key, cert, port = 3443) {
-    var datetime = new Date.now();
+    const datetime = new Date.now();
+    const app = express();
     // HTTPS Server (requires certificate and key)
     try {
-        const privateKey = fs.readFileSync(key, 'utf8');
-        const certificate = fs.readFileSync(cert, 'utf8');
-
-        const credentials = { key: privateKey, cert: certificate };
-
-        const httpsServer = https.createServer(credentials, (req, res) => {
+        app.request('/', (req, res) => {
             const parsedUrl = url.parse(req.url, true);
             const path = parsedUrl.pathname;
             const queryParams = parsedUrl.query;
-
             if (path === '/') {
                 if (req.method === 'POST') {
                     let body = '';
@@ -399,6 +395,11 @@ function startHttpsServer(key, cert, port = 3443) {
             }
         });
 
+        const privateKey = fs.readFileSync(key, 'utf8');
+        const certificate = fs.readFileSync(cert, 'utf8');
+        const credentials = { key: privateKey, cert: certificate };
+        const httpsServer = https.createServer(credentials, app);
+
         return httpsServer.listen(port, () => {
             console.log(`HTTPS Server listening on port ${port}`);
         });
@@ -417,7 +418,6 @@ function startWebsocketServer(port = 3000) {
     const wss = new WebSocket.Server({ server: httpServer });
     wss.on('connection', (ws, req) => {
         const queryParams = url.parse(req.url, true).query;
-
         ws.on('message', (message) => {
             try {
                 const { event, data } = JSON.parse(message);
@@ -448,10 +448,8 @@ function startWebsocketSecureServer(key, cert, port = 3443) {
     const httpsServer = startHttpsServer(key, cert, port);
     if (httpsServer) {
         const wssSecure = new WebSocket.Server({ server: httpsServer });
-
         wssSecure.on('connection', (ws, req) => {
             const queryParams = url.parse(req.url, true).query;
-
             ws.on('message', (message) => {
                 try {
                     const { event, data } = JSON.parse(message);
