@@ -63,10 +63,11 @@ function run(body, queryParams) {
 // // HTTP Server
 // { "event": "search", "data": { "query": "websocket test" } }
 // { "event": "create", "data": { "item": "new item" } }
-function startHttpServer(port = 3000, middlewares = []) {
+function startHttpServer(port = 3000, middlewares = [], app) {
     const datetime = Date.now();
-    const app = express();
-    app.all('/', middlewares, (req, res) => {
+    const apps = express();
+    if (!!app) apps.use(app);
+    apps.all('/', middlewares, (req, res) => {
         const parsedUrl = url.parse(req.url, true);
         const path = parsedUrl.pathname;
         const queryParams = parsedUrl.query;
@@ -97,7 +98,7 @@ function startHttpServer(port = 3000, middlewares = []) {
         }
     });
 
-    const httpServer = http.createServer(app);
+    const httpServer = http.createServer(apps);
     return httpServer.listen(port, () => {
         console.log('HTTP Server listening on port 3000');
     });
@@ -108,11 +109,12 @@ function startHttpServer(port = 3000, middlewares = []) {
 // // HTTPS Server
 // { "event": "search", "data": { "query": "websocket test" } }
 // { "event": "create", "data": { "item": "new item" } }
-function startHttpsServer(key, cert, port = 3443, middlewares = []) {
+function startHttpsServer(key, cert, port = 3443, middlewares = [], app) {
     const datetime = new Date.now();
-    const app = express();
+    const apps = express();
     // HTTPS Server (requires certificate and key)
     try {
+        if (!!app) apps.use(app);
         app.all('/', middlewares, (req, res) => {
             const parsedUrl = url.parse(req.url, true);
             const path = parsedUrl.pathname;
@@ -147,7 +149,7 @@ function startHttpsServer(key, cert, port = 3443, middlewares = []) {
         const privateKey = fs.readFileSync(key, 'utf8');
         const certificate = fs.readFileSync(cert, 'utf8');
         const credentials = { key: privateKey, cert: certificate };
-        const httpsServer = https.createServer(credentials, app);
+        const httpsServer = https.createServer(credentials, apps);
 
         return httpsServer.listen(port, () => {
             console.log(`HTTPS Server listening on port ${port}`);
