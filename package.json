@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "express": "^4.21.2",
+    "json-faster": "^1.0.0",
     "ws": "^8.18.1"
   }
 }
