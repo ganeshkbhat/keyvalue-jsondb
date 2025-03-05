@@ -1,3 +1,20 @@
+/**
+ * 
+ * Package: 
+ * Author: Ganesh B
+ * Description: 
+ * Install: npm i kvjsondb --save
+ * Github: https://github.com/ganeshkbhat/
+ * npmjs Link: https://www.npmjs.com/package/
+ * File: index.js
+ * File Description: 
+ * 
+ * 
+*/
+
+/* eslint no-console: 0 */
+
+'use strict';
 
 const fs = require('fs');
 const url = require('url');
@@ -11,68 +28,146 @@ const { JsonManager, flattenJsonWithEscaping, unflattenJson } = require("json-fa
 
 const manager = new JsonManager();
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function hasKey(body, queryParams) {
     return manager.hasKey(body.data.query);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function getKey(body, queryParams) {
     return manager.getKey(body.data.query);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function search(body, queryParams) {
     return manager.search(body.data.query);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function searchValue(body, queryParams) {
     return manager.searchValue(body.data.query);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function searchKeyValue(body, queryParams) {
     return manager.searchKeyValue(body.data.query);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function read(body, queryParams) {
     return manager.read(body.data.query);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function create(body, queryParams) {
     let arr = body.data.query.split(",");
     return manager.write(arr[0], arr[1]);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function update(body, queryParams) {
     return manager.update(body.data.query);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function del(body, queryParams) {
     return manager.del(body.data.query);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function dump(body, queryParams) {
     return manager.dump(body.data.query);
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function load(body, queryParams) {
     return manager.update(body.data.query || {}); // use previous data plus load new data
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function init(body, queryParams) {
     return manager.init(body.data.query || {}); // load data
 }
 
-
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
 function clear(body, queryParams) {
     return manager.init({}); // clear with blank object
 }
