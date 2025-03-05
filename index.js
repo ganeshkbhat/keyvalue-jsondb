@@ -13,62 +13,63 @@ const manager = new JsonManager();
 
 
 function hasKey(body, queryParams) {
-    return manager.hasKey();
+    return manager.hasKey(body.data.query);
 }
 
 
-function read(body, queryParams) {
-    return manager.read();
+function getKey(body, queryParams) {
+    return manager.getKey(body.data.query);
 }
 
 
 function search(body, queryParams) {
-    return manager.search();
+    return manager.search(body.data.query);
 }
 
 
 function searchValue(body, queryParams) {
-    return manager.searchValue();
+    return manager.searchValue(body.data.query);
 }
 
 
 function searchKeyValue(body, queryParams) {
-    return manager.searchKeyValue();
+    return manager.searchKeyValue(body.data.query);
 }
 
 
 function read(body, queryParams) {
-    return manager.read();
+    return manager.read(body.data.query);
 }
 
 
 function create(body, queryParams) {
-    return manager.write();
+    let arr = body.data.query.split(",");
+    return manager.write(arr[0], arr[1]);
 }
 
 
 function update(body, queryParams) {
-    return manager.update();
+    return manager.update(body.data.query);
 }
 
 
 function del(body, queryParams) {
-    return manager.update();
+    return manager.del(body.data.query);
 }
 
 
 function dump(body, queryParams) {
-    return manager.dump();
+    return manager.dump(body.data.query);
 }
 
 
 function load(body, queryParams) {
-    return manager.update(); // use previous data plus load new data
+    return manager.update(body.data.query || {}); // use previous data plus load new data
 }
 
 
 function init(body, queryParams) {
-    return manager.init(); // load data
+    return manager.init(body.data.query || {}); // load data
 }
 
 
@@ -333,6 +334,7 @@ function startWebsocketSecureServer(key, cert, port = 3443, middlewares = [], ap
     }
 }
 
+
 /**
  * Clients
  *
@@ -481,6 +483,10 @@ function Clients() {
 }
 
 
+/**
+ *
+ *
+ */
 function Shell() {
 
     // set key value
@@ -500,7 +506,6 @@ function Shell() {
     // update jsonobject
     // del key
     // dump -f "filename/within/quotes"
-
 
     const search = (query) => `Search results for: ${query}`;
     const searchKey = (query) => `Search key results for: ${query}`;
