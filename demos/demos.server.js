@@ -2,7 +2,8 @@
 
 const startHttpServer = require('../index').startHttpServer; // Replace with the path to your implementation
 
-var srv = startHttpServer(3000);
+var srv = startHttpServer(3000, "127.0.0.1", [], (rq, rs, n) => n());
+// var srv = startHttpServer();
 
 
 // # Example 1: POST request with JSON body (HTTP)

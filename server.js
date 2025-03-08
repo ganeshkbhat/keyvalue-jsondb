@@ -16,4 +16,8 @@
 
 'use strict';
 
+const startServer = require('./index').startServer;
+
+var srv = startServer(process.args[2] || "http", process.args[3] || 3443, process.args[4] || "127.0.0.1", [], (req, res, next) => next(), process.args[5], process.args[6]);
+
 

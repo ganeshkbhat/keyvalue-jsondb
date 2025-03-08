@@ -232,16 +232,18 @@ function run(body, queryParams) {
  * { "event": "create", "data": { "item": "new item" } }
  * 
  * @param {number} [port=3000]
+ * @param {string} [ip="127.0.0.1"]
  * @param {*} [middlewares=[]]
- * @param {*} app
+ * @param {*} [app=(req, res, next) => next()]
  * @return {*} 
  */
-function startHttpServer(port = 3000, middlewares = [], app) {
+function startHttpServer(port = 3000, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next()) {
     const datetime = Date.now();
     const apps = express();
     if (!!app) apps.use(app);
-
-    apps.all('/', middlewares, (req, res) => {
+    apps.use(middlewares);
+    
+    apps.all('/', (req, res) => {
         const parsedUrl = url.parse(req.url, true);
         const path = parsedUrl.pathname;
         const queryParams = parsedUrl.query;
@@ -273,7 +275,7 @@ function startHttpServer(port = 3000, middlewares = [], app) {
     });
 
     const httpServer = http.createServer(apps);
-    return httpServer.listen(port, () => {
+    return httpServer.listen(port, ip, () => {
         console.log('HTTP Server listening on port 3000');
     });
 
@@ -287,21 +289,23 @@ function startHttpServer(port = 3000, middlewares = [], app) {
  * { "event": "search", "data": { "query": "websocket test" } },
  * { "event": "create", "data": { "item": "new item" } }
  *
+ * @param {number} [port=3443]
+ * @param {string} [ip="127.0.0.1"]
+ * @param {*} [middlewares=[]]
+ * @param {*} [app=(req, res, next) => next()]
  * @param {*} key
  * @param {*} cert
- * @param {number} [port=3443]
- * @param {*} [middlewares=[]]
- * @param {*} app
  * @return {*} 
  */
-function startHttpsServer(key, cert, port = 3443, middlewares = [], app) {
+function startHttpsServer(port = 3443, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
     const datetime = new Date.now();
     const apps = express();
     if (!!app) apps.use(app);
+    apps.use(middlewares)
 
     // HTTPS Server (requires certificate and key)
     try {
-        app.all('/', middlewares, (req, res) => {
+        app.all('/', (req, res) => {
             const parsedUrl = url.parse(req.url, true);
             const path = parsedUrl.pathname;
             const queryParams = parsedUrl.query;
@@ -354,11 +358,12 @@ function startHttpsServer(key, cert, port = 3443, middlewares = [], app) {
  * { "event": "create", "data": { "item": "new item" } }
  * 
  * @param {number} [port=3000]
+ * @param {string} [ip="127.0.0.1"]
  * @param {*} [middlewares=[]]
- * @param {*} app
+ * @param {*} [app=(req, res, next) => next()]
  */
-function startWebsocketServer(port = 3000, middlewares = [], app) {
-    const httpServer = startHttpServer(port, middlewares, app);
+function startWebsocketServer(port = 3000,  ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next()) {
+    const httpServer = startHttpServer(port, ip, middlewares, app);
     const wss = new WebSocket.Server({ server: httpServer });
 
     wss.on('connection', (ws, req) => {
@@ -393,14 +398,15 @@ function startWebsocketServer(port = 3000, middlewares = [], app) {
  * { "event": "search", "data": { "query": "websocket test" } }, 
  * { "event": "create", "data": { "item": "new item" } }
  *
+ * @param {number} [port=3443]
+ * @param {string} [ip="127.0.0.1"]
+ * @param {*} [middlewares=[]]
+ * @param {*} [app=(req, res, next) => next()]
  * @param {*} key
  * @param {*} cert
- * @param {number} [port=3443]
- * @param {*} [middlewares=[]]
- * @param {*} app
  */
-function startWebsocketSecureServer(key, cert, port = 3443, middlewares = [], app) {
-    const httpsServer = startHttpsServer(key, cert, port, middlewares, app);
+function startWebsocketSecureServer(port = 3443,  ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
+    const httpsServer = startHttpsServer(port, middlewares, app, key, cert);
 
     if (httpsServer) {
         const wssSecure = new WebSocket.Server({ server: httpsServer });
@@ -728,6 +734,26 @@ function Shell() {
 }
 
 
+/**
+ *
+ *
+ * @param {string} [type="http"]
+ * @param {number} [port=3443]
+ * @param {string} [ip="127.0.0.1"]
+ * @param {*} [middlewares=[]]
+ * @param {*} [app=(req, res, next) => next()]
+ * @param {*} key
+ * @param {*} cert
+ * @return {*} 
+ */
+function startServer(type="http", port = 3443,  ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
+    if (type === "ws") return startWebsocketServer(port, ip, middlewares, app);
+    if (type === "wss") return startWebsocketSecureServer(port, ip, middlewares, app, key, cert);
+    if (type === "https") return startHttpsServer(port, ip, middlewares, app, key, cert);
+    if (type === "http") return startHttpServer(port, ip, middlewares, app);    
+}
+
+
 module.exports = {
     JsonManager,
     flattenJsonWithEscaping,
@@ -737,6 +763,7 @@ module.exports = {
     startWebsocketServer,
     startWebsocketSecureServer,
     Clients,
-    Shell
+    Shell,
+    startServer
 }
 

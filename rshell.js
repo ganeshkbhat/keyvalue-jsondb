@@ -16,6 +16,7 @@
 
 'use strict';
 
-const Shell = require('./index').Shell;
-var srv = Shell(port, ip)
+// const RShell = require('./index').RShell;
+// var srv = RShell(port, ip, sshKey)
+// var srv = RShell(port, ip, "username", "password")
 
