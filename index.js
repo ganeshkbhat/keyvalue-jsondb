@@ -28,6 +28,7 @@ const { JsonManager, flattenJsonWithEscaping, unflattenJson } = require("json-fa
 
 const manager = new JsonManager();
 
+
 /**
  *
  *
@@ -38,6 +39,7 @@ const manager = new JsonManager();
 function hasKey(body, queryParams) {
     return manager.hasKey(body.data.query);
 }
+
 
 /**
  *
@@ -50,6 +52,7 @@ function getKey(body, queryParams) {
     return manager.getKey(body.data.query);
 }
 
+
 /**
  *
  *
@@ -60,6 +63,7 @@ function getKey(body, queryParams) {
 function search(body, queryParams) {
     return manager.search(body.data.query);
 }
+
 
 /**
  *
@@ -72,6 +76,7 @@ function searchValue(body, queryParams) {
     return manager.searchValue(body.data.query);
 }
 
+
 /**
  *
  *
@@ -82,6 +87,7 @@ function searchValue(body, queryParams) {
 function searchKeyValue(body, queryParams) {
     return manager.searchKeyValue(body.data.query);
 }
+
 
 /**
  *
@@ -94,6 +100,7 @@ function read(body, queryParams) {
     return manager.read(body.data.query);
 }
 
+
 /**
  *
  *
@@ -105,6 +112,7 @@ function create(body, queryParams) {
     let arr = body.data.query.split(",");
     return manager.write(arr[0], arr[1]);
 }
+
 
 /**
  *
@@ -242,7 +250,7 @@ function startHttpServer(port = 3000, ip = "127.0.0.1", middlewares = [], app = 
     const apps = express();
     if (!!app) apps.use(app);
     apps.use(middlewares);
-    
+
     apps.all('/', (req, res) => {
         const parsedUrl = url.parse(req.url, true);
         const path = parsedUrl.pathname;
@@ -362,7 +370,7 @@ function startHttpsServer(port = 3443, ip = "127.0.0.1", middlewares = [], app =
  * @param {*} [middlewares=[]]
  * @param {*} [app=(req, res, next) => next()]
  */
-function startWebsocketServer(port = 3000,  ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next()) {
+function startWebsocketServer(port = 3000, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next()) {
     const httpServer = startHttpServer(port, ip, middlewares, app);
     const wss = new WebSocket.Server({ server: httpServer });
 
@@ -405,7 +413,7 @@ function startWebsocketServer(port = 3000,  ip = "127.0.0.1", middlewares = [], 
  * @param {*} key
  * @param {*} cert
  */
-function startWebsocketSecureServer(port = 3443,  ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
+function startWebsocketSecureServer(port = 3443, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
     const httpsServer = startHttpsServer(port, middlewares, app, key, cert);
 
     if (httpsServer) {
@@ -746,11 +754,11 @@ function Shell() {
  * @param {*} cert
  * @return {*} 
  */
-function startServer(type="http", port = 3443,  ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
+function startServer(type = "http", port = 3443, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
     if (type === "ws") return startWebsocketServer(port, ip, middlewares, app);
     if (type === "wss") return startWebsocketSecureServer(port, ip, middlewares, app, key, cert);
     if (type === "https") return startHttpsServer(port, ip, middlewares, app, key, cert);
-    if (type === "http") return startHttpServer(port, ip, middlewares, app);    
+    if (type === "http") return startHttpServer(port, ip, middlewares, app);
 }
 
 
@@ -762,8 +770,8 @@ module.exports = {
     startHttpsServer,
     startWebsocketServer,
     startWebsocketSecureServer,
+    startServer,
     Clients,
-    Shell,
-    startServer
+    Shell
 }
 
