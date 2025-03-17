@@ -646,6 +646,7 @@ function Shell(port, ip) {
     const update = (data) => `Updated with: ${JSON.stringify(data)}`;
     const deleteItem = (key) => `Deleted: ${key}`;
     const dump = (filename) => `Dumped to: ${filename}`;
+    const dumpsToFile = (filename) => `Dumped to: ${filename}`;
 
     const commandMap = {
         set: create,
@@ -664,7 +665,7 @@ function Shell(port, ip) {
         update: update,
         del: deleteItem,
         dump: dump,
-        dumpToFile: dumpToFile
+        dumpToFile: dumpsToFile
     };
 
     const rl = readline.createInterface({
@@ -779,6 +780,11 @@ function startServer(type = "http", port = 3443, ip = "127.0.0.1", middlewares =
 }
 
 
+/**
+ *
+ *
+ * @param {*} key
+ */
 function RShell(key) {
 
 }

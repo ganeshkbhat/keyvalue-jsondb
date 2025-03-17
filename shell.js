@@ -18,5 +18,8 @@
 
 const Shell = require('./index').Shell;
 const port = 3443, ip = "127.0.0.1";
+
+// Add Shell Authentication here
+
 var srv = Shell(port, ip)
 

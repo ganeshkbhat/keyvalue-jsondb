@@ -27,4 +27,4 @@ var key = (process.argv.length > 5 && !!process.argv[5]) ? process.argv[5] : nul
 var cert = (process.argv.length > 6 && !!process.argv[6]) ? process.argv[6] : null
 
 var srv = startServer(type, port, ip, middlewares, app, key, cert);
-
+console.log("Running server at: ", `${type}, ${port}, ${ip}`)
