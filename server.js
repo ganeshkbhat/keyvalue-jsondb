@@ -18,5 +18,13 @@
 
 const startServer = require('./index').startServer;
 
-var srv = startServer(!!process.args[2] ? process.args[2] : "http", !!process.args[3] ? process.args[3] : 3443, !!process.args[4] ? process.args[4] : "127.0.0.1", [], (req, res, next) => { next() }, !!process.args[5] ? process.args[5] : null, !!process.args[6] ? process.args[6] : null);
+var type = (process.argv.length > 2 && !!process.argv[2]) ? process.argv[2] : "http"
+var port = (process.argv.length > 3 && !!process.argv[3]) ? process.argv[3] : 3443
+var ip = (process.argv.length > 4 && !!process.argv[4]) ? process.argv[4] : "127.0.0.1"
+var middlewares = []
+var app = (req, res, next) => { next() }
+var key = (process.argv.length > 5 && !!process.argv[5]) ? process.argv[5] : null 
+var cert = (process.argv.length > 6 && !!process.argv[6]) ? process.argv[6] : null
+
+var srv = startServer(type, port, ip, middlewares, app, key, cert);
 

@@ -17,5 +17,6 @@
 'use strict';
 
 const Shell = require('./index').Shell;
+const port = 3443, ip = "127.0.0.1";
 var srv = Shell(port, ip)
 

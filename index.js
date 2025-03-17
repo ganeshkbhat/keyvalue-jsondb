@@ -24,7 +24,7 @@ const WebSocket = require('ws');
 const readline = require('readline');
 const fetch = require('node-fetch');
 const express = require('express');
-const { JsonManager, flattenJsonWithEscaping, unflattenJson } = require("json-faster");
+const { JsonManager, flattenJsonWithEscaping, unflattenJson, writeToFile } = require("json-faster");
 
 const manager = new JsonManager();
 
@@ -61,7 +61,7 @@ function getKey(body, queryParams) {
  * @return {*} 
  */
 function search(body, queryParams) {
-    return manager.search(body.data.query);
+    return manager.search(body.data.query, body.data.options);
 }
 
 
@@ -73,7 +73,7 @@ function search(body, queryParams) {
  * @return {*} 
  */
 function searchValue(body, queryParams) {
-    return manager.searchValue(body.data.query);
+    return manager.searchValue(body.data.query, body.data.options);
 }
 
 
@@ -85,7 +85,7 @@ function searchValue(body, queryParams) {
  * @return {*} 
  */
 function searchKeyValue(body, queryParams) {
-    return manager.searchKeyValue(body.data.query);
+    return manager.searchKeyValue(body.data.query, body.data.options);
 }
 
 
@@ -97,7 +97,7 @@ function searchKeyValue(body, queryParams) {
  * @return {*} 
  */
 function read(body, queryParams) {
-    return manager.read(body.data.query);
+    return manager.read(body.data.query, body.data.createKey);
 }
 
 
@@ -109,8 +109,7 @@ function read(body, queryParams) {
  * @return {*} 
  */
 function create(body, queryParams) {
-    let arr = body.data.query.split(",");
-    return manager.write(arr[0], arr[1]);
+    return manager.write(body.data.query.key, body.data.query.value);
 }
 
 
@@ -125,6 +124,7 @@ function update(body, queryParams) {
     return manager.update(body.data.query);
 }
 
+
 /**
  *
  *
@@ -133,8 +133,9 @@ function update(body, queryParams) {
  * @return {*} 
  */
 function del(body, queryParams) {
-    return manager.del(body.data.query);
+    return manager.deleteKey(body.data.query);
 }
+
 
 /**
  *
@@ -147,6 +148,19 @@ function dump(body, queryParams) {
     return manager.dump(body.data.query);
 }
 
+
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
+function dumpToFile(body, queryParams) {
+    return writeToFile(body.data.filename, manager.dump(body.data.data));
+}
+
+
 /**
  *
  *
@@ -155,8 +169,9 @@ function dump(body, queryParams) {
  * @return {*} 
  */
 function load(body, queryParams) {
-    return manager.update(body.data.query || {}); // use previous data plus load new data
+    return manager.update(!!body.data.query ? body.data.query : {}); // use previous data plus load new data
 }
+
 
 /**
  *
@@ -168,6 +183,7 @@ function load(body, queryParams) {
 function init(body, queryParams) {
     return manager.init(body.data.query || {}); // load data
 }
+
 
 /**
  *
@@ -249,7 +265,7 @@ function startHttpServer(port = 3000, ip = "127.0.0.1", middlewares = [], app = 
     const datetime = Date.now();
     const apps = express();
     if (!!app) apps.use(app);
-    apps.use(middlewares);
+    if (!!middlewares.length) apps.use(middlewares);
 
     apps.all('/', (req, res) => {
         const parsedUrl = url.parse(req.url, true);
@@ -596,7 +612,7 @@ function Clients() {
  *
  *
  */
-function Shell() {
+function Shell(port, ip) {
 
     // set key value
     // get key
@@ -762,6 +778,11 @@ function startServer(type = "http", port = 3443, ip = "127.0.0.1", middlewares =
 }
 
 
+function RShell(key) {
+
+}
+
+
 module.exports = {
     JsonManager,
     flattenJsonWithEscaping,
@@ -772,6 +793,7 @@ module.exports = {
     startWebsocketSecureServer,
     startServer,
     Clients,
-    Shell
+    Shell,
+    RShell
 }
 

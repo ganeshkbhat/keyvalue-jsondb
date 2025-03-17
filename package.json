@@ -2,7 +2,7 @@
   "name": "kvjsondb",
   "version": "1.0.0",
   "main": "index.js",
-  "description": "",
+  "description": "fast, secure and private, memory leak resistant redis like key value json based data store or database that supports http, https, ws, wss, and command shell (without authentication) which is extendible with expressjs middlewares",
   "scripts": {
     "test": "mocha --reporter spec --recursive --timeout 60000"
   },
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "express": "^4.21.2",
-    "json-faster": "^1.0.0",
+    "json-faster": "^1.1.0",
     "node-fetch": "^2.7.0",
     "ws": "^8.18.1"
   }
