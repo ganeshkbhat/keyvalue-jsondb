@@ -664,6 +664,7 @@ function Shell(port, ip) {
         update: update,
         del: deleteItem,
         dump: dump,
+        dumpToFile: dumpToFile
     };
 
     const rl = readline.createInterface({
