@@ -321,7 +321,7 @@ function startHttpServer(port = 3000, ip = "127.0.0.1", middlewares = [], app = 
  * @param {*} cert
  * @return {*} 
  */
-function startHttpsServer(port = 3443, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
+function startHttpsServer(port = 3443, ip = "127.0.0.1", key, cert, middlewares = [], app = (req, res, next) => next()) {
     const datetime = new Date.now();
     const apps = express();
     if (!!app) apps.use(app);
@@ -429,7 +429,7 @@ function startWebsocketServer(port = 3000, ip = "127.0.0.1", middlewares = [], a
  * @param {*} key
  * @param {*} cert
  */
-function startWebsocketSecureServer(port = 3443, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
+function startWebsocketSecureServer(port = 3443, ip = "127.0.0.1", key, cert, middlewares = [], app = (req, res, next) => next()) {
     const httpsServer = startHttpsServer(port, middlewares, app, key, cert);
 
     if (httpsServer) {
