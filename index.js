@@ -460,156 +460,6 @@ function startWebsocketSecureServer(port = 3443, ip = "127.0.0.1", key, cert, mi
 }
 
 
-
-
-// /**
-//  * Clients
-//  *
-//  * @return { * } Http, Https, Ws, Wss
-//  */
-// function Clients() {
-
-//     //
-//     // {
-//     //     method: 'POST',
-//     //     headers: {
-//     //         'Content-Type': 'application/json'
-//     //     },
-//     //     body: JSON.stringify({ event: 'search', data: { query: "websocket test" } })
-//     // }
-//     // {
-//     //     method: 'POST',
-//     //     headers: {
-//     //         'Content-Type': 'application/json'
-//     //     },
-//     //     body: JSON.stringify({ event: "create", data: { item: "new item" } })
-//     // }
-//     //
-
-//     async function Http(serverPath, message, callback) {
-//         try {
-//             const response = await fetch(serverPath, message);
-//             const data = await response.json();
-//             console.log("Fetch http search response:", data);
-//             if (!!callback) {
-//                 callback(null, data)
-//             } else {
-//                 return Promise.resolve(data);
-//             }
-//         } catch (err) {
-//             console.error("Fetch http search error:", err);
-//             if (!!callback) {
-//                 callback(err, null)
-//             } else {
-//                 return Promise.reject(err);
-//             }
-//         }
-//     }
-//     // Http(...);
-
-//     async function Https(serverPath, cert, message, callback) {
-//         try {
-//             const certificate = fs.readFileSync(cert);
-//             const agent = new https.Agent({ ca: certificate });
-
-//             const response = await fetch(serverPath, message, agent);
-//             const data = await response.json();
-//             console.log("HTTPS fetch search response:", data);
-//             if (!!callback) {
-//                 callback(null, data)
-//             } else {
-//                 return Promise.resolve(data);
-//             }
-//         } catch (err) {
-//             console.error("Fetch http search error:", err);
-//             if (!!callback) {
-//                 callback(err, null)
-//             } else {
-//                 return Promise.reject(err);
-//             }
-//         }
-//     }
-//     // Https(...);
-
-//     function Ws(serverPath, callback) {
-//         // 'ws://localhost:3000'
-//         const ws = new WebSocket(serverPath);
-
-//         ws.on('open', () => {
-//             console.log('WebSocket connected');
-//             ws.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
-//             ws.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
-//             // open(ws);
-//             callback(ws, "open");
-//         });
-
-//         ws.on('message', (data) => {
-//             console.log('WS Message:', JSON.parse(data));
-//             // message(ws)
-//             callback(ws, "message", data);
-//             // ws.close();
-//         });
-
-//         ws.on('close', () => {
-//             console.log('WebSocket disconnected');
-//             // close(ws)
-//             callback(ws, "close");
-//         });
-
-//         ws.on('error', (err) => {
-//             console.error('WebSocket Error:', err);
-//             // error(ws, err)
-//             callback(ws, "error", err);
-//         });
-//     }
-//     // Ws(...)
-
-//     // callback(wss, event /* open, message, close, error */)
-//     function Wss(serverPath, cert, callback) {
-//         // 'wss://localhost:443'
-//         const certificate = fs.readFileSync(cert);
-//         const wss = new WebSocket(serverPath, {
-//             ca: certificate,
-//         });
-
-//         wss.on('open', () => {
-//             console.log('WSS connected');
-//             wss.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
-//             wss.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
-//             // open(wss)
-//             callback(wss, "open")
-//         });
-
-//         wss.on('message', (data) => {
-//             console.log('WSS Message:', JSON.parse(data));
-//             // message(wss, data)
-//             callback(wss, "message", data);
-//             // wss.close();
-//         });
-
-//         wss.on('close', () => {
-//             console.log('WSS disconnected');
-//             // close(wss)
-//             callback(wss, "close");
-//         });
-
-//         wss.on('error', (err) => {
-//             console.error("WSS error:", err);
-//             // error(wss, err)
-//             callback(wss, "error", err)
-//         });
-//     }
-//     // Ws(...)
-
-//     return {
-//         Http,
-//         Https,
-//         Ws,
-//         Wss
-//     }
-// }
-
-
 /**
  * Clients
  *
@@ -630,13 +480,13 @@ function Clients() {
     //     try {
     //         const httpResponse = await Http(httpUrl, 'Test HTTP message');
     //         console.log('HTTP Response:', httpResponse);
-    
+
     //         const httpsResponse = await Https(httpsUrl, certPath, 'Test HTTPS message');
     //         console.log('HTTPS Response:', httpsResponse);
-    
+
     //         const wsResponse = await Ws(wsUrl);
     //         console.log('WS Response:', wsResponse);
-    
+
     //         const wssResponse = await Wss(wssUrl, certPath);
     //         console.log('WSS Response:', wssResponse);
     //     } catch (error) {
@@ -954,9 +804,154 @@ function startServer(type = "http", port = 3443, ip = "127.0.0.1", middlewares =
  *
  *
  * @param {*} key
+ * @param {number} [port=3443]
+ * @param {string} [ip="127.0.0.1"]
  */
-function RShell(key) {
+function RShell(key, port, ip) {
 
+    // set key value
+    // get key
+    // has key
+    // search string
+    // search -v string
+    // search -k string
+    // search -kv string
+    // load -f filename
+    // load jsonobject
+    // read key
+    // clear
+    // init -f filename
+    // init jsonobject
+    // update -f filename
+    // update jsonobject
+    // del key
+    // dump -f "filename/within/quotes"
+
+    const search = (query) => `Search results for: ${query}`;
+    const searchKey = (query) => `Search key results for: ${query}`;
+    const searchValue = (query) => `Search value results for: ${query}`;
+    const searchKeyValue = (query) => `Search key-value results for: ${query}`;
+    const hasKey = (key) => `Has key: ${key}`;
+    const getKey = (key) => `Get key: ${key}`;
+    const init = (data) => `Initialized with: ${JSON.stringify(data)}`;
+    const clear = () => 'Cleared';
+    const load = (data) => `Loaded: ${JSON.stringify(data)}`;
+    const read = (key) => `Read: ${key}`;
+    const create = (key, value) => `Created: ${key} = ${value}`;
+    const update = (data) => `Updated with: ${JSON.stringify(data)}`;
+    const deleteItem = (key) => `Deleted: ${key}`;
+    const dump = (filename) => `Dumped to: ${filename}`;
+    const dumpsToFile = (filename) => `Dumped to: ${filename}`;
+
+    const commandMap = {
+        set: create,
+        get: getKey,
+        has: hasKey,
+        search: {
+            '': search,
+            '-v': searchValue,
+            '-k': searchKey,
+            '-kv': searchKeyValue,
+        },
+        load: load,
+        read: read,
+        clear: clear,
+        init: init,
+        update: update,
+        del: deleteItem,
+        dump: dump,
+        dumpToFile: dumpsToFile
+    };
+
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    });
+
+    function processCommand(commandString) {
+        const parts = commandString.trim().split(' ');
+        const commandName = parts[0];
+        const flags = parts.filter((part) => part.startsWith('-')).join('');
+        let valueParts = parts.slice(1).filter((part) => !part.startsWith('-'));
+        let value;
+
+        if (commandName === 'set' && valueParts.length >= 2) {
+            const key = valueParts[0];
+            const val = valueParts.slice(1).join(' ');
+            commandMap.set(key, val);
+            return recursivePrompt();
+        }
+
+        if (commandName === 'load' || commandName === 'init' || commandName === 'update') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                try {
+                    value = JSON.parse(valueParts.join(' '));
+                } catch (e) {
+                    console.log('Invalid JSON for', commandName);
+                    return recursivePrompt();
+                }
+            }
+        } else if (commandName === 'dump') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = valueParts[0].slice(1, -1);
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                console.log('dump requires -f flag with filename');
+                return recursivePrompt();
+            }
+        } else if (commandName === 'read' || commandName === 'has' || commandName === 'get' || commandName === 'del') {
+            value = valueParts.join(' ');
+        } else if (commandName === 'search') {
+            value = valueParts.join(' ');
+        } else if (commandName === 'clear' || commandName === 'init') {
+            //no arguments required
+        } else {
+            value = valueParts.join(' ');
+        }
+
+        if (commandMap[commandName]) {
+            let commandFunction = commandMap[commandName];
+            if (typeof commandFunction === 'object' && flags) {
+                commandFunction = commandFunction[flags];
+            } else if (typeof commandFunction === 'object' && !flags) {
+                commandFunction = commandFunction[''];
+            }
+
+            if (commandFunction) {
+                console.log(commandFunction(value));
+            } else {
+                console.log('Invalid flags or arguments for command:', commandName);
+            }
+        } else {
+            console.log('Invalid command:', commandName);
+        }
+
+        recursivePrompt();
+    }
+
+    function recursivePrompt() {
+        rl.question('> ', (input) => {
+            if (input.toLowerCase() === 'exit') {
+                rl.close();
+            } else {
+                processCommand(input);
+            }
+        });
+    }
+
+    console.log('Recursive shell started. Type "exit" to quit.');
+    recursivePrompt();
 }
 
 
