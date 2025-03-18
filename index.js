@@ -460,144 +460,314 @@ function startWebsocketSecureServer(port = 3443, ip = "127.0.0.1", key, cert, mi
 }
 
 
+
+
+// /**
+//  * Clients
+//  *
+//  * @return { * } Http, Https, Ws, Wss
+//  */
+// function Clients() {
+
+//     //
+//     // {
+//     //     method: 'POST',
+//     //     headers: {
+//     //         'Content-Type': 'application/json'
+//     //     },
+//     //     body: JSON.stringify({ event: 'search', data: { query: "websocket test" } })
+//     // }
+//     // {
+//     //     method: 'POST',
+//     //     headers: {
+//     //         'Content-Type': 'application/json'
+//     //     },
+//     //     body: JSON.stringify({ event: "create", data: { item: "new item" } })
+//     // }
+//     //
+
+//     async function Http(serverPath, message, callback) {
+//         try {
+//             const response = await fetch(serverPath, message);
+//             const data = await response.json();
+//             console.log("Fetch http search response:", data);
+//             if (!!callback) {
+//                 callback(null, data)
+//             } else {
+//                 return Promise.resolve(data);
+//             }
+//         } catch (err) {
+//             console.error("Fetch http search error:", err);
+//             if (!!callback) {
+//                 callback(err, null)
+//             } else {
+//                 return Promise.reject(err);
+//             }
+//         }
+//     }
+//     // Http(...);
+
+//     async function Https(serverPath, cert, message, callback) {
+//         try {
+//             const certificate = fs.readFileSync(cert);
+//             const agent = new https.Agent({ ca: certificate });
+
+//             const response = await fetch(serverPath, message, agent);
+//             const data = await response.json();
+//             console.log("HTTPS fetch search response:", data);
+//             if (!!callback) {
+//                 callback(null, data)
+//             } else {
+//                 return Promise.resolve(data);
+//             }
+//         } catch (err) {
+//             console.error("Fetch http search error:", err);
+//             if (!!callback) {
+//                 callback(err, null)
+//             } else {
+//                 return Promise.reject(err);
+//             }
+//         }
+//     }
+//     // Https(...);
+
+//     function Ws(serverPath, callback) {
+//         // 'ws://localhost:3000'
+//         const ws = new WebSocket(serverPath);
+
+//         ws.on('open', () => {
+//             console.log('WebSocket connected');
+//             ws.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
+//             ws.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
+//             // open(ws);
+//             callback(ws, "open");
+//         });
+
+//         ws.on('message', (data) => {
+//             console.log('WS Message:', JSON.parse(data));
+//             // message(ws)
+//             callback(ws, "message", data);
+//             // ws.close();
+//         });
+
+//         ws.on('close', () => {
+//             console.log('WebSocket disconnected');
+//             // close(ws)
+//             callback(ws, "close");
+//         });
+
+//         ws.on('error', (err) => {
+//             console.error('WebSocket Error:', err);
+//             // error(ws, err)
+//             callback(ws, "error", err);
+//         });
+//     }
+//     // Ws(...)
+
+//     // callback(wss, event /* open, message, close, error */)
+//     function Wss(serverPath, cert, callback) {
+//         // 'wss://localhost:443'
+//         const certificate = fs.readFileSync(cert);
+//         const wss = new WebSocket(serverPath, {
+//             ca: certificate,
+//         });
+
+//         wss.on('open', () => {
+//             console.log('WSS connected');
+//             wss.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
+//             wss.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
+//             // open(wss)
+//             callback(wss, "open")
+//         });
+
+//         wss.on('message', (data) => {
+//             console.log('WSS Message:', JSON.parse(data));
+//             // message(wss, data)
+//             callback(wss, "message", data);
+//             // wss.close();
+//         });
+
+//         wss.on('close', () => {
+//             console.log('WSS disconnected');
+//             // close(wss)
+//             callback(wss, "close");
+//         });
+
+//         wss.on('error', (err) => {
+//             console.error("WSS error:", err);
+//             // error(wss, err)
+//             callback(wss, "error", err)
+//         });
+//     }
+//     // Ws(...)
+
+//     return {
+//         Http,
+//         Https,
+//         Ws,
+//         Wss
+//     }
+// }
+
+
 /**
  * Clients
  *
  * @return { * } Http, Https, Ws, Wss
+ * 
+ * 
  */
 function Clients() {
 
-    //
-    // {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ event: 'search', data: { query: "websocket test" } })
-    // }
-    // {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ event: "create", data: { item: "new item" } })
-    // }
-    //
+    // 
+    // Example Usage:
+    // async function main() {
+    //     const httpUrl = 'http://example.com';
+    //     const httpsUrl = 'https://www.google.com';
+    //     const wsUrl = 'ws://echo.websocket.events';
+    //     const wssUrl = 'wss://echo.websocket.events';
+    //     const certPath = './your_cert.pem';
+    //     try {
+    //         const httpResponse = await Http(httpUrl, 'Test HTTP message');
+    //         console.log('HTTP Response:', httpResponse);
+    
+    //         const httpsResponse = await Https(httpsUrl, certPath, 'Test HTTPS message');
+    //         console.log('HTTPS Response:', httpsResponse);
+    
+    //         const wsResponse = await Ws(wsUrl);
+    //         console.log('WS Response:', wsResponse);
+    
+    //         const wssResponse = await Wss(wssUrl, certPath);
+    //         console.log('WSS Response:', wssResponse);
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    //     }
+    //     main();
+    // 
 
-    async function Http(serverPath, message, callback) {
-        try {
-            const response = await fetch(serverPath, message);
-            const data = await response.json();
-            console.log("Fetch http search response:", data);
-            if (!!callback) {
-                callback(null, data)
-            } else {
-                return Promise.resolve(data);
+    function Http(serverPath, message) {
+        const parsedUrl = url.parse(serverPath);
+        if (parsedUrl.protocol !== 'http:') return Promise.reject(new Error('Invalid protocol: http'));
+
+        return new Promise((resolve, reject) => {
+            const options = {
+                hostname: parsedUrl.hostname,
+                port: parsedUrl.port,
+                path: parsedUrl.path,
+                method: 'POST',
+            };
+
+            const req = http.request(options, (res) => {
+                let data = '';
+                res.on('data', (chunk) => {
+                    data += chunk;
+                });
+                res.on('end', () => {
+                    resolve(data);
+                });
+            });
+
+            req.on('error', (error) => {
+                reject(error);
+            });
+
+            if (message) {
+                req.write(message);
             }
-        } catch (err) {
-            console.error("Fetch http search error:", err);
-            if (!!callback) {
-                callback(err, null)
-            } else {
-                return Promise.reject(err);
-            }
-        }
-    }
-    // Http(...);
 
-    async function Https(serverPath, cert, message, callback) {
-        try {
-            const certificate = fs.readFileSync(cert);
-            const agent = new https.Agent({ ca: certificate });
-
-            const response = await fetch(serverPath, message, agent);
-            const data = await response.json();
-            console.log("HTTPS fetch search response:", data);
-            if (!!callback) {
-                callback(null, data)
-            } else {
-                return Promise.resolve(data);
-            }
-        } catch (err) {
-            console.error("Fetch http search error:", err);
-            if (!!callback) {
-                callback(err, null)
-            } else {
-                return Promise.reject(err);
-            }
-        }
-    }
-    // Https(...);
-
-    function Ws(serverPath, callback) {
-        // 'ws://localhost:3000'
-        const ws = new WebSocket(serverPath);
-
-        ws.on('open', () => {
-            console.log('WebSocket connected');
-            ws.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
-            ws.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
-            // open(ws);
-            callback(ws, "open");
-        });
-
-        ws.on('message', (data) => {
-            console.log('WS Message:', JSON.parse(data));
-            // message(ws)
-            callback(ws, "message", data);
-            // ws.close();
-        });
-
-        ws.on('close', () => {
-            console.log('WebSocket disconnected');
-            // close(ws)
-            callback(ws, "close");
-        });
-
-        ws.on('error', (err) => {
-            console.error('WebSocket Error:', err);
-            // error(ws, err)
-            callback(ws, "error", err);
+            req.end();
         });
     }
-    // Ws(...)
 
-    // callback(wss, event /* open, message, close, error */)
-    function Wss(serverPath, cert, callback) {
-        // 'wss://localhost:443'
-        const certificate = fs.readFileSync(cert);
-        const wss = new WebSocket(serverPath, {
-            ca: certificate,
-        });
+    function Https(serverPath, cert, message) {
+        const parsedUrl = url.parse(serverPath);
+        if (parsedUrl.protocol !== 'https:') return Promise.reject(new Error('Invalid protocol: https'));
 
-        wss.on('open', () => {
-            console.log('WSS connected');
-            wss.send(JSON.stringify({ event: 'search', data: { query: 'websocket test' } }));
-            wss.send(JSON.stringify({ event: 'create', data: { item: 'new item' } }));
-            // open(wss)
-            callback(wss, "open")
-        });
+        return new Promise((resolve, reject) => {
+            const options = {
+                hostname: parsedUrl.hostname,
+                port: parsedUrl.port,
+                path: parsedUrl.path,
+                method: 'POST',
+                ca: fs.readFileSync(cert),
+            };
 
-        wss.on('message', (data) => {
-            console.log('WSS Message:', JSON.parse(data));
-            // message(wss, data)
-            callback(wss, "message", data);
-            // wss.close();
-        });
+            const req = https.request(options, (res) => {
+                let data = '';
+                res.on('data', (chunk) => {
+                    data += chunk;
+                });
+                res.on('end', () => {
+                    resolve(data);
+                });
+            });
 
-        wss.on('close', () => {
-            console.log('WSS disconnected');
-            // close(wss)
-            callback(wss, "close");
-        });
+            req.on('error', (error) => {
+                reject(error);
+            });
 
-        wss.on('error', (err) => {
-            console.error("WSS error:", err);
-            // error(wss, err)
-            callback(wss, "error", err)
+            if (message) {
+                req.write(message);
+            }
+
+            req.end();
         });
     }
-    // Ws(...)
+
+    function Ws(serverPath) {
+        const parsedUrl = url.parse(serverPath);
+        if (parsedUrl.protocol !== 'ws:') return Promise.reject(new Error('Invalid protocol: ws'));
+
+        return new Promise((resolve, reject) => {
+            const ws = new WebSocket(url.format(parsedUrl));
+
+            ws.on('open', () => {
+                ws.send('Hello from client!');
+            });
+
+            ws.on('message', (message) => {
+                ws.close();
+                resolve(message);
+            });
+
+            ws.on('close', () => {
+                resolve('WebSocket Closed');
+            });
+
+            ws.on('error', (error) => {
+                reject(error);
+            });
+        });
+    }
+
+    function Wss(serverPath, cert) {
+        const parsedUrl = url.parse(serverPath);
+        if (parsedUrl.protocol !== 'wss:') return Promise.reject(new Error('Invalid protocol: wss'));
+
+        return new Promise((resolve, reject) => {
+            const ws = new WebSocket(url.format(parsedUrl), {
+                ca: fs.readFileSync(cert),
+            });
+
+            ws.on('open', () => {
+                ws.send('Hello from client!');
+            });
+
+            ws.on('message', (message) => {
+                ws.close();
+                resolve(message);
+            });
+
+            ws.on('close', () => {
+                resolve('WebSocket Secured Closed');
+            });
+
+            ws.on('error', (error) => {
+                reject(error);
+            });
+        });
+    }
 
     return {
         Http,
