@@ -652,7 +652,7 @@ function HttpClientAPI(url) {
     }
 }
 
-function HttpSClientAPI() {
+function HttpSClientAPI(url) {
     const httpsAPI = Clients().Https;
     // httpsAPI(hURL, message)
     // // message = { query, options, event }
@@ -676,7 +676,7 @@ function HttpSClientAPI() {
     }
 }
 
-function WSClientAPI() {
+function WSClientAPI(url) {
     const wsAPI = Clients().Ws;
     // wsAPI(hURL, message)
     // // message = { query, options, event }
@@ -700,7 +700,7 @@ function WSClientAPI() {
     }
 }
 
-function WSSClientAPI() {
+function WSSClientAPI(url) {
     const wssAPI = Clients().Wss;
     // wssAPI(hURL, message)
     // // message = { query, options, event }
