@@ -20,7 +20,7 @@
   "dependencies": {
     "express": "^4.21.2",
     "json-faster": "^1.2.0",
-    "shellflags": "^1.0.0",
+    "shellflags": "^1.0.2",
     "ws": "^8.18.1"
   }
 }
