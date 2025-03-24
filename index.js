@@ -628,6 +628,103 @@ function Clients() {
 }
 
 
+function HttpClientAPI(url) {
+    const httpAPI = Clients().Http;
+    // httpAPI(hURL, message)
+    // // message = { query, options, event }
+
+    return {
+        hasKey: (key) => { },
+        getKey: (key) => { },
+        setKey: (key) => { },
+        updateKey: (key) => { },
+        delKey: (key) => { },
+        read: () => { },
+        dump: () => { },
+        dumpToFile: () => { },
+        init: () => { },
+        clear: () => { },
+        load: () => { },
+        search: (keys, options) => { },
+        searchValue: (value, options) => { },
+        searchKey: (key, options) => { },
+        searchKeyValue: (keyValue, options) => { }
+    }
+}
+
+function HttpSClientAPI() {
+    const httpsAPI = Clients().Https;
+    // httpsAPI(hURL, message)
+    // // message = { query, options, event }
+
+    return {
+        hasKey: (key) => { },
+        getKey: (key) => { },
+        setKey: (key) => { },
+        updateKey: (key) => { },
+        delKey: (key) => { },
+        read: () => { },
+        dump: () => { },
+        dumpToFile: () => { },
+        init: () => { },
+        clear: () => { },
+        load: () => { },
+        search: (keys, options) => { },
+        searchValue: (value, options) => { },
+        searchKey: (key, options) => { },
+        searchKeyValue: (keyValue, options) => { }
+    }
+}
+
+function WSClientAPI() {
+    const wsAPI = Clients().Ws;
+    // wsAPI(hURL, message)
+    // // message = { query, options, event }
+
+    return {
+        hasKey: (key) => { },
+        getKey: (key) => { },
+        setKey: (key) => { },
+        updateKey: (key) => { },
+        delKey: (key) => { },
+        read: () => { },
+        dump: () => { },
+        dumpToFile: () => { },
+        init: () => { },
+        clear: () => { },
+        load: () => { },
+        search: (keys, options) => { },
+        searchValue: (value, options) => { },
+        searchKey: (key, options) => { },
+        searchKeyValue: (keyValue, options) => { }
+    }
+}
+
+function WSSClientAPI() {
+    const wssAPI = Clients().Wss;
+    // wssAPI(hURL, message)
+    // // message = { query, options, event }
+
+    return {
+        hasKey: (key) => { },
+        getKey: (key) => { },
+        setKey: (key) => { },
+        updateKey: (key) => { },
+        delKey: (key) => { },
+        read: () => { },
+        dump: () => { },
+        dumpToFile: () => { },
+        init: () => { },
+        clear: () => { },
+        load: () => { },
+        search: (keys, options) => { },
+        searchValue: (value, options) => { },
+        searchKey: (key, options) => { },
+        searchKeyValue: (keyValue, options) => { }
+    }
+}
+
+
 /**
  *
  *
