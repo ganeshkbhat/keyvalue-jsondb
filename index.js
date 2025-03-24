@@ -22,8 +22,8 @@ const http = require('http');
 const https = require('https');
 const WebSocket = require('ws');
 const readline = require('readline');
-const fetch = require('node-fetch');
 const express = require('express');
+const path = require("path");
 const { JsonManager, flattenJsonWithEscaping, unflattenJson, writeToFile } = require("json-faster");
 
 const manager = new JsonManager();
@@ -632,7 +632,7 @@ function Clients() {
  *
  *
  */
-function Shell(port, ip) {
+function Shell(port, ip, certkey, username, password) {
 
     // set key value
     // get key
@@ -699,6 +699,172 @@ function Shell(port, ip) {
         const flags = parts.filter((part) => part.startsWith('-')).join('');
         let valueParts = parts.slice(1).filter((part) => !part.startsWith('-'));
         let value;
+
+        if (commandName === 'set' && valueParts.length >= 2) {
+            const key = valueParts[0];
+            const val = valueParts.slice(1).join(' ');
+            commandMap.set(key, val);
+            return recursivePrompt();
+        }
+
+        if (commandName === 'load' || commandName === 'init' || commandName === 'update') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                try {
+                    value = JSON.parse(valueParts.join(' '));
+                } catch (e) {
+                    console.log('Invalid JSON for', commandName);
+                    return recursivePrompt();
+                }
+            }
+        } else if (commandName === 'dump') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = valueParts[0].slice(1, -1);
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                console.log('dump requires -f flag with filename');
+                return recursivePrompt();
+            }
+        } else if (commandName === 'read' || commandName === 'has' || commandName === 'get' || commandName === 'del') {
+            value = valueParts.join(' ');
+        } else if (commandName === 'search') {
+            value = valueParts.join(' ');
+        } else if (commandName === 'clear' || commandName === 'init') {
+            //no arguments required
+        } else {
+            value = valueParts.join(' ');
+        }
+
+        if (commandMap[commandName]) {
+            let commandFunction = commandMap[commandName];
+            if (typeof commandFunction === 'object' && flags) {
+                commandFunction = commandFunction[flags];
+            } else if (typeof commandFunction === 'object' && !flags) {
+                commandFunction = commandFunction[''];
+            }
+
+            if (commandFunction) {
+                console.log(commandFunction(value));
+            } else {
+                console.log('Invalid flags or arguments for command:', commandName);
+            }
+        } else {
+            console.log('Invalid command:', commandName);
+        }
+
+        recursivePrompt();
+    }
+
+    function recursivePrompt() {
+        rl.question('> ', (input) => {
+            if (input.toLowerCase() === 'exit') {
+                rl.close();
+            } else {
+                processCommand(input);
+            }
+        });
+    }
+
+    console.log('Recursive shell started. Type "exit" to quit.');
+    recursivePrompt();
+}
+
+
+/**
+ *
+ *
+ */
+function TShell(port, ip, filename) {
+
+    // set key value
+    // get key
+    // has key
+    // search string
+    // search -v string
+    // search -k string
+    // search -kv string
+    // load -f filename
+    // load jsonobject
+    // read key
+    // clear
+    // init -f filename
+    // init jsonobject
+    // update -f filename
+    // update jsonobject
+    // del key
+    // dump -f "filename/within/quotes"
+
+    const search = (query) => `Search results for: ${query}`;
+    const searchKey = (query) => `Search key results for: ${query}`;
+    const searchValue = (query) => `Search value results for: ${query}`;
+    const searchKeyValue = (query) => `Search key-value results for: ${query}`;
+    const hasKey = (key) => `Has key: ${key}`;
+    const getKey = (key) => `Get key: ${key}`;
+    const init = (data) => `Initialized with: ${JSON.stringify(data)}`;
+    const clear = () => 'Cleared';
+    const load = (data) => `Loaded: ${JSON.stringify(data)}`;
+    const read = (key) => `Read: ${key}`;
+    const create = (key, value) => `Created: ${key} = ${value}`;
+    const update = (data) => `Updated with: ${JSON.stringify(data)}`;
+    const deleteItem = (key) => `Deleted: ${key}`;
+    const dump = (filename) => `Dumped to: ${filename}`;
+    const dumpsToFile = (filename) => `Dumped to: ${filename}`;
+
+    var d = fs.readFileSync(path.parse(filename), { encoding: "utf-8", flag: "rw" });
+    load(d);
+
+    const commandMap = {
+        set: create,
+        get: getKey,
+        has: hasKey,
+        search: {
+            '': search,
+            '-v': searchValue,
+            '-k': searchKey,
+            '-kv': searchKeyValue,
+        },
+        load: load,
+        read: read,
+        clear: clear,
+        init: init,
+        update: update,
+        del: deleteItem,
+        dump: dump,
+        dumpToFile: dumpsToFile
+    };
+
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    });
+
+    function processCommand(commandString) {
+        const parts = commandString.trim().split(' ');
+        const commandName = parts[0];
+        const flags = parts.filter((part) => part.startsWith('-')).join('');
+        let valueParts = parts.slice(1).filter((part) => !part.startsWith('-'));
+        let value;
+
+        if (flags === '-f') {
+            if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+            } else {
+                console.log('Filename must be within quotes for -f flag.');
+                return new Error("Filename must be within quotes for -f flag.")
+            }
+        } else {
+            console.log('dump requires -f flag with filename');
+            return new Error("dump requires -f flag with filename")
+        }
 
         if (commandName === 'set' && valueParts.length >= 2) {
             const key = valueParts[0];
@@ -966,6 +1132,7 @@ module.exports = {
     startServer,
     Clients,
     Shell,
-    RShell
+    RShell,
+    TShell
 }
 

@@ -18,6 +18,10 @@
 
 const Shell = require('./index').Shell;
 
+// const RShell = require('./index').Shell;
+// var srv = RShell(port, ip, certkey)
+// var srv = RShell(port, ip, "username", "password")
+
 // 
 // const port = 3443, ip = "127.0.0.1";
 // process.argv is an array containing the command-line arguments
@@ -36,11 +40,11 @@ const args = process.argv.slice(2);
 
 // Add Shell Authentication here
 
-var port, ip;
+var port, ip, certkey, username, password;
 
 if (!args[0]) {
     console.log("Port is required, using port 3443");
-    port = 3443
+    port = 3443;
 } else {
     port = Number(args[0])
 }
@@ -52,6 +56,25 @@ if (!args[1]) {
     ip = args[1];
 }
 
-console.log("port: number ::", Number(args[0]), ", ip: string/text ::", args[1]);
-var srv = Shell(Number(args[0]), args[1]);
 
+if (!!args[2] && !!args[3]) {
+    console.log("");
+    user = args[2];
+    pass = args[3];
+}
+
+if (!!args[2] && !args[3]) {
+    certkey = args[2];
+}
+
+console.log("port: number ::", Number(args[0]), ", ip: string/text ::", args[1]);
+
+var srv;
+
+if (!!username && !!password) {
+    srv = Shell(port, ip, null, username, password);
+} else if (!!certkey) {
+    console.log("Certificate not provided. Running shell in insecure mode");
+    certkey = "";
+    srv = Shell(port, ip, certkey, null, null);
+}
