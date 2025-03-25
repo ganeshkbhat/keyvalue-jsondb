@@ -37,7 +37,7 @@ const manager = new JsonManager();
  * @return {*} 
  */
 function hasKey(body, queryParams) {
-    return manager.hasKey(body.data.query);
+    return manager.hasKey(body.query);
 }
 
 
@@ -49,7 +49,7 @@ function hasKey(body, queryParams) {
  * @return {*} 
  */
 function getKey(body, queryParams) {
-    return manager.getKey(body.data.query);
+    return manager.getKey(body.query);
 }
 
 
@@ -61,7 +61,7 @@ function getKey(body, queryParams) {
  * @return {*} 
  */
 function search(body, queryParams) {
-    return manager.search(body.data.query, body.data.options);
+    return manager.search(body.query, body.options);
 }
 
 
@@ -73,7 +73,7 @@ function search(body, queryParams) {
  * @return {*} 
  */
 function searchValue(body, queryParams) {
-    return manager.searchValue(body.data.query, body.data.options);
+    return manager.searchValue(body.query, body.options);
 }
 
 
@@ -85,7 +85,7 @@ function searchValue(body, queryParams) {
  * @return {*} 
  */
 function searchKeyValue(body, queryParams) {
-    return manager.searchKeyValue(body.data.query, body.data.options);
+    return manager.searchKeyValue(body.query, body.options);
 }
 
 
@@ -97,7 +97,7 @@ function searchKeyValue(body, queryParams) {
  * @return {*} 
  */
 function read(body, queryParams) {
-    return manager.read(body.data.query, body.data.createKey);
+    return manager.read(body.query, body.options);
 }
 
 
@@ -109,7 +109,7 @@ function read(body, queryParams) {
  * @return {*} 
  */
 function create(body, queryParams) {
-    return manager.write(body.data.query.key, body.data.query.value);
+    return manager.write(body.query.key, body.query.value);
 }
 
 
@@ -121,7 +121,7 @@ function create(body, queryParams) {
  * @return {*} 
  */
 function update(body, queryParams) {
-    return manager.update(body.data.query);
+    return manager.update(body.query);
 }
 
 
@@ -133,7 +133,7 @@ function update(body, queryParams) {
  * @return {*} 
  */
 function del(body, queryParams) {
-    return manager.deleteKey(body.data.query);
+    return manager.deleteKey(body.query);
 }
 
 
@@ -145,7 +145,8 @@ function del(body, queryParams) {
  * @return {*} 
  */
 function dump(body, queryParams) {
-    return manager.dump(body.data.query);
+    // return manager.dump(body.query); // consider this functionality as well
+    return manager.dump();
 }
 
 
@@ -157,7 +158,8 @@ function dump(body, queryParams) {
  * @return {*} 
  */
 function dumpToFile(body, queryParams) {
-    return writeToFile(body.data.filename, manager.dump(body.data.data));
+    // return manager.dumpToFile(manager.dump(body.query, body.options, body.type), body.filename); // consider this functionality as well
+    return manager.dumpToFile(manager.dump(), body.filename);
 }
 
 
@@ -169,7 +171,7 @@ function dumpToFile(body, queryParams) {
  * @return {*} 
  */
 function load(body, queryParams) {
-    return manager.update(!!body.data.query ? body.data.query : {}); // use previous data plus load new data
+    return manager.update(!!body.query ? body.query : {}); // use previous data plus load new data
 }
 
 
@@ -181,7 +183,7 @@ function load(body, queryParams) {
  * @return {*} 
  */
 function init(body, queryParams) {
-    return manager.init(body.data.query || {}); // load data
+    return manager.init(body.query || {}); // load data
 }
 
 
@@ -193,7 +195,7 @@ function init(body, queryParams) {
  * @return {*} 
  */
 function clear(body, queryParams) {
-    return manager.init({}); // clear with blank object
+    return manager.init(body.query || {}); // clear with blank object
 }
 
 
@@ -252,8 +254,8 @@ function run(body, queryParams) {
  *
  * HTTP Server
  * 
- * { "event": "search", "data": { "query": "websocket test" } }, 
- * { "event": "create", "data": { "item": "new item" } }
+ * { "event": "search", "query": "websocket test", options: {} }, 
+ * { "event": "create", "query": "new item", options: {} }
  * 
  * @param {number} [port=3000]
  * @param {string} [ip="127.0.0.1"]
@@ -310,8 +312,8 @@ function startHttpServer(port = 3000, ip = "127.0.0.1", middlewares = [], app = 
  *
  * HTTPS Server
  * 
- * { "event": "search", "data": { "query": "websocket test" } },
- * { "event": "create", "data": { "item": "new item" } }
+ * { "event": "search", "query": "websocket test", options: {} }, 
+ * { "event": "create", "query": "new item", options: {} }
  *
  * @param {number} [port=3443]
  * @param {string} [ip="127.0.0.1"]
@@ -378,8 +380,8 @@ function startHttpsServer(port = 3443, ip = "127.0.0.1", key, cert, middlewares 
  *
  * WebSocket Server
  * 
- * { "event": "search", "data": { "query": "websocket test" } }, 
- * { "event": "create", "data": { "item": "new item" } }
+ * { "event": "search", "query": "websocket test", options: {} }, 
+ * { "event": "create", "query": "new item", options: {} }
  * 
  * @param {number} [port=3000]
  * @param {string} [ip="127.0.0.1"]
@@ -419,8 +421,8 @@ function startWebsocketServer(port = 3000, ip = "127.0.0.1", middlewares = [], a
  *
  * WebSocket Secure Server
  * 
- * { "event": "search", "data": { "query": "websocket test" } }, 
- * { "event": "create", "data": { "item": "new item" } }
+ * { "event": "search", "query": "websocket test", options: {} }, 
+ * { "event": "create", "query": "new item", options: {} }
  *
  * @param {number} [port=3443]
  * @param {string} [ip="127.0.0.1"]
@@ -565,7 +567,7 @@ function Clients() {
         });
     }
 
-    function Ws(serverPath) {
+    function Ws(serverPath, message) {
         const parsedUrl = url.parse(serverPath);
         if (parsedUrl.protocol !== 'ws:') return Promise.reject(new Error('Invalid protocol: ws'));
 
@@ -573,12 +575,12 @@ function Clients() {
             const ws = new WebSocket(url.format(parsedUrl));
 
             ws.on('open', () => {
-                ws.send('Hello from client!');
+                ws.send(message);
             });
 
-            ws.on('message', (message) => {
+            ws.on('message', (msg) => {
                 ws.close();
-                resolve(message);
+                resolve(msg);
             });
 
             ws.on('close', () => {
@@ -591,22 +593,22 @@ function Clients() {
         });
     }
 
-    function Wss(serverPath, cert) {
+    function Wss(serverPath, certKey, message) {
         const parsedUrl = url.parse(serverPath);
         if (parsedUrl.protocol !== 'wss:') return Promise.reject(new Error('Invalid protocol: wss'));
 
         return new Promise((resolve, reject) => {
             const ws = new WebSocket(url.format(parsedUrl), {
-                ca: fs.readFileSync(cert),
+                ca: fs.readFileSync(certKey),
             });
 
             ws.on('open', () => {
-                ws.send('Hello from client!');
+                ws.send(message);
             });
 
-            ws.on('message', (message) => {
+            ws.on('message', (msg) => {
                 ws.close();
-                resolve(message);
+                resolve(msg);
             });
 
             ws.on('close', () => {
@@ -628,99 +630,45 @@ function Clients() {
 }
 
 
-function HttpClientAPI(url) {
+
+function ClientAPI(url, port, ip, certKey, username, password) {
+
     const httpAPI = Clients().Http;
     // httpAPI(hURL, message)
-    // // message = { query, options, event }
+    // // message = { event, query, options }
+    // // message = { event, query, options, type }
 
-    return {
-        hasKey: (key) => { },
-        getKey: (key) => { },
-        setKey: (key) => { },
-        updateKey: (key) => { },
-        delKey: (key) => { },
-        read: () => { },
-        dump: () => { },
-        dumpToFile: () => { },
-        init: () => { },
-        clear: () => { },
-        load: () => { },
-        search: (keys, options) => { },
-        searchValue: (value, options) => { },
-        searchKey: (key, options) => { },
-        searchKeyValue: (keyValue, options) => { }
-    }
-}
-
-function HttpSClientAPI(url) {
     const httpsAPI = Clients().Https;
     // httpsAPI(hURL, message)
-    // // message = { query, options, event }
+    // // message = { event, query, options }
+    // // message = { event, query, options, type }
 
-    return {
-        hasKey: (key) => { },
-        getKey: (key) => { },
-        setKey: (key) => { },
-        updateKey: (key) => { },
-        delKey: (key) => { },
-        read: () => { },
-        dump: () => { },
-        dumpToFile: () => { },
-        init: () => { },
-        clear: () => { },
-        load: () => { },
-        search: (keys, options) => { },
-        searchValue: (value, options) => { },
-        searchKey: (key, options) => { },
-        searchKeyValue: (keyValue, options) => { }
-    }
-}
-
-function WSClientAPI(url) {
     const wsAPI = Clients().Ws;
     // wsAPI(hURL, message)
-    // // message = { query, options, event }
+    // // message = { event, query, options }
+    // // message = { event, query, options, type }
 
-    return {
-        hasKey: (key) => { },
-        getKey: (key) => { },
-        setKey: (key) => { },
-        updateKey: (key) => { },
-        delKey: (key) => { },
-        read: () => { },
-        dump: () => { },
-        dumpToFile: () => { },
-        init: () => { },
-        clear: () => { },
-        load: () => { },
-        search: (keys, options) => { },
-        searchValue: (value, options) => { },
-        searchKey: (key, options) => { },
-        searchKeyValue: (keyValue, options) => { }
-    }
-}
-
-function WSSClientAPI(url) {
     const wssAPI = Clients().Wss;
     // wssAPI(hURL, message)
-    // // message = { query, options, event }
+    // // message = { event, query, options }
+    // // message = { event, query, options, type }
 
     return {
-        hasKey: (key) => { },
-        getKey: (key) => { },
-        setKey: (key) => { },
-        updateKey: (key) => { },
-        delKey: (key) => { },
-        read: () => { },
-        dump: () => { },
-        dumpToFile: () => { },
-        init: () => { },
-        clear: () => { },
-        load: () => { },
-        search: (keys, options) => { },
-        searchValue: (value, options) => { },
-        searchKey: (key, options) => { },
-        searchKeyValue: (keyValue, options) => { }
+        hasKey: (msg) => { },
+        getKey: (msg) => { },
+        setKey: (msg) => { },
+        updateKey: (msg) => { },
+        delKey: (msg) => { },
+        read: (msg) => { },
+        dump: (msg) => { },
+        dumpToFile: (msg, filename) => { },
+        init: (msg) => { },
+        clear: (msg) => { },
+        load: (msg) => { },
+        search: (msg) => { },
+        searchValue: (msg) => { },
+        searchKey: (msg) => { },
+        searchKeyValue: (msg) => { }
     }
 }
 
@@ -728,6 +676,11 @@ function WSSClientAPI(url) {
 /**
  *
  *
+ * @param {*} port
+ * @param {*} ip
+ * @param {*} certkey
+ * @param {*} username
+ * @param {*} password
  */
 function Shell(port, ip, certkey, username, password) {
 
