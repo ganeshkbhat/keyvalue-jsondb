@@ -661,14 +661,15 @@ function ClientAPI(port, ipURL, certKey, username, password) {
         delKey: (msg) => { },
         read: (msg) => { },
         dump: (msg) => { },
+        dumpKey: (msg, options, type) => { },
         dumpToFile: (msg, filename) => { },
         init: (msg) => { },
         clear: (msg) => { },
         load: (msg) => { },
-        search: (msg) => { },
-        searchValue: (msg) => { },
-        searchKey: (msg) => { },
-        searchKeyValue: (msg) => { }
+        search: (msg, options) => { },
+        searchValue: (msg, options) => { },
+        searchKey: (msg, options) => { },
+        searchKeyValue: (msg, options) => { }
     }
 }
 
