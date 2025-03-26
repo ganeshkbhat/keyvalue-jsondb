@@ -145,8 +145,19 @@ function del(body, queryParams) {
  * @return {*} 
  */
 function dump(body, queryParams) {
-    // return manager.dump(body.query); // consider this functionality as well
     return manager.dump();
+}
+
+
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
+function dumpKeys(body, queryParams) {
+    return manager.dumpKeys(body.query, body.options, body.type);
 }
 
 
@@ -160,6 +171,19 @@ function dump(body, queryParams) {
 function dumpToFile(body, queryParams) {
     // return manager.dumpToFile(manager.dump(body.query, body.options, body.type), body.filename); // consider this functionality as well
     return manager.dumpToFile(manager.dump(), body.filename);
+}
+
+
+/**
+ *
+ *
+ * @param {*} body
+ * @param {*} queryParams
+ * @return {*} 
+ */
+function dumpKeysToFile(body, queryParams) {
+    // return manager.dumpToFile(manager.dump(body.query, body.options, body.type), body.filename); // consider this functionality as well
+    return manager.dumpToFile(manager.dumpKeys(body.query, body.options, body.type), body.filename);
 }
 
 
