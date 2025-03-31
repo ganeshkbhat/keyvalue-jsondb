@@ -655,8 +655,15 @@ function Clients() {
 }
 
 
-
-function ClientAPI(type = "http", ipURL, options) {
+/**
+ *
+ *
+ * @param {*} ipURL
+ * @param {*} options
+ * @param {string} [type="http"]
+ * @return {*} 
+ */
+function ClientAPI(ipURL, options, type = "http") {
     // { port, headers : { username, password, token, ca, etc } }
 
     const httpAPI = Clients().Http;
