@@ -169,7 +169,6 @@ function dumpKeys(body, queryParams) {
  * @return {*} 
  */
 function dumpToFile(body, queryParams) {
-    // return manager.dumpToFile(manager.dump(body.query, body.options, body.type), body.filename); // consider this functionality as well
     return manager.dumpToFile(manager.dump(), body.filename);
 }
 
@@ -522,7 +521,7 @@ function Clients() {
     //     main();
     // 
 
-    function Http(serverPath, message) {
+    function Http(serverPath, message, options) {
         const parsedUrl = url.parse(serverPath);
         if (parsedUrl.protocol !== 'http:') return Promise.reject(new Error('Invalid protocol: http'));
 
@@ -532,6 +531,7 @@ function Clients() {
                 port: parsedUrl.port,
                 path: parsedUrl.path,
                 method: 'POST',
+                ...options
             };
 
             const req = http.request(options, (res) => {
@@ -556,7 +556,7 @@ function Clients() {
         });
     }
 
-    function Https(serverPath, cert, message) {
+    function Https(serverPath, cert, message, options) {
         const parsedUrl = url.parse(serverPath);
         if (parsedUrl.protocol !== 'https:') return Promise.reject(new Error('Invalid protocol: https'));
 
@@ -567,6 +567,7 @@ function Clients() {
                 path: parsedUrl.path,
                 method: 'POST',
                 ca: fs.readFileSync(cert),
+                ...options
             };
 
             const req = https.request(options, (res) => {
@@ -591,7 +592,7 @@ function Clients() {
         });
     }
 
-    function Ws(serverPath, message) {
+    function Ws(serverPath, message, options) {
         const parsedUrl = url.parse(serverPath);
         if (parsedUrl.protocol !== 'ws:') return Promise.reject(new Error('Invalid protocol: ws'));
 
@@ -617,7 +618,7 @@ function Clients() {
         });
     }
 
-    function Wss(serverPath, certKey, message) {
+    function Wss(serverPath, certKey, message, options) {
         const parsedUrl = url.parse(serverPath);
         if (parsedUrl.protocol !== 'wss:') return Promise.reject(new Error('Invalid protocol: wss'));
 
@@ -655,46 +656,91 @@ function Clients() {
 
 
 
-function ClientAPI(port, ipURL, certKey, username, password) {
+function ClientAPI(type = "http", ipURL, options) {
+    // { port, headers : { username, password, token, ca, etc } }
 
     const httpAPI = Clients().Http;
     // httpAPI(hURL, message)
     // // message = { event, query, options }
+    // // message = { event, query = { key, value }, options }
     // // message = { event, query, options, type }
+    // // message = { event, query, options, type, filename } // dumpToFile, dumpKeysToFile
 
     const httpsAPI = Clients().Https;
     // httpsAPI(hURL, message)
     // // message = { event, query, options }
+    // // message = { event, query = { key, value }, options }
     // // message = { event, query, options, type }
+    // // message = { event, query, options, type, filename } // dumpToFile, dumpKeysToFile
 
     const wsAPI = Clients().Ws;
     // wsAPI(hURL, message)
     // // message = { event, query, options }
+    // // message = { event, query = { key, value }, options }
     // // message = { event, query, options, type }
+    // // message = { event, query, options, type, filename } // dumpToFile, dumpKeysToFile
 
     const wssAPI = Clients().Wss;
     // wssAPI(hURL, message)
     // // message = { event, query, options }
+    // // message = { event, query = { key, value }, options }
     // // message = { event, query, options, type }
+    // // message = { event, query, options, type, filename } // dumpToFile, dumpKeysToFile
+
+    var request = (type === "wss") ? wssAPI : (type === "ws") ? wsAPI : (type === "https") ? httpsAPI : httpAPI;
 
     return {
-        hasKey: (msg) => { },
-        getKey: (msg) => { },
-        setKey: (msg) => { },
-        updateKey: (msg) => { },
-        delKey: (msg) => { },
-        read: (msg) => { },
-        dump: (msg) => { },
-        dumpToFile: (filename) => { },
-        dumpKeys: (msg, options, type) => { },
-        dumpKeysToFile: (msg, filename) => { },
-        init: (msg) => { },
-        clear: (msg) => { },
-        load: (msg) => { },
-        search: (msg, options) => { },
-        searchValue: (msg, options) => { },
-        searchKey: (msg, options) => { },
-        searchKeyValue: (msg, options) => { }
+        hasKey: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        getKey: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        setKey: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        updateKey: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        delKey: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        read: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        dump: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        dumpToFile: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        dumpKeys: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        dumpKeysToFile: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        init: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        clear: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        load: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        search: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        searchValue: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        searchKey: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        },
+        searchKeyValue: (msg, opts) => {
+            return request(ipURL, msg, { ...options, ...opts })
+        }
     }
 }
 
