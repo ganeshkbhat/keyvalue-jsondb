@@ -26,6 +26,7 @@ const express = require('express');
 const path = require("path");
 const { JsonManager, flattenJsonWithEscaping, unflattenJson, writeToFile } = require("json-faster");
 
+
 const manager = new JsonManager();
 
 
@@ -223,7 +224,7 @@ function CommonFuncs() {
         return manager.init(body.query || {}); // clear with blank object
     }
 
-    
+
     return {
         hasKey,
         getKey,
@@ -324,7 +325,7 @@ function run(body, queryParams) {
 /**
  *
  *
- * @param {*} ws
+ * @param {*} ws websocket server instance
  * @param {*} data
  */
 const broadcast = function (ws, data) {
