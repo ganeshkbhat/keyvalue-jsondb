@@ -38,55 +38,55 @@ client.searchKeyValue(msg, opts)
 `node shell.js`
 
 ###### set
-> `set key value`
+\> `set key value`
 
 ###### get
-> `get key`
+\> `get key`
 
 ###### has
-> `has key`
+\> `has key`
 
 ###### search
-> `search string`
+\> `search string`
 
 ###### search
-> `search -v string`
+\> `search -v string`
 
 ###### search
-> `search -k string`
+\> `search -k string`
 
 ###### search
-> `search -kv string`
+\> `search -kv string`
 
 ###### load
-> `load -f filename`
+\> `load -f filename`
 
 ###### load
-> `load jsonobject`
+\> `load jsonobject`
 
 ###### read
-> `read key`
+\> `read key`
 
 ###### clear
-> `clear`
+\> `clear`
 
 ###### init
-> `init -f filename`
+\> `init -f filename`
 
 ###### init
-> `init jsonobject`
+\> `init jsonobject`
 
 ###### update
-> `update -f filename`
+\> `update -f filename`
 
 ###### update
-> `update jsonobject`
+\> `update jsonobject`
 
 ###### del
-> `del key`
+\> `del key`
 
 ###### dump
-> `dump -f "filename/within/quotes"`
+\> `dump -f "filename/within/quotes"`
 
 
 
