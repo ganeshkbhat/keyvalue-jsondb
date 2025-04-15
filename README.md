@@ -13,12 +13,12 @@ fast, secure and private, memory leak resistant redis like key value json based 
 
 todo: add all features
 
+
 ### jsondb server usage
 
 `node server.js "type" "port" "ip" "key" "cert"`
 
 type options: `http`, `https`, `ws`, `ws`
-
 
 
 ### jsondb client api
@@ -55,7 +55,14 @@ client.searchKeyValue(msg, opts)
 
 ### jsondb shell [ commands, usage ]
 
-`node shell.js "type" "port" "ip" "key"`
+`node shell.js ...flags...`
+
+// prefix: "-p" port
+// prefix: "-s", server
+// prefix: "-ip", ip address
+// prefix: "-c", certificate
+// prefix: "-u", user
+// prefix: "-pwd", password
 
 type options: `http`, `https`, `ws`, `ws`
 
