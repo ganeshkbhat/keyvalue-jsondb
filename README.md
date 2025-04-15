@@ -55,7 +55,7 @@ client.searchKeyValue(msg, opts)
 
 ### jsondb shell [ commands, usage ]
 
-`node shell.js "type" "port" "ip" "key" 
+`node shell.js "type" "port" "ip" "key"`
 
 type options: `http`, `https`, `ws`, `ws`
 
