@@ -109,3 +109,7 @@ client.searchKeyValue(msg, opts)
 3. jsondb shell (http, https, ws, wss)
 
 -->
+
+#### TODO
+
+add docs for other features
