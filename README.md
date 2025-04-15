@@ -13,7 +13,8 @@ options: `http`, `https`, `ws`, `ws`
 ```
 
 var client = new ClientAPI(ipURL, options, type = "http")
-// request options/ options: `http`, `https`, `ws`, `ws`
+// nodejs http request options/ options: {host, port, headers, path, method, ...}
+// type options: `http`, `https`, `ws`, `ws`
 // // msg/ message = { event, query, options }
 // // msg/ message = { event, query = { key, value }, options }
 // // msg/ message = { event, query, options, type }
