@@ -17,6 +17,7 @@ todo: add all features
 
 `node server.js "type" "port" "ip" "key" "cert"`
 
+
 options: `http`, `https`, `ws`, `ws`
 
 ### jsondb client api
@@ -53,7 +54,8 @@ client.searchKeyValue(msg, opts)
 
 ### jsondb shell [ commands, usage ]
 
-`node shell.js`
+`node shell.js "type" "port" "ip" "key" "cert"`
+
 
 ###### set
 \> `set key value`
