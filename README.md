@@ -56,13 +56,19 @@ client.searchKeyValue(msg, opts)
 ### jsondb shell [ commands, usage ]
 
 `node shell.js ...flags...`
-
+*
 // prefix: "-p" port
+
 // prefix: "-s", server
+
 // prefix: "-ip", ip address
+
 // prefix: "-c", certificate
+
 // prefix: "-u", user
+
 // prefix: "-pwd", password
+*
 
 type options: `http`, `https`, `ws`, `ws`
 
