@@ -60,13 +60,13 @@ client.searchKeyValue(msg, opts)
 ##### ...flags...
 
 ```
-*// prefix: "-p" port*
-*// prefix: "-s", server*
+// prefix: "-p" port
+// prefix: "-s", server
 , type options: `http`, `https`, `ws`, `ws`
-*// prefix: "-ip", ip address*
-*// prefix: "-c", certificate*
-*// prefix: "-u", user*
-*// prefix: "-pwd", password*
+// prefix: "-ip", ip address
+// prefix: "-c", certificate
+// prefix: "-u", user
+// prefix: "-pwd", password
 ```
 
 
