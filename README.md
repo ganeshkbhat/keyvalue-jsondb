@@ -10,7 +10,7 @@ add features
 - runs in ws, wss (in development for tests)
 - runs a database shell (in development)
 - has a nodejs client api. 
-- any programming language `http`, `https`, `ws`, `wss` request can be used as a client [todo add request structure and parameters]
+- any programming language `http`, `https`, `ws`, `wss` request can be used as a client *[todo add request structure and parameters]*
 
 
 ### jsondb server usage
