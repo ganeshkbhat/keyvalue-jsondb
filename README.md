@@ -17,8 +17,9 @@ todo: add all features
 
 `node server.js "type" "port" "ip" "key" "cert"`
 
+type options: `http`, `https`, `ws`, `ws`
 
-options: `http`, `https`, `ws`, `ws`
+
 
 ### jsondb client api
 
