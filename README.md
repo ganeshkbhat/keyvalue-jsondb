@@ -63,7 +63,7 @@ client.searchKeyValue(msg, opts)
 // prefix: "-p" port
 // prefix: "-s", server, type options: `http`, `https`, `ws`, `ws`
 // prefix: "-ip", ip address
-// prefix: "-c", certificate
+// prefix: "-c", certificate path
 // prefix: "-u", user
 // prefix: "-pwd", password
 ```
