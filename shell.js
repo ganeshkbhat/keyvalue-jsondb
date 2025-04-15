@@ -34,7 +34,7 @@ const shellflags = require("shellflags");
 // output
 // Script Path: my_script.js
 // Arguments: [ 'arg1', 'arg2', 'arg3' ]
-//
+// 
 
 // // arguments after the script name
 const args = process.argv.slice(2);
@@ -43,30 +43,31 @@ const args = process.argv.slice(2);
 
 var port, ip, certkey, username, password;
 
+// 
 // if (!args[0]) {
 //     console.log("Port is required, using port 3443");
 //     port = 3443;
 // } else {
 //     port = Number(args[0])
 // }
-
+// 
 // if (!args[1]) {
 //     console.log("IP Online is required, using port 3443");
 //     ip = "127.0.0.1";
 // } else {
 //     ip = args[1];
 // }
-
-
+// 
 // if (!!args[2] && !!args[3]) {
 //     console.log("");
 //     user = args[2];
 //     pass = args[3];
 // }
-
+// 
 // if (!!args[2] && !args[3]) {
 //     certkey = args[2];
 // }
+// 
 
 const prefixDefinitions = [
     { prefix: "-p", handler: () => console.log },

@@ -2,6 +2,89 @@
 fast, secure and private, memory leak resistant redis like key value json based data store or database that supports http, https, ws, wss, and command shell (without authentication) and is extendible with expressjs middlewares
 
 
+### jsondb client api
+
+```
+
+var client = new ClientAPI(ipURL, options, type = "http")
+
+client.hasKey(msg, opts)
+client.getKey(msg, opts)
+client.setKey(msg, opts)
+client.updateKey(msg, opts)
+client.delKey(msg, opts)
+client.read(msg, opts)
+client.dump(msg, opts)
+client.dumpToFile(msg, opts)
+client.dumpKeys(msg, opts)
+client.dumpKeysToFile(msg, opts)
+client.init(msg, opts)
+client.clear(msg, opts)
+client.load(msg, opts)
+client.search(msg, opts)
+client.searchValue(msg, opts)
+client.searchKey(msg, opts)
+client.searchKeyValue(msg, opts)
+
+```
+
+### jsondb shell [ commands, usage ]
+
+`node shell.js`
+
+###### set
+> `set key value`
+
+###### get
+> `get key`
+
+###### has
+> `has key`
+
+###### search
+> `search string`
+
+###### search
+> `search -v string`
+
+###### search
+> `search -k string`
+
+###### search
+> `search -kv string`
+
+###### load
+> `load -f filename`
+
+###### load
+> `load jsonobject`
+
+###### read
+> `read key`
+
+###### clear
+> `clear`
+
+###### init
+> `init -f filename`
+
+###### init
+> `init jsonobject`
+
+###### update
+> `update -f filename`
+
+###### update
+> `update jsonobject`
+
+###### del
+> `del key`
+
+###### dump
+> `dump -f "filename/within/quotes"`
+
+
+
 <!-- 
 
 1. jsondb server (http, https, ws, wss)
