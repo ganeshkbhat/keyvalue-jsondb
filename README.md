@@ -6,12 +6,18 @@ fast, secure and private, memory leak resistant redis like key value json based 
 
 `node server.js "type" "port" "ip" "key" "cert"`
 
+options: `http`, `https`, `ws`, `ws`
 
 ### jsondb client api
 
 ```
 
 var client = new ClientAPI(ipURL, options, type = "http")
+// request options/ options: `http`, `https`, `ws`, `ws`
+// // msg/ message = { event, query, options }
+// // msg/ message = { event, query = { key, value }, options }
+// // msg/ message = { event, query, options, type }
+// // msg/ message = { event, query, options, type, filename } // dumpToFile, dumpKeysToFile
 
 client.hasKey(msg, opts)
 client.getKey(msg, opts)
