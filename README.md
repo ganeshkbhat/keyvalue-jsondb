@@ -1,6 +1,8 @@
 # keyvalue-jsondb
 fast, secure and private, memory leak resistant redis like key value json based data store or database that supports http, https, ws, wss, and command shell (without authentication) and is extendible with expressjs middlewares
 
+##### indevelopment - do not use in production
+
 
 #### FEATURES
 
