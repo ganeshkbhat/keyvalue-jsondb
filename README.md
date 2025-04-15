@@ -58,19 +58,19 @@ client.searchKeyValue(msg, opts)
 `node shell.js ...flags...`
 
 ##### ...flags...
-*
-// prefix: "-p" port
 
-// prefix: "-s", server
+*// prefix: "-p" port*
 
-// prefix: "-ip", ip address
+*// prefix: "-s", server*
 
-// prefix: "-c", certificate
+*// prefix: "-ip", ip address*
 
-// prefix: "-u", user
+*// prefix: "-c", certificate*
 
-// prefix: "-pwd", password
-*
+*// prefix: "-u", user*
+
+*// prefix: "-pwd", password*
+
 
 type options: `http`, `https`, `ws`, `ws`
 
