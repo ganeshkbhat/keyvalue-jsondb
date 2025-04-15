@@ -56,6 +56,8 @@ client.searchKeyValue(msg, opts)
 ### jsondb shell [ commands, usage ]
 
 `node shell.js ...flags...`
+
+##### ...flags...
 *
 // prefix: "-p" port
 
