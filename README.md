@@ -2,6 +2,17 @@
 fast, secure and private, memory leak resistant redis like key value json based data store or database that supports http, https, ws, wss, and command shell (without authentication) and is extendible with expressjs middlewares
 
 
+#### FEATURES
+
+add features
+
+- runs in http, https (in development for tests)
+- runs in ws, wss (in development for tests)
+- runs a database shell (in development)
+- has a nodejs client api. 
+- any http, https, ws, wss request can be used as a client [todo adding the request parameters]
+
+
 ### jsondb server usage
 
 `node server.js "type" "port" "ip" "key" "cert"`
