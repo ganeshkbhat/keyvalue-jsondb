@@ -341,7 +341,7 @@ const broadcast = function (ws, data) {
  * @param {*} msg
  */
 const processWs = function (msg) {
-
+    const searchResult = run(body, queryParams);
 }
 
 
@@ -351,7 +351,7 @@ const processWs = function (msg) {
  * @param {*} msg
  */
 const processWss = function (msg) {
-
+    const searchResult = run(body, queryParams);
 }
 
 
@@ -505,7 +505,24 @@ function startWebsocketServer(port = 3000, ip = "127.0.0.1", middlewares = [], a
         ws.on('message', (message) => {
             try {
                 const { event, data } = JSON.parse(message);
-                if (['search', 'create', 'update', 'delete'].includes(event)) {
+                if ([
+                    "hasKey",
+                    "getKey",
+                    "search",
+                    "searchValue",
+                    "searchKeyValue",
+                    "read",
+                    "create",
+                    "update",
+                    "del",
+                    "dump",
+                    "dumpKeys",
+                    "dumpToFile",
+                    "dumpKeysToFile",
+                    "load",
+                    "init",
+                    "clear"
+                ].includes(event)) {
                     if (event === 'search') {
                         const result = run(JSON.stringify(data), queryParams);
                         ws.send(JSON.stringify({ event: 'searchResult', data: result }));
