@@ -1240,26 +1240,26 @@ function TShell(port, ip, filename) {
  * @param {*} cert
  * @return {*} 
  */
-function startServer(type = "all", port = 3443, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
+function startServer(type = "http", port = 3443, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
     if (type === "ws") return startWebsocketServer(port, ip, middlewares, app);
     if (type === "wss") return startWebsocketSecureServer(port, ip, middlewares, app, key, cert);
     if (type === "https") return startHttpsServer(port, ip, middlewares, app, key, cert);
     if (type === "http") return startHttpServer(port, ip, middlewares, app);
-    if (type === "all") {
-        if (!key || !cert) {
-            return {
-                ws: startWebsocketServer(port, ip, middlewares, app),
-                http: startHttpServer(port, ip, middlewares, app, key, cert)
-            }
-        } else {
-            return {
-                ws: startWebsocketServer(port, ip, middlewares, app),
-                http: startHttpServer(port, ip, middlewares, app, key, cert),
-                wss: startWebsocketSecureServer(port, ip, middlewares, app, key, cert),
-                https: startHttpsServer(port, ip, middlewares, app, key, cert)
-            }
-        }
-    };
+    // if (type === "all") {
+    //     if (!key || !cert) {
+    //         return {
+    //             ws: startWebsocketServer(port, ip, middlewares, app),
+    //             http: startHttpServer(port, ip, middlewares, app, key, cert)
+    //         }
+    //     } else {
+    //         return {
+    //             ws: startWebsocketServer(port, ip, middlewares, app),
+    //             http: startHttpServer(port, ip, middlewares, app, key, cert),
+    //             wss: startWebsocketSecureServer(port, ip, middlewares, app, key, cert),
+    //             https: startHttpsServer(port, ip, middlewares, app, key, cert)
+    //         }
+    //     }
+    // };
 }
 
 
