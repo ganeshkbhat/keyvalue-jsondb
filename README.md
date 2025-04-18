@@ -53,7 +53,7 @@ key/ cert default: generate public and private key pair
 
 var client = new ClientAPI(ipURL, options, type = "http")
 // nodejs http request options/ options: {host, port, headers, path, method, ...}
-// type options: `http`, `https`, `ws`, `ws`
+// type options: `http`, `https`, `ws`, `wss`
 // // msg/ message = { event, query, options }
 // // msg/ message = { event, query = { key, value }, options }
 // // msg/ message = { event, query, options, type }
