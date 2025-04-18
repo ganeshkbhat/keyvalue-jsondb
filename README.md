@@ -45,7 +45,7 @@ todo: add all features
 ![Basic Design - Architecture of KVJSONDB](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/kvjsondb-json-kv-inmemory-db-architecture.jpg)
 
 
-#### Shell Commands - Basic Usage
+#### ksjsondb Basic Storage
 ![DB Basic Storage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/db-basic-storage.jpg)
 
 
