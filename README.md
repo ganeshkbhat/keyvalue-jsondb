@@ -45,7 +45,7 @@ key/ cert default: generate public and private key pair
 
 
 ##### Shell Commands Basic Usage
-![Shell Commands Basic Usage](shell-commands-basic-usage.jpg)
+![Shell Commands Basic Usage](./shell-commands-basic-usage.jpg)
 
 ### jsondb client api
 
