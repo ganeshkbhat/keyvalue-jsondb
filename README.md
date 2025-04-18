@@ -41,11 +41,11 @@ key/ cert default: generate public and private key pair
 
 ##### Basic Design - Architecture of kvjsondb
 
-![Basic Design - Architecture of KVJSONDB](https://github.com/ganeshkbhat/keyvalue-jsondb/kvjsondb-json-kv-inmemory-db-architecture.jpg)
+![Basic Design - Architecture of KVJSONDB](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/kvjsondb-json-kv-inmemory-db-architecture.jpg)
 
 
 ##### Shell Commands Basic Usage
-![Shell Commands Basic Usage](https://github.com/ganeshkbhat/keyvalue-jsondb/shell-commands-basic-usage.jpg)
+![Shell Commands Basic Usage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/shell-commands-basic-usage.jpg)
 
 ### jsondb client api
 
