@@ -1253,6 +1253,8 @@ function startServer(type = "all", port = 3443, ip = "127.0.0.1", middlewares = 
             }
         } else {
             return {
+                ws: startWebsocketServer(port, ip, middlewares, app),
+                http: startHttpServer(port, ip, middlewares, app, key, cert),
                 wss: startWebsocketSecureServer(port, ip, middlewares, app, key, cert),
                 https: startHttpsServer(port, ip, middlewares, app, key, cert)
             }
