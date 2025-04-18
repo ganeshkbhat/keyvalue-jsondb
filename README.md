@@ -39,9 +39,13 @@ port options: 4567
 ip default: `127.0.0.1` / `192.168.1.1` or provided ip address
 key/ cert default: generate public and private key pair  
 
+##### Basic Design - Architecture of kvjsondb
 
 ![Basic Design - Architecture of KVJSONDB](./kvjsondb-json-kv-inmemory-db-architecture.jpg)
 
+
+##### Shell Commands Basic Usage
+![Shell Commands Basic Usage](shell-commands-basic-usage.jpg)
 
 ### jsondb client api
 
