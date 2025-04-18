@@ -11,7 +11,7 @@
 - runs in `http`, or `https`, or `ws`, or `wss` (in development for tests)
 - runs a `database shell` with `redis-like` commands (in development)
 - has a nodejs client api. 
-- any programming language `http`, `https`, `ws`, `wss` request can be used as a client *[todo add request structure and parameters]*
+- any programming language that supports `http`, `https`, `ws`, `wss` requests can be used as a client *[todo add request structure and parameters to docs]*
 
 todo: add all features
 
