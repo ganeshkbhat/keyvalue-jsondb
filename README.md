@@ -20,7 +20,7 @@ todo: add all features
 ### jsondb server usage
 
 
-##### run database server with defaults and no/with username/password or keys
+##### run database server with [a] defaults, [b] with no username/password, [c] with username/password, and [d] with/without keys
 
 - `node server.js -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
 - `node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
