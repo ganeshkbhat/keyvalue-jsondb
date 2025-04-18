@@ -20,17 +20,26 @@ const startServer = require('./index').startServer;
 
 // // USAGE
 // node server.js type port ip key cert
-// node server.js -t type -p port -ip ip -k key -c cert
 
+// node server.js -t type -p port -ip ip -k key -c cert
+// // default 
 
 const prefixDefinitions = [
+    // -t: type : http, https, ws, wss
     { prefix: "-t", handler: () => console.log },
+    // -p : port : 3443, 8080, 80, 443
     { prefix: "-p", handler: () => console.log },
+    // -ip : ip : ip address, url, domain name
     { prefix: "-ip", handler: () => console.log },
+    // -k : key : certificate key
     { prefix: "-k", handler: () => console.log },
+    // -c : cert : certificate
     { prefix: "-c", handler: () => console.log },
+    // -m : mode : db, shell
     { prefix: "-m", handler: () => console.log },
+    // -u : username : username for authentication
     { prefix: "-u", handler: () => console.log },
+    // -pwd : password : password for authentication
     { prefix: "-pwd", handler: () => console.log }
 ];
 
@@ -50,7 +59,7 @@ if (!results || !results["-t"] || !results["-p"] || !results["-ip"] || !results[
         "-ip": (results["-ip"]) ? results["-ip"] : (process.argv.length > 4 && !!process.argv[4]) ? process.argv[4] : "127.0.0.1",
         "-k": (results["-k"]) ? results["-k"] : (process.argv.length > 5 && !!process.argv[5]) ? process.argv[5] : null,
         "-c": (results["-c"]) ? results["-c"] : (process.argv.length > 6 && !!process.argv[6]) ? process.argv[6] : null,
-        "-m": (results["-m"]) ? results["-m"] : (process.argv.length > 7 && !!process.argv[7]) ? process.argv[7] : null,
+        "-m": (results["-m"]) ? results["-m"] : "shell",
         "-u": (results["-u"]) ? results["-u"] : null,
         "-pwd": (results["-pwd"]) ? results["-pwd"] : null
     }
