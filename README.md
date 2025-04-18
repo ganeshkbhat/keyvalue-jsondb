@@ -39,6 +39,8 @@ todo: add all features
 - ip [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
 - key/ cert [default: generate `public and private key pair`] 
 
+
+
 ##### Basic Design - Architecture of kvjsondb
 
 ![Basic Design - Architecture of KVJSONDB](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/kvjsondb-json-kv-inmemory-db-architecture.jpg)
