@@ -93,7 +93,7 @@ client.searchKeyValue(msg, opts)
 // prefix: "-c", certificate path [default: none, will use http or ws]
 // prefix: "-u", user [default: blank]
 // prefix: "-pwd", password [default: blank]
-// prefix: "-s", db server or shell [default: db]
+// prefix: "-s", db server or shell [default: shell]
 ```
 
 
