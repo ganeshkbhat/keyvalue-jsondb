@@ -35,7 +35,7 @@ todo: add all features
 
 
 type options: `http`, `https`, `ws`, `wss`
-port options: 4567
+port options: `4567`
 ip default: `127.0.0.1` / `192.168.1.1` or provided ip address
 key/ cert default: generate public and private key pair  
 
@@ -46,6 +46,7 @@ key/ cert default: generate public and private key pair
 
 ##### Shell Commands Basic Usage
 ![Shell Commands Basic Usage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/shell-commands-basic-usage.jpg)
+
 
 ### jsondb client api
 
