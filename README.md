@@ -17,7 +17,7 @@
 todo: add all features
 
 
-### jsondb server usage
+### jsondb Server Running/ Usage
 
 
 ##### run database server with [a] defaults, [b] with no username/password, [c] with username/password, and [d] with/without keys
