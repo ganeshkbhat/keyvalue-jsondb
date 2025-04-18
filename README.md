@@ -87,7 +87,7 @@ client.searchKeyValue(msg, opts)
 
 ```
 // prefix: "-p" port
-// prefix: "-s", server, type options: `http`, `https`, `ws`, `ws`
+// prefix: "-t", server protocol type options: `http`, `https`, `ws`, `wss` (consider enabling all protocols)
 // prefix: "-ip", ip address
 // prefix: "-c", certificate path
 // prefix: "-u", user
