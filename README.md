@@ -10,7 +10,7 @@
 
 - runs in `http`, `https` (in development for tests)
 - runs in `ws`, `wss` (in development for tests)
-- runs a `database shell` with `redis like` commands (in development)
+- runs a `database shell` with `redis-like` commands (in development)
 - has a nodejs client api. 
 - any programming language `http`, `https`, `ws`, `wss` request can be used as a client *[todo add request structure and parameters]*
 
