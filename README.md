@@ -37,7 +37,7 @@ todo: add all features
 - type options: `http`, `https`, `ws`, `wss`
 - port options: `4567`
 - ip default: `127.0.0.1` / `192.168.1.1` or provided custom ip address
-- key/ cert default: generate public and private key pair  
+- key/ cert default: generate `public and private key pair`  
 
 ##### Basic Design - Architecture of kvjsondb
 
