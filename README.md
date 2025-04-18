@@ -19,9 +19,28 @@ todo: add all features
 
 ### jsondb server usage
 
-`node server.js "type" "port" "ip" "key" "cert"`
 
-type options: `http`, `https`, `ws`, `ws`
+##### login to shell with defaults and non username/password
+`node server.js -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+
+`node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
+
+`node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt" -s "db"`
+
+##### login to shell with defaults and non username/password
+`node server.js -s "shell"`
+
+##### login to shell with defaults and non username/password
+`node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -s "shell"`
+
+
+type options: `http`, `https`, `ws`, `wss`
+port options: 4567
+ip default: `127.0.0.1` / `192.168.1.1` or provided ip address
+key/ cert default: generate public and private key pair  
+
+
+![Basic Design - Architecture of KVJSONDB](./kvjsondb-json-kv-inmemory-db-architecture.jpg)
 
 
 ### jsondb client api
