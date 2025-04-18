@@ -46,7 +46,7 @@ todo: add all features
 
 
 #### Shell Commands - Basic Usage
-![Shell Commands Basic Usage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/shell-commands-basic-usage.jpg)
+![Shell Commands Basic Usage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/db-basic-storage.jpg)
 
 
 #### jsondb client - client api
