@@ -34,10 +34,10 @@ todo: add all features
 `node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -s "shell"`
 
 
-type options: `http`, `https`, `ws`, `wss`
-port options: `4567`
-ip default: `127.0.0.1` / `192.168.1.1` or provided ip address
-key/ cert default: generate public and private key pair  
+- type options: `http`, `https`, `ws`, `wss`
+- port options: `4567`
+- ip default: `127.0.0.1` / `192.168.1.1` or provided ip address
+- key/ cert default: generate public and private key pair  
 
 ##### Basic Design - Architecture of kvjsondb
 
