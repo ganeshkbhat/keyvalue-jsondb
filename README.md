@@ -21,17 +21,16 @@ todo: add all features
 
 
 ##### login to shell with defaults and no username/password
-`node server.js -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
 
-`node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
-
-`node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt" -s "db"`
-
-##### login to shell with defaults and no username/password
-`node server.js -s "shell"`
+- `node server.js -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+- `node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
+- `node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt" -s "db"`
 
 ##### login to shell with defaults and no username/password
-`node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -s "shell"`
+- `node server.js -s "shell"`
+
+##### login to shell with defaults and no username/password
+- `node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -s "shell"`
 
 
 - type options: `http`, `https`, `ws`, `wss`
