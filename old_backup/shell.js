@@ -16,7 +16,7 @@
 
 'use strict';
 
-const Shell = require('./index').Shell;
+const Shell = require('../index').Shell;
 const shellflags = require("shellflags");
 
 // const RShell = require('./index').Shell;
@@ -71,7 +71,7 @@ var port, ip, certkey, username, password;
 
 const prefixDefinitions = [
     { prefix: "-p", handler: () => console.log },
-    { prefix: "-s", handler: () => console.log },
+    { prefix: "-t", handler: () => console.log },
     { prefix: "-ip", handler: () => console.log },
     { prefix: "-c", handler: () => console.log },
     { prefix: "-u", handler: () => console.log },

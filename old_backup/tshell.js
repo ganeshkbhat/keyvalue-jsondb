@@ -16,7 +16,7 @@
 
 'use strict';
 
-const Shell = require('./index').TShell;
+const Shell = require('../index').TShell;
 
 // 
 // const port = 3443, ip = "127.0.0.1";

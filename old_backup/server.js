@@ -16,7 +16,7 @@
 
 'use strict';
 
-const startServer = require('./index').startServer;
+const startServer = require('../index').startServer;
 
 // // USAGE
 // node server.js type port ip key cert
