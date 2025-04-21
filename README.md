@@ -86,7 +86,7 @@ client.searchKeyValue(msg, opts)
 `node shell.js ...flags...`
 
 
-*examples: *
+*examples:*
 
 `node shell.js -p 4567`
 
