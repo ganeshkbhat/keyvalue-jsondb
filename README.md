@@ -95,8 +95,58 @@ client.searchKeyValue(msg, opts)
 ```
 
 
-### jsondb client api request structures
+### <a name="messagestructure">jsondb client api request structures</a>
 
+
+`hasKey`
+
+
+`getKey`
+
+
+`setKey`
+
+
+`updateKey`
+
+
+`delKey`
+
+
+`read`
+
+
+`dump`
+
+
+`dumpToFile`
+
+
+`dumpKeys`
+
+
+`dumpKeysToFile`
+
+
+`init`
+
+
+`clear`
+
+
+`load`
+
+
+`search`
+
+
+`searchValue`
+
+
+`searchKey`
+
+
+`searchKeyValue`
 
 
 
