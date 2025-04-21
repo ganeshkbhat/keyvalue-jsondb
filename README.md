@@ -27,7 +27,12 @@ todo: add all features
 - `node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt" -s "db"`
 
 ##### login to shell with defaults and no username/password
+
+
+- `node server.js` *(default, logs into shell)*
+
 - `node server.js -s "shell"`
+
 
 ##### login to shell with defaults and no username/password
 - `node server.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -s "shell"`
@@ -80,6 +85,7 @@ client.searchKey(msg, opts)
 client.searchKeyValue(msg, opts)
 
 ```
+
 
 ### jsondb shell [ commands, usage ]
 
