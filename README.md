@@ -288,6 +288,8 @@ client.searchKeyValue(msg, opts)
 
 
 
+
+
 ### jsondb shell [ commands, usage ]
 
 `node shell.js ...flags...`
