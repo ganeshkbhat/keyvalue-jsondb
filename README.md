@@ -14,7 +14,7 @@ please note: `redis-like` is an inference most of the shell commands are like re
 - runs in `http`, or `https`, or `ws`, or `wss` (in development for tests)
 - runs a `database shell` with `redis-like` commands (in development)
 - has a nodejs client api. 
-- use any language http, https, ws, wss request code to make requests as a client. 
+- use any language to make `http`, `https`, `ws`, `wss` request code to make requests as a client. 
   - the request structure is defined here for every type of request function. 
 - any programming language that supports `http`, `https`, `ws`, `wss` requests can be used as a client *[todo add request structure and parameters to docs]*
 
