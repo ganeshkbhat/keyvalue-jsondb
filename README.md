@@ -95,6 +95,11 @@ client.searchKeyValue(msg, opts)
 ```
 
 
+### jsondb client api request structures
+
+
+
+
 ### jsondb shell [ commands, usage ]
 
 `node shell.js ...flags...`
