@@ -21,6 +21,7 @@ todo: add all features
 
 ##### run database server with [a] defaults, [b] with no username/password, [c] with username/password, and [d] with/without keys
 
+
 - `node db.js -s "db"`
 - `node db.js -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
 - `node db.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
@@ -35,10 +36,12 @@ todo: add all features
 
 
 ##### login to shell with defaults and no username/password
+
+
 - `node db.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -s "shell"`
 
 
-- type options: `http`, `https`, `ws`, `wss` [default: `ws`]
+- type options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
 - port [default: `4567` or provided custom port]
 - ip [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
 - key/ cert [default: generate `public and private key pair`] 
