@@ -97,10 +97,7 @@ client.searchKeyValue(msg, opts)
 
 ### <a name="messagestructure">jsondb client api request structures</a>
 
-// // msg/ message = 
-// // msg/ message = 
-// // msg/ message = { event, query, options, type }
-// // msg/ message =  // dumpToFile, dumpKeysToFile
+
 
 `hasKey`
 
@@ -110,6 +107,7 @@ client.searchKeyValue(msg, opts)
 ##### body
 
 { event, query, options }
+{ event, query, options, type }
 
 
 `getKey`
@@ -119,6 +117,8 @@ client.searchKeyValue(msg, opts)
 ##### body
 
 { event, query, options }
+{ event, query, options, type }
+
 
 `setKey`
 
@@ -126,6 +126,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query = { key, value }, options }
+{ event, query = { key, value }, options, type }
 
 
 `updateKey`
@@ -134,7 +135,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query = { key, value }, options }
-
+{ event, query = { key, value }, options, type }
 
 
 `delKey`
@@ -143,7 +144,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query, options }
-
+{ event, query, options, type }
 
 
 `read`
@@ -152,6 +153,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query, options }
+{ event, query, options, type }
 
 
 `dump`
@@ -160,6 +162,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query, options }
+{ event, query, options, type }
 
 
 `dumpToFile`
@@ -167,6 +170,7 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+{ event, query, options, type, filename }
 { event, query, options, type, filename }
 
 
@@ -176,6 +180,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query, options }
+{ event, query, options, type }
 
 
 `dumpKeysToFile`
@@ -183,6 +188,7 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+{ event, query, options, type, filename }
 { event, query, options, type, filename }
 
 
@@ -192,6 +198,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query, options }
+{ event, query, options, type }
 
 
 `clear`
@@ -200,6 +207,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query, options }
+{ event, query, options, type }
 
 
 `load`
@@ -207,6 +215,7 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+{ event, query, options, type, filename }
 { event, query, options, type, filename }
 
 
@@ -216,6 +225,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query, options }
+{ event, query, options, type }
 
 
 `searchValue`
@@ -224,6 +234,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query, options }
+{ event, query, options, type }
 
 
 `searchKey`
@@ -232,6 +243,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query, options }
+{ event, query, options, type }
 
 
 `searchKeyValue`
@@ -240,6 +252,7 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 { event, query = { key, value }, options }
+{ event, query = { key, value }, options, type }
 
 
 
