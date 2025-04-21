@@ -159,7 +159,7 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
-{ event, query, options, type, filename }
+{ event, query, options }
 
 
 `dumpToFile`
@@ -175,7 +175,7 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
-{ event, query, options, type, filename }
+{ event, query, options }
 
 
 `dumpKeysToFile`
