@@ -100,53 +100,117 @@ client.searchKeyValue(msg, opts)
 
 `hasKey`
 
+##### headers
+##### body
+
 
 `getKey`
 
+##### headers
+##### body
 
 `setKey`
+
+##### headers
+##### body
 
 
 `updateKey`
 
+##### headers
+##### body
+
+
 
 `delKey`
+
+##### headers
+##### body
+
 
 
 `read`
 
+##### headers
+##### body
+
+
 
 `dump`
+
+##### headers
+##### body
+
 
 
 `dumpToFile`
 
+##### headers
+##### body
+
+
 
 `dumpKeys`
+
+##### headers
+##### body
+
 
 
 `dumpKeysToFile`
 
+##### headers
+##### body
+
+
 
 `init`
+
+##### headers
+##### body
+
 
 
 `clear`
 
+##### headers
+##### body
+
+
 
 `load`
+
+##### headers
+##### body
+
 
 
 `search`
 
+##### headers
+##### body
+
+
 
 `searchValue`
+
+##### headers
+##### body
+
 
 
 `searchKey`
 
+##### headers
+##### body
+
+
 
 `searchKeyValue`
+
+##### headers
+##### body
+
 
 
 
