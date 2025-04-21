@@ -15,7 +15,7 @@ please note: `redis-like` is an inference most of the shell commands are like re
 - runs a `database shell` with `redis-like` commands (in development)
 - has a nodejs client api. 
 - use any language to make `http`, `https`, `ws`, `wss` request code to make requests as a client. 
-  - the request structure is defined here for every type of request function. 
+  - the request structure is [defined here](#messagestructure) for every type of request function. 
 - any programming language that supports `http`, `https`, `ws`, `wss` requests can be used as a client *[todo add request structure and parameters to docs]*
 
 todo: add all features
@@ -96,6 +96,7 @@ client.searchKeyValue(msg, opts)
 
 
 ### <a name="messagestructure">jsondb client api request structures</a>
+
 
 
 `hasKey`
