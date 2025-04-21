@@ -382,7 +382,7 @@ there are possibilities for system hacks if `someOtherProcessorDataUserFunction(
 
 - Unsanitized String Interpretation 
   - issues due to Unsanitized strings especially when using using `eval()`, `child_process.exec()` with user-provided input, or similar mechanisms. 
-  - This is similar to classic SQL injection vulnerability, but for code execution. 
+  - this is similar to classic SQL injection vulnerability, but for code execution. 
 - Never eval() or Dynamically Execute Unsanitized String Data
 - Binary Data Handling 
   - uses the binary data to construct system commands or file paths without proper validation, it could be exploited 
