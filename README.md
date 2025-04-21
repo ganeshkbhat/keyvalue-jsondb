@@ -378,7 +378,7 @@ client.searchKeyValue(msg, opts)
 
 ### Security Checks and Consideration
 
-there are possibilities for system hacks if `someOtherProcessorDataUserFunction(d)` (the function that processes the data sent back from the database) processes the data from your JSON file in an unsafe manner
+there are possibilities for system hacks if `someProcessorDataFunction(d)` (the function that processes the data sent back from the database) processes the data from your JSON file in an unsafe manner
 
 - Unsanitized String Interpretation 
   - issues due to Unsanitized strings especially when using using `eval()`, `child_process.exec()` with user-provided input, or similar mechanisms. 
