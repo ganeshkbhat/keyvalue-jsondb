@@ -380,9 +380,12 @@ client.searchKeyValue(msg, opts)
 
 there are possibilities for system hacks if `someOtherProcessorDataUserFunction(d)` (the function that processes the data sent back from the database) processes the data from your JSON file in an unsafe manner
 
-- Unsanitized String Interpretation (especially when using using `eval()`, `child_process.exec()` with user-provided input, or similar mechanisms. This is similar to classic SQL injection vulnerability, but for code execution). 
+- Unsanitized String Interpretation 
+  - especially when using using `eval()`, `child_process.exec()` with user-provided input, or similar mechanisms. 
+  - This is similar to classic SQL injection vulnerability, but for code execution. 
 - Never eval() or Dynamically Execute Unsanitized String Data
-- Binary Data Handling (uses the binary data to construct system commands or file paths without proper validation, it could be exploited). 
+- Binary Data Handling 
+  - uses the binary data to construct system commands or file paths without proper validation, it could be exploited 
   - preferably, sanitize by converting to utf-8 text
   - in case of executable binary, it should not impact as much unless the data is written to a file and the file used as an executable to execute the executable
   - in case of image or video like binaries please 
