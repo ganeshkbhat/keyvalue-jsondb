@@ -107,6 +107,7 @@ client.searchKeyValue(msg, opts)
 ##### body
 
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -117,6 +118,7 @@ client.searchKeyValue(msg, opts)
 ##### body
 
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -125,7 +127,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query = { key, value }, options }
+
 { event, query = { key, value }, options, type }
 
 
@@ -134,7 +138,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query = { key, value }, options }
+
 { event, query = { key, value }, options, type }
 
 
@@ -143,7 +149,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -152,7 +160,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -161,7 +171,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -170,7 +182,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options, type, filename }
+
 { event, query, options, type, filename }
 
 
@@ -179,7 +193,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -188,7 +204,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options, type, filename }
+
 { event, query, options, type, filename }
 
 
@@ -197,7 +215,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -206,7 +226,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -215,7 +237,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options, type, filename }
+
 { event, query, options, type, filename }
 
 
@@ -224,7 +248,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -233,7 +259,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -242,7 +270,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query, options }
+
 { event, query, options, type }
 
 
@@ -251,7 +281,9 @@ client.searchKeyValue(msg, opts)
 ##### headers
 
 ##### body
+
 { event, query = { key, value }, options }
+
 { event, query = { key, value }, options, type }
 
 
