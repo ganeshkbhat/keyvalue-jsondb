@@ -5,9 +5,7 @@
 ##### indevelopment - do not use in production
 
 
-please note: 
-
-`redis-like` : most of the shell commands are like redis but a few changes have been made to accomodate the architecture. 
+please note: `redis-like` is an inference most of the shell commands are like redis but a few changes have been made to accomodate the architecture. 
 
 
 #### FEATURES
