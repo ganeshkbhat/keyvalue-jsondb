@@ -97,121 +97,149 @@ client.searchKeyValue(msg, opts)
 
 ### <a name="messagestructure">jsondb client api request structures</a>
 
-
+// // msg/ message = 
+// // msg/ message = 
+// // msg/ message = { event, query, options, type }
+// // msg/ message =  // dumpToFile, dumpKeysToFile
 
 `hasKey`
 
 ##### headers
+
+
 ##### body
+
+{ event, query, options }
 
 
 `getKey`
 
 ##### headers
+
 ##### body
+
+{ event, query, options }
 
 `setKey`
 
 ##### headers
+
 ##### body
+{ event, query = { key, value }, options }
 
 
 `updateKey`
 
 ##### headers
+
 ##### body
+{ event, query = { key, value }, options }
 
 
 
 `delKey`
 
 ##### headers
+
 ##### body
+{ event, query, options }
 
 
 
 `read`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options }
 
 
 `dump`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options, type, filename }
 
 
 `dumpToFile`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options, type, filename }
 
 
 `dumpKeys`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options, type, filename }
 
 
 `dumpKeysToFile`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options, type, filename }
 
 
 `init`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options }
 
 
 `clear`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options }
 
 
 `load`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options, type, filename }
 
 
 `search`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options }
 
 
 `searchValue`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options }
 
 
 `searchKey`
 
 ##### headers
-##### body
 
+##### body
+{ event, query, options }
 
 
 `searchKeyValue`
 
 ##### headers
-##### body
 
+##### body
+{ event, query = { key, value }, options }
 
 
 
