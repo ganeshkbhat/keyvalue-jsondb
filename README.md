@@ -103,7 +103,7 @@ todo: add all features
 
 
 
-##### run database server with [d] with/without keys
+##### run database server with [d] with keys
 
 
 - `node db.js -s "db" -t "type"`
@@ -119,6 +119,11 @@ todo: add all features
 - `node db.js -s "db" -p "port" -ip "ip"`
 
 - `node db.js -s "db" -t "type" -p "port" -ip "ip"`
+
+
+
+##### run database server with [d] with keys
+
 
 - `node db.js -s "db" -t "type" -k "./fldr/key" -c "./fldr/cert.crt"`
 
