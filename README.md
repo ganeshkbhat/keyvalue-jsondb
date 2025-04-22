@@ -55,7 +55,7 @@ please note: `redis-like` is an inference most of the shell commands are like re
 todo: add all features
 
 
-### Running/ Usage
+#### Running/ Usage
 
 
 `node db.js ...flags...`
@@ -98,7 +98,7 @@ todo: add all features
 - key/ cert [default: generate `public and private key pair`] 
 
 
-### jsondb Server Running/ Usage
+#### Server Running/ Usage - kvjsondb
 
 
 ##### run database server with [a] defaults
@@ -278,7 +278,7 @@ todo: add all features
 
 
 
-#### Architecture of kvjsondb - Basic Design
+### Architecture of kvjsondb - Basic Design
 
 ![Basic Design - Architecture of KVJSONDB](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/docs/kvjsondb-json-kv-inmemory-db-architecture.jpg)
 
@@ -292,12 +292,12 @@ todo: add all features
 
 
 
-### jsondb shell [ commands, usage ]
+### Shell [ commands, usage ] - kvjsondb 
 
 `node db.js ...flags...`
 
 
-##### start shell command
+##### Start Shell Command
 
 
 `node db.js` (starts shell)
@@ -312,59 +312,109 @@ todo: add all features
 
 
 
-##### shell commands
+##### Shell Commands
 
 
 ###### set
 \> `set key value`
 
+\> `set test 10`
+
+
 ###### get
 \> `get key`
+
+\> `get test`
+
 
 ###### has
 \> `has key`
 
+\> `has test`
+
+
 ###### search
 \> `search string`
+
+\> `search test`
+
 
 ###### search
 \> `search -v string`
 
+\> `search -v 10`
+
+
 ###### search
 \> `search -k string`
+
+\> `search -k test`
+
 
 ###### search
 \> `search -kv string`
 
+\> `search -kv test`
+
+
 ###### load
 \> `load -f filename`
+
+\> `load -f "./dump/filename.json"`
+
 
 ###### load
 \> `load jsonobject`
 
+\> `load "{'test': 10}"`
+
+
 ###### read
 \> `read key`
+
+\> `read test`
+
 
 ###### clear
 \> `clear`
 
+\> `clear`
+
+
 ###### init
 \> `init -f filename`
+
+\> `init -f "./dump/filename.json"`
+
 
 ###### init
 \> `init jsonobject`
 
+\> `init "{'test': 10}"`
+
+
 ###### update
 \> `update -f filename`
+
+\> `update -f "./dump/filename.json"`
+
 
 ###### update
 \> `update jsonobject`
 
+\> `update {"test": 10}`
+
+
 ###### del
 \> `del key`
 
+\> `del test`
+
+
 ###### dump
 \> `dump -f "filename/within/quotes"`
+
+\> `dump -f "./dump/filename.json"`
 
 
 
