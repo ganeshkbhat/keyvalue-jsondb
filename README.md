@@ -9,7 +9,6 @@ please note: `redis-like` is an inference most of the shell commands are like re
 
 
 - <a name="features">Features</a>
-- <a name="architecture">Architecture</a>
 - <a name="usage">Usage</a>
 - <a name="rundb">Running the Database Server</a>
   - <a name="rundbdefaults">Running the DB Server with defaults</a>
