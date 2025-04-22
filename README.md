@@ -482,7 +482,7 @@ client.searchKeyValue(msg, opts)
 ```
 
 
-### <a name="messagestructure">jsondb client api request structures</a>
+### <a name="messagestructure">Client API - Request Structures</a>
 
 
 
