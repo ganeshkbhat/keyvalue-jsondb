@@ -94,7 +94,7 @@ todo: add all features
 - `type` options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
 - `port` [default: `4567` or provided custom port]
 - `ip` [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
-- `key`/ `cert` [default: generate `public and private key pair`] 
+- `key`/ `cert` [default: `generate` `public and private key pair`] 
 
 
 #### Server Running/ Usage - kvjsondb
@@ -324,7 +324,7 @@ todo: add all features
 - `type` options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
 - `port` [default: `4567` or provided custom port]
 - `ip` [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
-- `key`/ `cert` [default: generate `public and private key pair`] 
+- `key`/ `cert` [default: `generate` `public and private key pair`] 
 
 
 ### Start Shell Command
