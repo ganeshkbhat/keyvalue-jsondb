@@ -86,16 +86,23 @@ todo: add all features
 
 ##### ...flags...
 
-```
-// prefix: "-p" port [default: 4567]
-// prefix: "-t", server protocol type options: `http`, `https`, `ws`, `wss` (consider enabling all protocols)
-// prefix: "-ip", ip address [default: 127.0.0.1]
-// prefix: "-k", key path [default: none, will use http or ws]
-// prefix: "-c", certificate path [default: none, will use http or ws]
-// prefix: "-u", user [default: blank]
-// prefix: "-pwd", password [default: blank]
-// prefix: "-s", db server or shell [default: shell]
-```
+
+`prefix: "-p" port [default: 4567]`
+
+`prefix: "-t", server protocol type options: `http`, `https`, `ws`, `wss` (consider enabling all protocols)`
+
+`prefix: "-ip", ip address [default: 127.0.0.1]`
+
+`prefix: "-k", key path [default: none, will use http or ws]`
+
+`prefix: "-c", certificate path [default: none, will use http or ws]`
+
+`prefix: "-u", user [default: blank]`
+
+`prefix: "-pwd", password [default: blank]`
+
+`prefix: "-s", db server or shell [default: shell]`
+
 
 
 ###### set
