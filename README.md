@@ -489,7 +489,7 @@ client.searchKeyValue(msg, opts)
 
 
 
-`hasKey`
+*event*: `hasKey`
 
 ##### headers
 
@@ -501,7 +501,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`getKey`
+*event*: `getKey`
 
 ##### headers
 
@@ -512,7 +512,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`setKey`
+*event*: `setKey`
 
 ##### headers
 
@@ -523,7 +523,7 @@ client.searchKeyValue(msg, opts)
 { event, query = { key, value }, options, type }
 
 
-`updateKey`
+*event*: `updateKey`
 
 ##### headers
 
@@ -534,7 +534,7 @@ client.searchKeyValue(msg, opts)
 { event, query = { key, value }, options, type }
 
 
-`delKey`
+*event*: `delKey`
 
 ##### headers
 
@@ -545,7 +545,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`read`
+*event*: `read`
 
 ##### headers
 
@@ -556,7 +556,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`dump`
+*event*: `dump`
 
 ##### headers
 
@@ -567,7 +567,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`dumpToFile`
+*event*: `dumpToFile`
 
 ##### headers
 
@@ -578,7 +578,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type, filename }
 
 
-`dumpKeys`
+*event*: `dumpKeys`
 
 ##### headers
 
@@ -589,7 +589,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`dumpKeysToFile`
+*event*: `dumpKeysToFile`
 
 ##### headers
 
@@ -600,7 +600,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type, filename }
 
 
-`init`
+*event*: `init`
 
 ##### headers
 
@@ -611,7 +611,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`clear`
+*event*: `clear`
 
 ##### headers
 
@@ -622,7 +622,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`load`
+*event*: `load`
 
 ##### headers
 
@@ -633,7 +633,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type, filename }
 
 
-`search`
+*event*: `search`
 
 ##### headers
 
@@ -644,7 +644,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`searchValue`
+*event*: `searchValue`
 
 ##### headers
 
@@ -655,7 +655,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`searchKey`
+*event*: `searchKey`
 
 ##### headers
 
@@ -666,7 +666,7 @@ client.searchKeyValue(msg, opts)
 { event, query, options, type }
 
 
-`searchKeyValue`
+*event*: `searchKeyValue`
 
 ##### headers
 
