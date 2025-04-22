@@ -91,7 +91,7 @@ todo: add all features
 
 `prefix: "-t", server protocol`
 
-`type options: (a) http, (b) https, (c) ws, (d) wss (consider enabling all protocols)`
+`type options: (a) http, (b) https, (c) ws, (d) wss` (consider enabling all protocols)
 
 `prefix: "-ip", ip address [default: 127.0.0.1]`
 
