@@ -484,7 +484,7 @@ client.searchKeyValue(msg, opts)
 
 ### <a name="messagestructure">Client API - Request Structures</a> 
 
-*[**headers** **http/https**]*, 
+*[**headers** `http/https`]*, 
 *[**body** for `http/https post` or `ws/wss message`]*
 
 
