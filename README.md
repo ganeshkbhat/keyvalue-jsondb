@@ -49,6 +49,43 @@ todo: add all features
 ### jsondb Server Running/ Usage
 
 
+`node db.js ...flags...`
+
+
+- `node db.js` *(default, starts shell)*
+
+- `node db.js -s "db"` 
+
+
+
+##### ...flags...
+
+
+`prefix: "-p" port [default: 4567]`
+
+`prefix: "-t", server protocol [default: ws, will enable http and ws]`
+
+`type options: (a) http, (b) https, (c) ws, (d) wss` (consider enabling all protocols)
+
+`prefix: "-ip", ip address [default: 127.0.0.1]`
+
+`prefix: "-k", key path [default: none, will enable http or ws]`
+
+`prefix: "-c", certificate path [default: none, will enable use http or ws]`
+
+`prefix: "-u", user [default: blank]`
+
+`prefix: "-pwd", password [default: blank]`
+
+`prefix: "-s", db server or shell [default: shell]`
+
+
+- type options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
+- port [default: `4567` or provided custom port]
+- ip [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
+- key/ cert [default: generate `public and private key pair`] 
+
+
 
 ##### run database server with [a] defaults
 
@@ -226,11 +263,6 @@ todo: add all features
 - `node db.js -s "shell" -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key"`
 
 
-- type options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
-- port [default: `4567` or provided custom port]
-- ip [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
-- key/ cert [default: generate `public and private key pair`] 
-
 
 #### Basic Design - Architecture of kvjsondb
 
@@ -246,33 +278,9 @@ todo: add all features
 
 
 
-
-
 ### jsondb shell [ commands, usage ]
 
 `node db.js ...flags...`
-
-
-##### ...flags...
-
-
-`prefix: "-p" port [default: 4567]`
-
-`prefix: "-t", server protocol [default: ws, will enable http and ws]`
-
-`type options: (a) http, (b) https, (c) ws, (d) wss` (consider enabling all protocols)
-
-`prefix: "-ip", ip address [default: 127.0.0.1]`
-
-`prefix: "-k", key path [default: none, will enable http or ws]`
-
-`prefix: "-c", certificate path [default: none, will enable use http or ws]`
-
-`prefix: "-u", user [default: blank]`
-
-`prefix: "-pwd", password [default: blank]`
-
-`prefix: "-s", db server or shell [default: shell]`
 
 
 ##### start shell command
@@ -287,7 +295,6 @@ todo: add all features
 `node db.js -p 4567 -ip 127.0.0.1`
 
 `node db.js -p 4567 -ip 127.0.0.1 -t wss`
-
 
 
 
