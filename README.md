@@ -482,7 +482,7 @@ client.searchKeyValue(msg, opts)
 ```
 
 
-### <a name="messagestructure">Client API - Request Structures</a>
+### <a name="messagestructure">Client API - Request Structures [headers http/s, body for http/s post or body for ws/s message]</a>
 
 
 
