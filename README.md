@@ -89,7 +89,7 @@ todo: add all features
 
 `prefix: "-p" port [default: 4567]`
 
-`prefix: "-t", server protocol`
+`prefix: "-t", server protocol [default: ws]`
 
 `type options: (a) http, (b) https, (c) ws, (d) wss` (consider enabling all protocols)
 
