@@ -97,7 +97,7 @@ todo: add all features
 
 `prefix: "-k", key path [default: none, will enable http or ws]`
 
-`prefix: "-c", certificate path [default: none, enable use http or ws]`
+`prefix: "-c", certificate path [default: none, will enable use http or ws]`
 
 `prefix: "-u", user [default: blank]`
 
