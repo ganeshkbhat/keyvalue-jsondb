@@ -10,10 +10,10 @@ please note: `redis-like` is an inference most of the shell commands are like re
 
 - Features
 - Running the Database Server
-  - Running the Data server with defaults
-  - Running the Data server with no username/password
-  - Running the Data server with username/password
-  - Running the Data server with with/without keys
+  - Running the DB Server with defaults
+  - Running the DB Server with no username/password
+  - Running the DB Server with username/password
+  - Running the DB Server with with/without keys
   - Running the DB Shell with defaults
   - Running the DB Shell with no username/password
   - Running the DB Shell with username/password
