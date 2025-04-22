@@ -327,7 +327,7 @@ todo: add all features
 - key/ cert [default: generate `public and private key pair`] 
 
 
-#### Start Shell Command
+### Start Shell Command
 
 
 `node db.js` (starts shell)
@@ -342,7 +342,7 @@ todo: add all features
 
 
 
-#### Shell Commands
+### Shell Commands
 
 
 ###### set
