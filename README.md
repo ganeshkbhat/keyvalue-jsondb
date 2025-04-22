@@ -151,7 +151,8 @@ todo: add all features
 
 
 
-#### jsondb client - client api
+### jsondb client - client api
+
 
 ```
 
@@ -374,7 +375,6 @@ client.searchKeyValue(msg, opts)
 { event, query = { key, value }, options }
 
 { event, query = { key, value }, options, type }
-
 
 
 
