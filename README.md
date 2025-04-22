@@ -296,7 +296,7 @@ todo: add all features
 `node db.js ...flags...`
 
 
-##### Start Shell Command
+#### Start Shell Command
 
 
 `node db.js` (starts shell)
@@ -311,7 +311,7 @@ todo: add all features
 
 
 
-##### Shell Commands
+#### Shell Commands
 
 
 ###### set
