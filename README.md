@@ -95,9 +95,9 @@ todo: add all features
 
 `prefix: "-ip", ip address [default: 127.0.0.1]`
 
-`prefix: "-k", key path [default: none, will use http or ws]`
+`prefix: "-k", key path [default: none, will enable http or ws]`
 
-`prefix: "-c", certificate path [default: none, will use http or ws]`
+`prefix: "-c", certificate path [default: none, enable use http or ws]`
 
 `prefix: "-u", user [default: blank]`
 
