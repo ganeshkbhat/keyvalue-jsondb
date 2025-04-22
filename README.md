@@ -14,16 +14,21 @@ please note: `redis-like` is an inference most of the shell commands are like re
   - Running the DB Server with no username/password
   - Running the DB Server with username/password
   - Running the DB Server with with/without keys
+- Running the Database Shell
   - Running the DB Shell with defaults
   - Running the DB Shell with no username/password
   - Running the DB Shell with username/password
   - Running the DB Shell with with/without keys
+- Architecture Docs
   - Basic Design - Architecture of kvjsondb
   - kvjsondb Basic Storage
+- Shell Commands
   - Shell Commands - Basic Usage
   - jsondb shell [ commands, usage ]
+- JSONDB Client
   - jsondb client - client api
-  - 
+- Security Checks and Consideration
+- TODO
 
 
 
