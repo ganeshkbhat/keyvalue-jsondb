@@ -31,14 +31,22 @@ todo: add all features
 - `node db.js -s "db"`
 
 
+
 ##### run database server with [b] with no username/password
 
+
+- `node db.js -s "db" -t "type"`
+
+- `node db.js -s "db" -p "port"`
 
 - `node db.js -s "db" -t "type" -p "port"`
 
 - `node db.js -s "db" -t "type" -ip "ip"`
 
+- `node db.js -s "db" -ip "ip" -p "port"`
+
 - `node db.js -s "db" -t "type" -p "port" -ip "ip"`
+
 
 
 ##### run database server with [c] with username/password
@@ -57,21 +65,38 @@ todo: add all features
 ##### run database server with [d] with/without keys
 
 
-- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+- `node db.js -s "db" -t "type"`
 
-- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+- `node db.js -s "db" -p "port"`
 
-- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+- `node db.js -s "db" -ip "ip"`
 
-- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+- `node db.js -s "db" -t "type" -p "port"`
 
-- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+- `node db.js -s "db" -t "type" -ip "ip"`
 
-- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+- `node db.js -s "db" -p "port" -ip "ip"`
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip"`
+
+- `node db.js -s "db" -t "type" -k "./fldr/key" -c "./fldr/cert.crt"`
+
+- `node db.js -s "db" -p "port" -k "./fldr/key" -c "./fldr/cert.crt"`
+
+- `node db.js -s "db" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
+
+- `node db.js -s "db" -t "type" -p "port" -k "./fldr/key" -c "./fldr/cert.crt"`
+
+- `node db.js -s "db" -t "type" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
+
+- `node db.js -s "db" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
 
 - `node db.js -s "db" -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
 
-- `node db.js -s "db" -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt" -s "db"`
+- `node db.js -s "db" -t "wss" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
+
 
 
 ##### run shell or login to shell with [a] defaults
@@ -80,10 +105,19 @@ todo: add all features
 - `node db.js` *(default, starts shell)*
 
 
+
 ##### run shell or login to shell with [b] no username/password
 
 
+- `node db.js`
+
 - `node db.js -s "shell"`
+
+- `node db.js -t "type"`
+
+- `node db.js -p "port"`
+
+- `node db.js -ip "ip"`
 
 - `node db.js -s "shell" -t "type"`
 
@@ -93,14 +127,73 @@ todo: add all features
 
 - `node db.js -s "shell" -t "type" -p "port"`
 
+- `node db.js -s "shell" -t "type" -ip "port"`
+
+- `node db.js -s "shell" -p "type" -ip "port"`
+
 - `node db.js -s "shell" -t "type" -p "port" -ip "ip"`
+
+
+
+##### run shell or login to shell with [c] with username/password
+
+
+- `node db.js -u "user" -p "pass"`
+
+- `node db.js -t "type" -u "user" -p "pass"`
+
+- `node db.js -p "port" -u "user" -p "pass"`
+
+- `node db.js -ip "ip" -u "user" -p "pass"`
+
+- `node db.js -t "type" -p "port" -u "user" -p "pass"`
+
+- `node db.js -t "type" -ip "port" -u "user" -p "pass"`
+
+- `node db.js -p "type" -ip "port" -u "user" -p "pass"`
+
+- `node db.js -t "type" -p "port" -ip "ip" -u "user" -p "pass"`
+
+- `node db.js -s "shell" -u "user" -p "pass"`
+
+- `node db.js -s "shell" -t "type" -u "user" -p "pass"`
+
+- `node db.js -s "shell" -p "port" -u "user" -p "pass"`
+
+- `node db.js -s "shell" -ip "ip" -u "user" -p "pass"`
+
+- `node db.js -s "shell" -t "type" -p "port" -u "user" -p "pass"`
+
+- `node db.js -s "shell" -t "type" -ip "port" -u "user" -p "pass"`
+
+- `node db.js -s "shell" -p "type" -ip "port" -u "user" -p "pass"`
+
+- `node db.js -s "shell" -t "type" -p "port" -ip "ip" -u "user" -p "pass"`
+
 
 
 ##### run shell or login to shell with [c] certificate
 
 
-- `node db.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -s "shell"`
+- `node db.js -k "./fldr/key"`
 
+- `node db.js -t "https" -k "./fldr/key"`
+
+- `node db.js -t "https" -p 4567 -k "./fldr/key"`
+
+- `node db.js -t "https" -ip "127.0.0.1" -k "./fldr/key"`
+
+- `node db.js -p 4567 -ip "127.0.0.1" -k "./fldr/key"`
+
+- `node db.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key"`
+
+- `node db.js -s "shell" -k "./fldr/key"`
+
+- `node db.js -s "shell" -t "https" -k "./fldr/key"`
+
+- `node db.js -s "shell" -t "https" -p 4567 -k "./fldr/key"`
+
+- `node db.js -s "shell" -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key"`
 
 
 - type options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
