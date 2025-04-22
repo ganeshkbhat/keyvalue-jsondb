@@ -28,7 +28,7 @@ please note: `redis-like` is an inference most of the shell commands are like re
 - JSONDB Client
   - jsondb client - client api
 - JSONDB Client - request structures (any language API)
-  - 
+  - Test
 - Security Checks and Consideration
 - TODO
 
