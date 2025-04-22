@@ -29,11 +29,12 @@ please note: `redis-like` is an inference most of the shell commands are like re
 - <a name="jsondbclient">jsondb client - client api</a>
   - <a name="jsondbclient">jsondb client - client api</a>
   - <a name="jsondbclientrequeststructures">jsondb client api request structures</a> (any language API)
-- <a name="securitychecksandconsider">Running the Database Shell</a>
-  - <a name="securitychecksandconsider">Running the DB Shell with defaults</a>
-  - <a name="securitychecksandconsider">Running the DB Shell with no username/password</a>
-  - <a name="securitychecksandconsider">Running the DB Shell with username/password</a>
-  - <a name="securitychecksandconsider">Running the DB Shell with with/without keys</a>
+- <a name="runshell">Running the Database Shell</a>
+  - <a name="runshelldefaults">Running the DB Shell with defaults</a>
+  - <a name="runshellnouserpass">Running the DB Shell with no username/password</a>
+  - <a name="runshelluserpass">Running the DB Shell with username/password</a>
+  - <a name="runshellwithoutkeys">Running the DB Shell without keys</a>
+  - <a name="runshellwithkeys">Running the DB Shell with keys</a>
 - <a name="architecturedocs">Architecture Docs</a>
   - <a name="architecturedocsdesign">Basic Design - Architecture of kvjsondb</a>
   - <a name="architecturedocsstorage">kvjsondb Basic Storage</a>
