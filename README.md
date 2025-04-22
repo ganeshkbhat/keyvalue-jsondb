@@ -52,14 +52,70 @@ todo: add all features
 - key/ cert [default: generate `public and private key pair`] 
 
 
-
 #### Basic Design - Architecture of kvjsondb
 
-![Basic Design - Architecture of KVJSONDB](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/kvjsondb-json-kv-inmemory-db-architecture.jpg)
+![Basic Design - Architecture of KVJSONDB](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/docs/kvjsondb-json-kv-inmemory-db-architecture.jpg)
 
 
 #### ksjsondb Basic Storage
-![DB Basic Storage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/db-basic-storage.jpg)
+![DB Basic Storage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/docs/db-basic-storage.jpg)
+
+
+#### Shell Commands - Basic Usage
+![Shell Commands Basic Usage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/docs/shell-commands-basic-usage.jpg)
+
+
+###### set
+\> `set key value`
+
+###### get
+\> `get key`
+
+###### has
+\> `has key`
+
+###### search
+\> `search string`
+
+###### search
+\> `search -v string`
+
+###### search
+\> `search -k string`
+
+###### search
+\> `search -kv string`
+
+###### load
+\> `load -f filename`
+
+###### load
+\> `load jsonobject`
+
+###### read
+\> `read key`
+
+###### clear
+\> `clear`
+
+###### init
+\> `init -f filename`
+
+###### init
+\> `init jsonobject`
+
+###### update
+\> `update -f filename`
+
+###### update
+\> `update jsonobject`
+
+###### del
+\> `del key`
+
+###### dump
+\> `dump -f "filename/within/quotes"`
+
 
 
 #### jsondb client - client api
@@ -319,61 +375,6 @@ client.searchKeyValue(msg, opts)
 // prefix: "-s", db server or shell [default: shell]
 ```
 
-
-#### Shell Commands - Basic Usage
-![Shell Commands Basic Usage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/shell-commands-basic-usage.jpg)
-
-
-###### set
-\> `set key value`
-
-###### get
-\> `get key`
-
-###### has
-\> `has key`
-
-###### search
-\> `search string`
-
-###### search
-\> `search -v string`
-
-###### search
-\> `search -k string`
-
-###### search
-\> `search -kv string`
-
-###### load
-\> `load -f filename`
-
-###### load
-\> `load jsonobject`
-
-###### read
-\> `read key`
-
-###### clear
-\> `clear`
-
-###### init
-\> `init -f filename`
-
-###### init
-\> `init jsonobject`
-
-###### update
-\> `update -f filename`
-
-###### update
-\> `update jsonobject`
-
-###### del
-\> `del key`
-
-###### dump
-\> `dump -f "filename/within/quotes"`
 
 
 ### Security Checks and Consideration
