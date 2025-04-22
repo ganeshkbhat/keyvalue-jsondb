@@ -264,20 +264,6 @@ todo: add all features
 `node db.js ...flags...`
 
 
-##### start shell command
-
-
-`node db.js` (starts shell)
-
-`node db.js -p 4567`
-
-`node db.js -ip 127.0.0.1`
-
-`node db.js -p 4567 -ip 127.0.0.1`
-
-`node db.js -p 4567 -ip 127.0.0.1 -t wss`
-
-
 ##### ...flags...
 
 
@@ -298,6 +284,22 @@ todo: add all features
 `prefix: "-pwd", password [default: blank]`
 
 `prefix: "-s", db server or shell [default: shell]`
+
+
+##### start shell command
+
+
+`node db.js` (starts shell)
+
+`node db.js -p 4567`
+
+`node db.js -ip 127.0.0.1`
+
+`node db.js -p 4567 -ip 127.0.0.1`
+
+`node db.js -p 4567 -ip 127.0.0.1 -t wss`
+
+
 
 
 ##### shell commands
