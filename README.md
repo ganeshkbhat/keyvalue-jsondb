@@ -348,18 +348,18 @@ client.searchKeyValue(msg, opts)
 
 ### jsondb shell [ commands, usage ]
 
-`node shell.js ...flags...`
+`node db.js ...flags...`
 
 
 *examples:*
 
-`node shell.js -p 4567`
+`node db.js -p 4567`
 
-`node shell.js -ip 127.0.0.1`
+`node db.js -ip 127.0.0.1`
 
-`node shell.js -p 4567 -ip 127.0.0.1`
+`node db.js -p 4567 -ip 127.0.0.1`
 
-`node shell.js -p 4567 -ip 127.0.0.1 -t wss`
+`node db.js -p 4567 -ip 127.0.0.1 -t wss`
 
 
 ##### ...flags...
