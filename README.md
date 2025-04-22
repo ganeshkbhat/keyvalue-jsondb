@@ -75,6 +75,9 @@ todo: add all features
 
 ##### start shell command
 
+
+`node db.js` (starts shell)
+
 `node db.js -p 4567`
 
 `node db.js -ip 127.0.0.1`
