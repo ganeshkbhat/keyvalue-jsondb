@@ -106,6 +106,8 @@ todo: add all features
 `prefix: "-s", db server or shell [default: shell]`
 
 
+##### shell commands
+
 
 ###### set
 \> `set key value`
