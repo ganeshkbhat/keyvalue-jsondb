@@ -8,6 +8,19 @@
 please note: `redis-like` is an inference most of the shell commands are like redis but a few changes have been made to accomodate the architecture. 
 
 
+- Features
+- Running the Database Server
+  - Running the Data server with defaults
+  - Running the Data server with no username/password
+  - Running the Data server with username/password
+  - Running the Data server with with/without keys
+  - Running the DB Shell with defaults
+  - Running the DB Shell with no username/password
+  - Running the DB Shell with username/password
+  - Running the DB Shell with with/without keys
+
+
+
 #### FEATURES
 
 
