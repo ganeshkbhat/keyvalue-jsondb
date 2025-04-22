@@ -103,7 +103,7 @@ todo: add all features
 
 
 
-##### run database server with [d] with keys
+##### run database server with [d] without keys
 
 
 - `node db.js -s "db" -t "type"`
