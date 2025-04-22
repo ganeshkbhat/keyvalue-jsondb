@@ -65,6 +65,39 @@ todo: add all features
 ![Shell Commands Basic Usage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/docs/shell-commands-basic-usage.jpg)
 
 
+
+
+
+### jsondb shell [ commands, usage ]
+
+`node db.js ...flags...`
+
+
+*examples:*
+
+`node db.js -p 4567`
+
+`node db.js -ip 127.0.0.1`
+
+`node db.js -p 4567 -ip 127.0.0.1`
+
+`node db.js -p 4567 -ip 127.0.0.1 -t wss`
+
+
+##### ...flags...
+
+```
+// prefix: "-p" port [default: 4567]
+// prefix: "-t", server protocol type options: `http`, `https`, `ws`, `wss` (consider enabling all protocols)
+// prefix: "-ip", ip address [default: 127.0.0.1]
+// prefix: "-k", key path [default: none, will use http or ws]
+// prefix: "-c", certificate path [default: none, will use http or ws]
+// prefix: "-u", user [default: blank]
+// prefix: "-pwd", password [default: blank]
+// prefix: "-s", db server or shell [default: shell]
+```
+
+
 ###### set
 \> `set key value`
 
@@ -343,37 +376,6 @@ client.searchKeyValue(msg, opts)
 { event, query = { key, value }, options, type }
 
 
-
-
-
-### jsondb shell [ commands, usage ]
-
-`node db.js ...flags...`
-
-
-*examples:*
-
-`node db.js -p 4567`
-
-`node db.js -ip 127.0.0.1`
-
-`node db.js -p 4567 -ip 127.0.0.1`
-
-`node db.js -p 4567 -ip 127.0.0.1 -t wss`
-
-
-##### ...flags...
-
-```
-// prefix: "-p" port [default: 4567]
-// prefix: "-t", server protocol type options: `http`, `https`, `ws`, `wss` (consider enabling all protocols)
-// prefix: "-ip", ip address [default: 127.0.0.1]
-// prefix: "-k", key path [default: none, will use http or ws]
-// prefix: "-c", certificate path [default: none, will use http or ws]
-// prefix: "-u", user [default: blank]
-// prefix: "-pwd", password [default: blank]
-// prefix: "-s", db server or shell [default: shell]
-```
 
 
 
