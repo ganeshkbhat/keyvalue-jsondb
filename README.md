@@ -24,26 +24,83 @@ todo: add all features
 ### jsondb Server Running/ Usage
 
 
-##### run database server with [a] defaults, [b] with no username/password, [c] with username/password, and [d] with/without keys
+
+##### run database server with [a] defaults
 
 
 - `node db.js -s "db"`
-- `node db.js -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
-- `node db.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
-- `node db.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt" -s "db"`
-
-##### login to shell with defaults and no username/password
 
 
-- `node db.js` *(default, logs into shell)*
+##### run database server with [b] with no username/password
+
+
+- `node db.js -s "db" -t "type" -p "port"`
+
+- `node db.js -s "db" -t "type" -ip "ip"`
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip"`
+
+
+##### run database server with [c] with username/password
+
+
+- `node db.js -s "db" -u "user" -p "pass"`
+
+- `node db.js -s "db" -t "type" -u "user" -p "pass"`
+
+- `node db.js -s "db" -t "type" -p "port" -u "user" -p "pass"`
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -u "user" -p "pass"`
+
+
+
+##### run database server with [d] with/without keys
+
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "key" -c "cert"`
+
+- `node db.js -s "db" -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
+
+- `node db.js -s "db" -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt" -s "db"`
+
+
+##### run shell or login to shell with [a] defaults
+
+
+- `node db.js` *(default, starts shell)*
+
+
+##### run shell or login to shell with [b] no username/password
+
 
 - `node db.js -s "shell"`
 
+- `node db.js -s "shell" -t "type"`
 
-##### login to shell with defaults and no username/password
+- `node db.js -s "shell" -p "port"`
+
+- `node db.js -s "shell" -ip "ip"`
+
+- `node db.js -s "shell" -t "type" -p "port"`
+
+- `node db.js -s "shell" -t "type" -p "port" -ip "ip"`
+
+
+##### run shell or login to shell with [c] certificate
 
 
 - `node db.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key" -s "shell"`
+
 
 
 - type options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
