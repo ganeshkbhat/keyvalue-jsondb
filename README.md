@@ -73,7 +73,7 @@ todo: add all features
 `node db.js ...flags...`
 
 
-*examples:*
+##### start shell command
 
 `node db.js -p 4567`
 
