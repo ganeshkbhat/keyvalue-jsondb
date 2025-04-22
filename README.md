@@ -448,7 +448,7 @@ todo: add all features
 
 
 
-### jsondb client - client api
+### Client API - node.js
 
 
 ```
