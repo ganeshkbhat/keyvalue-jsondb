@@ -27,7 +27,6 @@ please note: `redis-like` is an inference most of the shell commands are like re
 - <a name="jsondbclient">jsondb client - client api</a>
   - <a name="jsondbclient">jsondb client - client api</a>
   - <a name="jsondbclientrequeststructures">jsondb client api request structures</a> (any language API)
-
 - <a name="architecturedocs">Architecture Docs</a>
   - <a name="architecturedocsdesign">Basic Design - Architecture of kvjsondb</a>
   - <a name="architecturedocsstorage">kvjsondb Basic Storage</a>
