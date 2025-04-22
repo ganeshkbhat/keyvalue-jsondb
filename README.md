@@ -18,6 +18,14 @@ please note: `redis-like` is an inference most of the shell commands are like re
   - Running the DB Shell with no username/password
   - Running the DB Shell with username/password
   - Running the DB Shell with with/without keys
+  - Basic Design - Architecture of kvjsondb
+  - kvjsondb Basic Storage
+  - Shell Commands - Basic Usage
+  - jsondb shell [ commands, usage ]
+  - jsondb client - client api
+  - 
+
+
 
 
 
@@ -220,7 +228,7 @@ todo: add all features
 ![Basic Design - Architecture of KVJSONDB](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/docs/kvjsondb-json-kv-inmemory-db-architecture.jpg)
 
 
-#### ksjsondb Basic Storage
+#### kvjsondb Basic Storage
 ![DB Basic Storage](https://github.com/ganeshkbhat/keyvalue-jsondb/blob/main/docs/db-basic-storage.jpg)
 
 
