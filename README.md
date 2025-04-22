@@ -8,28 +8,43 @@
 please note: `redis-like` is an inference most of the shell commands are like redis but a few changes have been made to accomodate the architecture. 
 
 
-- Features
-- Running the Database Server
-  - Running the DB Server with defaults
-  - Running the DB Server with no username/password
-  - Running the DB Server with username/password
-  - Running the DB Server with with/without keys
-- Running the Database Shell
-  - Running the DB Shell with defaults
-  - Running the DB Shell with no username/password
-  - Running the DB Shell with username/password
-  - Running the DB Shell with with/without keys
-- Architecture Docs
-  - Basic Design - Architecture of kvjsondb
-  - kvjsondb Basic Storage
-- Shell Commands
-  - Shell Commands - Basic Usage
-  - jsondb shell [ commands, usage ]
-- JSONDB Client
-  - jsondb client - client api
-- JSONDB Client - request structures (any language API)
-- Security Checks and Consideration
-- TODO
+- <a name="features"></a>Features
+- <a name="architecture"></a>Architecture
+- <a name="usage"></a>Usage
+- <a name="runningserver"></a">Running the Database Server
+  - <a name="runningserver"></a">Running the DB Server with defaults
+  - <a name="runningserver"></a">Running the DB Server with no username/password
+  - <a name="runningserver"></a">Running the DB Server with username/password
+  - <a name="runningserver"></a">Running the DB Server with with/without keys
+- <a name="runningshell"></a>Running the Database Shell
+  - <a name="runningshell"></a>Running the DB Shell with defaults
+  - <a name="runningshell"></a>Running the DB Shell with no username/password
+  - <a name="runningshell"></a>Running the DB Shell with username/password
+  - <a name="runningshell"></a>Running the DB Shell with with/without keys
+- <a name="architecturedocs"></a>Architecture Docs
+  - <a name="architecturedocs"></a>Basic Design - Architecture of kvjsondb
+  - <a name="architecturedocs"></a>kvjsondb Basic Storage
+- <a name="shellcommands"></a>Shell Commands
+  - <a name="shellcommands"></a>Shell Commands - Basic Usage
+- <a name="jsondbclient"></a>jsondb client - client api
+  - <a name="jsondbclient"></a>jsondb client - client api
+  - <a name="jsondbclientrequeststructures"></a>jsondb client api request structures (any language API)
+- <a name="securitychecksandconsider"></a">Running the Database Shell
+  - <a name="securitychecksandconsider"></a>Running the DB Shell with defaults
+  - <a name="securitychecksandconsider"></a>Running the DB Shell with no username/password
+  - <a name="securitychecksandconsider"></a>Running the DB Shell with username/password
+  - <a name="securitychecksandconsider"></a>Running the DB Shell with with/without keys
+- <a name="architecturedocs"></a>Architecture Docs
+  - <a name="architecturedocs"></a>Basic Design - Architecture of kvjsondb
+  - <a name="architecturedocs"></a>kvjsondb Basic Storage
+- <a name="shellcommands">Shell Commands</a>
+  - <a name="shellusage">Shell Commands - Basic Usage</a>
+  - <a name="shellcommands">jsondb shell [ commands, usage ]</a">
+- <a name="jsondbclient">JSONDB Client</a>
+  - <a name="jsondbclientapi">jsondb client - client api</a>
+- <a name="jsondbclientrequests">JSONDB Client - request structures</a> (any language API)
+- <a name="securitychecks">Security Checks and Consideration</a>
+- <a name="todo">TODO</a>
 
 
 
