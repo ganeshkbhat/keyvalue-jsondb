@@ -55,7 +55,7 @@ please note: `redis-like` is an inference most of the shell commands are like re
 todo: add all features
 
 
-### jsondb Server Running/ Usage
+### Running/ Usage
 
 
 `node db.js ...flags...`
@@ -89,11 +89,16 @@ todo: add all features
 `prefix: "-s", db server or shell [default: shell]`
 
 
+##### defaults
+
+
 - type options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
 - port [default: `4567` or provided custom port]
 - ip [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
 - key/ cert [default: generate `public and private key pair`] 
 
+
+### jsondb Server Running/ Usage
 
 
 ##### run database server with [a] defaults
