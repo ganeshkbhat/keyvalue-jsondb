@@ -532,9 +532,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query : { key, value }, options :  }
+{ event : , query : { key : , value :  }, options :  }
 
-{ event : , query : { key, value }, options : , type :  }
+{ event : , query : { key : , value :  }, options : , type :  }
 
 
 *event*: `updateKey`
@@ -549,9 +549,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query : { key, value }, options :  }
+{ event : , query : { key : , value : }, options :  }
 
-{ event : , query : { key, value }, options : , type :  }
+{ event : , query : { key : , value : }, options : , type :  }
 
 
 *event*: `delKey`
@@ -634,7 +634,7 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query : , optionsv }
+{ event : , query : , options :  }
 
 { event : , query : , options : , type :  }
 
@@ -770,9 +770,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query : { key, value }, options :  }
+{ event : , query : { key : , value : }, options :  }
 
-{ event : , query : { key, value }, options : , type :  }
+{ event : , query : { key : , value : }, options : , type :  }
 
 
 
