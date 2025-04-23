@@ -498,9 +498,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `getKey`
@@ -515,9 +515,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `setKey`
@@ -532,9 +532,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query = { key, value }, options }
+{ event : , query : { key, value }, options :  }
 
-{ event : , query = { key, value }, options, type }
+{ event : , query : { key, value }, options : , type :  }
 
 
 *event*: `updateKey`
@@ -549,9 +549,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query = { key, value }, options }
+{ event : , query : { key, value }, options :  }
 
-{ event : , query = { key, value }, options, type }
+{ event : , query : { key, value }, options : , type :  }
 
 
 *event*: `delKey`
@@ -566,9 +566,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `read`
@@ -583,9 +583,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `dump`
@@ -600,9 +600,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `dumpToFile`
@@ -617,9 +617,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options, type, filename }
+{ event : , query : , options : , type : , filename :  }
 
-{ event : , query, options, type, filename }
+{ event : , query : , options : , type : , filename :  }
 
 
 *event*: `dumpKeys`
@@ -634,9 +634,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , optionsv }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `dumpKeysToFile`
@@ -651,9 +651,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options, type, filename }
+{ event : , query : , options : , type : , filename :  }
 
-{ event : , query, options, type, filename }
+{ event : , query : , options : , type : , filename :  }
 
 
 *event*: `init`
@@ -668,9 +668,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `clear`
@@ -685,9 +685,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `load`
@@ -702,9 +702,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options, type, filename }
+{ event : , query : , options : , type : , filename :  }
 
-{ event : , query, options, type, filename }
+{ event : , query : , options : , type : , filename :  }
 
 
 *event*: `search`
@@ -719,9 +719,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `searchValue`
@@ -736,9 +736,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `searchKey`
@@ -753,9 +753,9 @@ client.searchKeyValue(msg, opts)
 
 *example:*
 
-{ event : , query, options }
+{ event : , query : , options :  }
 
-{ event : , query, options, type }
+{ event : , query : , options : , type :  }
 
 
 *event*: `searchKeyValue`
@@ -764,15 +764,15 @@ client.searchKeyValue(msg, opts)
 
 ##### body
 
-{ event, query = { key, value }, options }
+{ event, query = { key, value }, options  }
 
 { event, query = { key, value }, options, type }
 
 *example:*
 
-{ event : , query = { key, value }, options }
+{ event : , query : { key, value }, options :  }
 
-{ event : , query = { key, value }, options, type }
+{ event : , query : { key, value }, options : , type :  }
 
 
 
