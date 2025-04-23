@@ -295,7 +295,7 @@ todo: add all features
 
 `prefix: "-p" port [default: 4567]`
 
-`prefix: "-t", server protocol [default: ws, will enable http and ws, options: http, https, ws, wss]`
+`prefix: "-t", server protocol [default: ws, will enable http and ws]`
 
 `-t type options: (a) http, (b) https, (c) ws, (d) wss` (consider enabling all protocols)
 
