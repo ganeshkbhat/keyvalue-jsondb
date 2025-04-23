@@ -25,17 +25,11 @@ please note: `redis-like` is an inference most of the shell commands are like re
 - <a name="shellcommands">Shell Commands</a>
   - <a name="shellcommandsbasic">Shell Commands - Basic Usage</a>
 - <a name="jsondbclient">jsondb client - client api</a>
-  - <a name="jsondbclient">jsondb client - client api</a>
-  - <a name="jsondbclientrequeststructures">jsondb client api request structures</a> (any language API)
+  - <a name="jsondbclient">Client API</a>
+  - <a name="jsondbclientrequeststructures">Request Structures</a> (any language API)
 - <a name="architecturedocs">Architecture Docs</a>
   - <a name="architecturedocsdesign">Basic Design - Architecture of kvjsondb</a>
   - <a name="architecturedocsstorage">kvjsondb Basic Storage</a>
-- <a name="shellcommands">Shell Commands</a>
-  - <a name="shellcommandsusage">Basic Usage</a>
-  - <a name="shellcommandsshell">jsondb shell [ commands, usage ]</a>
-- <a name="jsondbclient">JSONDB Client</a>
-  - <a name="jsondbclientapi">client api</a>
-- <a name="jsondbclientrequests">request structures</a> (any language API)
 - <a name="securitychecks">Security Checks and Consideration</a>
 - <a name="todo">TODO</a>
 
