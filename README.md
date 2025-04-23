@@ -384,13 +384,13 @@ todo: add all features
 ###### load
 \> `load -f filename`
 
-*example\>* `load -f \"./dump/filename.json\"`
+*example\>* `load -f "./dump/filename.json"`
 
 
 ###### load
 \> `load jsonobject`
 
-*example\>* `load \"{'test': 10}\"`
+*example\>* `load "{'test': 10}"`
 
 
 ###### read
@@ -408,25 +408,25 @@ todo: add all features
 ###### init
 \> `init -f filename`
 
-*example\>* `init -f \"./dump/filename.json\"`
+*example\>* `init -f "./dump/filename.json"`
 
 
 ###### init
 \> `init jsonobject`
 
-*example\>* `init \"{'test': 10}\"`
+*example\>* `init "{'test': 10}"`
 
 
 ###### update
 \> `update -f filename`
 
-*example\>* `update -f \"./dump/filename.json\"`
+*example\>* `update -f "./dump/filename.json"`
 
 
 ###### update
 \> `update jsonobject`
 
-*example\>* `update \"{"test": 10}\"`
+*example\>* `update "{"test": 10}"`
 
 
 ###### del
@@ -438,7 +438,7 @@ todo: add all features
 ###### dump
 \> `dump -f "filename/within/quotes"`
 
-*example\>* `dump -f \"./dump/filename.json\"`
+*example\>* `dump -f "./dump/filename.json"`
 
 
 
