@@ -496,6 +496,12 @@ client.searchKeyValue(msg, opts)
 
 { event, query, options, type }
 
+*example:*
+
+{ event : , query, options }
+
+{ event : , query, options, type }
+
 
 *event*: `getKey`
 
@@ -507,12 +513,24 @@ client.searchKeyValue(msg, opts)
 
 { event, query, options, type }
 
+*example:*
+
+{ event : , query, options }
+
+{ event : , query, options, type }
+
 
 *event*: `setKey`
 
 ##### headers
 
 ##### body
+
+{ event, query = { key, value }, options }
+
+{ event, query = { key, value }, options, type }
+
+*example:*
 
 { event, query = { key, value }, options }
 
@@ -529,12 +547,24 @@ client.searchKeyValue(msg, opts)
 
 { event, query = { key, value }, options, type }
 
+*example:*
+
+{ event, query = { key, value }, options }
+
+{ event, query = { key, value }, options, type }
+
 
 *event*: `delKey`
 
 ##### headers
 
 ##### body
+
+{ event, query, options }
+
+{ event, query, options, type }
+
+*example:*
 
 { event, query, options }
 
@@ -551,12 +581,24 @@ client.searchKeyValue(msg, opts)
 
 { event, query, options, type }
 
+*example:*
+
+{ event, query, options }
+
+{ event, query, options, type }
+
 
 *event*: `dump`
 
 ##### headers
 
 ##### body
+
+{ event, query, options }
+
+{ event, query, options, type }
+
+*example:*
 
 { event, query, options }
 
@@ -573,12 +615,24 @@ client.searchKeyValue(msg, opts)
 
 { event, query, options, type, filename }
 
+*example:*
+
+{ event, query, options, type, filename }
+
+{ event, query, options, type, filename }
+
 
 *event*: `dumpKeys`
 
 ##### headers
 
 ##### body
+
+{ event, query, options }
+
+{ event, query, options, type }
+
+*example:*
 
 { event, query, options }
 
@@ -595,12 +649,24 @@ client.searchKeyValue(msg, opts)
 
 { event, query, options, type, filename }
 
+*example:*
+
+{ event, query, options, type, filename }
+
+{ event, query, options, type, filename }
+
 
 *event*: `init`
 
 ##### headers
 
 ##### body
+
+{ event, query, options }
+
+{ event, query, options, type }
+
+*example:*
 
 { event, query, options }
 
@@ -617,12 +683,24 @@ client.searchKeyValue(msg, opts)
 
 { event, query, options, type }
 
+*example:*
+
+{ event, query, options }
+
+{ event, query, options, type }
+
 
 *event*: `load`
 
 ##### headers
 
 ##### body
+
+{ event, query, options, type, filename }
+
+{ event, query, options, type, filename }
+
+*example:*
 
 { event, query, options, type, filename }
 
@@ -639,12 +717,24 @@ client.searchKeyValue(msg, opts)
 
 { event, query, options, type }
 
+*example:*
+
+{ event, query, options }
+
+{ event, query, options, type }
+
 
 *event*: `searchValue`
 
 ##### headers
 
 ##### body
+
+{ event, query, options }
+
+{ event, query, options, type }
+
+*example:*
 
 { event, query, options }
 
@@ -661,12 +751,24 @@ client.searchKeyValue(msg, opts)
 
 { event, query, options, type }
 
+*example:*
+
+{ event, query, options }
+
+{ event, query, options, type }
+
 
 *event*: `searchKeyValue`
 
 ##### headers
 
 ##### body
+
+{ event, query = { key, value }, options }
+
+{ event, query = { key, value }, options, type }
+
+*example:*
 
 { event, query = { key, value }, options }
 
