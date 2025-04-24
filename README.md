@@ -207,9 +207,9 @@ todo: add all features
 
 - `node db.js -t "type" -p "port"`
 
-- `node db.js -t "type" -ip "port"`
+- `node db.js -t "type" -ip "ip"`
 
-- `node db.js -p "type" -ip "port"`
+- `node db.js -p "type" -ip "ip"`
 
 - `node db.js -t "type" -p "port" -ip "ip"`
 
@@ -221,9 +221,9 @@ todo: add all features
 
 - `node db.js -s "shell" -t "type" -p "port"`
 
-- `node db.js -s "shell" -t "type" -ip "port"`
+- `node db.js -s "shell" -t "type" -ip "ip"`
 
-- `node db.js -s "shell" -p "type" -ip "port"`
+- `node db.js -s "shell" -p "type" -ip "ip"`
 
 - `node db.js -s "shell" -t "type" -p "port" -ip "ip"`
 
@@ -242,9 +242,9 @@ todo: add all features
 
 - `node db.js -t "type" -p "port" -u "user" -pwd "pass"`
 
-- `node db.js -t "type" -ip "port" -u "user" -pwd "pass"`
+- `node db.js -t "type" -ip "ip" -u "user" -pwd "pass"`
 
-- `node db.js -p "type" -ip "port" -u "user" -pwd "pass"`
+- `node db.js -p "type" -ip "ip" -u "user" -pwd "pass"`
 
 - `node db.js -t "type" -p "port" -ip "ip" -u "user" -pwd "pass"`
 
@@ -258,9 +258,9 @@ todo: add all features
 
 - `node db.js -s "shell" -t "type" -p "port" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -t "type" -ip "port" -u "user" -pwd "pass"`
+- `node db.js -s "shell" -t "type" -ip "ip" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -p "type" -ip "port" -u "user" -pwd "pass"`
+- `node db.js -s "shell" -p "type" -ip "ip" -u "user" -pwd "pass"`
 
 - `node db.js -s "shell" -t "type" -p "port" -ip "ip" -u "user" -pwd "pass"`
 
@@ -273,6 +273,10 @@ todo: add all features
 
 - `node db.js -t "type" -k "./fldr/key"`
 
+- `node db.js -p "port" -k "./fldr/key"`
+
+- `node db.js -ip "ip" -k "./fldr/key"`
+
 - `node db.js -t "type" -p "port" -k "./fldr/key"`
 
 - `node db.js -t "type" -ip "ip" -k "./fldr/key"`
@@ -282,6 +286,10 @@ todo: add all features
 - `node db.js -t "type" -p "port" -ip "ip" -k "./fldr/key"`
 
 - `node db.js -s "shell" -k "./fldr/key"`
+
+- `node db.js -s "shell" -p "port" -k "./fldr/key"`
+
+- `node db.js -s "shell" -ip "ip" -k "./fldr/key"`
 
 - `node db.js -s "shell" -t "type" -k "./fldr/key"`
 
