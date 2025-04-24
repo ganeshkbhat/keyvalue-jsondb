@@ -121,13 +121,13 @@ todo: add all features
 ##### run database server with [c] with username/password
 
 
-- `node db.js -s "db" -u "user" -p "pass"`
+- `node db.js -s "db" -u "user" -pwd "pass"`
 
-- `node db.js -s "db" -t "type" -u "user" -p "pass"`
+- `node db.js -s "db" -t "type" -u "user" -pwd "pass"`
 
-- `node db.js -s "db" -t "type" -p "port" -u "user" -p "pass"`
+- `node db.js -s "db" -t "type" -p "port" -u "user" -pwd "pass"`
 
-- `node db.js -s "db" -t "type" -p "port" -ip "ip" -u "user" -p "pass"`
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -u "user" -pwd "pass"`
 
 
 
@@ -152,6 +152,12 @@ todo: add all features
 
 ##### run database server with [d] with keys
 
+
+- `node db.js -s "db" -t "https"`
+
+- `node db.js -s "db" -t "wss"`
+
+- `node db.js -s "db" -k "./fldr/key" -c "./fldr/cert.crt"`
 
 - `node db.js -s "db" -t "type" -k "./fldr/key" -c "./fldr/cert.crt"`
 
@@ -212,37 +218,37 @@ todo: add all features
 ##### run shell or login to shell with [c] with username/password
 
 
-- `node db.js -u "user" -p "pass"`
+- `node db.js -u "user" -pwd "pass"`
 
-- `node db.js -t "type" -u "user" -p "pass"`
+- `node db.js -t "type" -u "user" -pwd "pass"`
 
-- `node db.js -p "port" -u "user" -p "pass"`
+- `node db.js -p "port" -u "user" -pwd "pass"`
 
-- `node db.js -ip "ip" -u "user" -p "pass"`
+- `node db.js -ip "ip" -u "user" -pwd "pass"`
 
-- `node db.js -t "type" -p "port" -u "user" -p "pass"`
+- `node db.js -t "type" -p "port" -u "user" -pwd "pass"`
 
-- `node db.js -t "type" -ip "port" -u "user" -p "pass"`
+- `node db.js -t "type" -ip "port" -u "user" -pwd "pass"`
 
-- `node db.js -p "type" -ip "port" -u "user" -p "pass"`
+- `node db.js -p "type" -ip "port" -u "user" -pwd "pass"`
 
-- `node db.js -t "type" -p "port" -ip "ip" -u "user" -p "pass"`
+- `node db.js -t "type" -p "port" -ip "ip" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -u "user" -p "pass"`
+- `node db.js -s "shell" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -t "type" -u "user" -p "pass"`
+- `node db.js -s "shell" -t "type" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -p "port" -u "user" -p "pass"`
+- `node db.js -s "shell" -p "port" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -ip "ip" -u "user" -p "pass"`
+- `node db.js -s "shell" -ip "ip" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -t "type" -p "port" -u "user" -p "pass"`
+- `node db.js -s "shell" -t "type" -p "port" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -t "type" -ip "port" -u "user" -p "pass"`
+- `node db.js -s "shell" -t "type" -ip "port" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -p "type" -ip "port" -u "user" -p "pass"`
+- `node db.js -s "shell" -p "type" -ip "port" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -t "type" -p "port" -ip "ip" -u "user" -p "pass"`
+- `node db.js -s "shell" -t "type" -p "port" -ip "ip" -u "user" -pwd "pass"`
 
 
 
@@ -318,7 +324,7 @@ todo: add all features
 - `type` options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
 - `port` [default: `4567` or provided custom port]
 - `ip` [default: `127.0.0.1` / `192.168.1.1`] or provided `custom ip address`
-- `key`/ `cert` [default: `generate` `public and private key pair`] 
+- `key`/ `cert` [default: `generate` `public and private key pair` for db server] 
 
 
 ### Start Shell Command
