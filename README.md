@@ -180,10 +180,6 @@ todo: add all features
 
 - `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
 
-- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
-
-- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
-
 
 
 ##### run shell or login to shell with [a] defaults
