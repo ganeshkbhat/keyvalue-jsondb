@@ -104,6 +104,8 @@ todo: add all features
 ##### run database server with [b] with no username/password
 
 
+- `node db.js -s "db"`
+
 - `node db.js -s "db" -t "type"`
 
 - `node db.js -s "db" -p "port"`
