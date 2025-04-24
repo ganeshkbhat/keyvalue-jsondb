@@ -108,6 +108,12 @@ todo: add all features
 
 - `node db.js -s "db" -p "port"`
 
+- `node db.js -s "db" -t "type"`
+
+- `node db.js -s "db" -ip "ip"`
+
+- `node db.js -s "db" -p "port"`
+
 - `node db.js -s "db" -t "type" -p "port"`
 
 - `node db.js -s "db" -t "type" -ip "ip"`
