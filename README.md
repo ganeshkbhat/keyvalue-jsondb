@@ -340,7 +340,7 @@ todo: add all features
 ### Start Shell Command
 
 
-`node db.js` (starts shell)
+`node db.js` (starts shell, unless `-s "db"` is provided)
 
 `node db.js -p "port"`
 
