@@ -179,9 +179,9 @@ todo: add all features
 
 - `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
 
-- `node db.js -s "db" -t "https" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
 
-- `node db.js -s "db" -t "wss" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
+- `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
 
 
 
