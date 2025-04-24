@@ -295,6 +295,10 @@ todo: add all features
 
 - `node db.js -s "shell" -t "type" -p "port" -k "./fldr/key"`
 
+- `node db.js -s "shell" -t "type" -ip "ip" -k "./fldr/key"`
+
+- `node db.js -s "shell" -p "port" -ip "ip" -k "./fldr/key"`
+
 - `node db.js -s "shell" -t "type" -p "port" -ip "ip" -k "./fldr/key"`
 
 
