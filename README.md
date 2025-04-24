@@ -175,9 +175,9 @@ todo: add all features
 
 - `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
 
-- `node db.js -s "db" -t "https" -p 4567 -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
+- `node db.js -s "db" -t "https" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
 
-- `node db.js -s "db" -t "wss" -p 4567 -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
+- `node db.js -s "db" -t "wss" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
 
 
 
@@ -342,13 +342,13 @@ todo: add all features
 
 `node db.js` (starts shell)
 
-`node db.js -p 4567`
+`node db.js -p "port"`
 
-`node db.js -ip 127.0.0.1`
+`node db.js -ip "ip"`
 
-`node db.js -p 4567 -ip 127.0.0.1`
+`node db.js -p "port" -ip "ip"`
 
-`node db.js -p 4567 -ip 127.0.0.1 -t wss`
+`node db.js -p "port" -ip "ip" -t wss`
 
 
 
