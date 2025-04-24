@@ -84,11 +84,11 @@ todo: add all features
 
 ##### defaults
 
-- `shell` (`-s`), db server or shell options: `shell`, `db` [*default: `shell`*]
+- `shell` (`-s`) options: `shell`, `db` [*default: `shell`*]
 - `type` (`-t`) options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
-- `port` (`-p`) [default: `4567` or provided custom port]
-- `ip` (`-ip`) [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
-- `key` (`-k`)/ `cert` (`-c`) [default: `generate` `public and private key pair` for db server] 
+- `port` (`-p`) options: [default: `4567` or provided custom port]
+- `ip` (`-ip`) options: [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
+- `key` (`-k`)/ `cert` (`-c`) options: [default: `generate` `public and private key pair` for db server] 
 
 
 #### Server Running/ Usage - kvjsondb
