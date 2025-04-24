@@ -153,9 +153,9 @@ todo: add all features
 ##### run database server with [d] with keys
 
 
-- `node db.js -s "db" -t "https"`
+- `node db.js -s "db" -t "https"` (conidering default as generate keys for db server)
 
-- `node db.js -s "db" -t "wss"`
+- `node db.js -s "db" -t "wss"` (conidering default as generate keys for db server)
 
 - `node db.js -s "db" -k "./fldr/key" -c "./fldr/cert.crt"`
 
