@@ -209,7 +209,7 @@ todo: add all features
 
 - `node db.js -t "type" -ip "ip"`
 
-- `node db.js -p "type" -ip "ip"`
+- `node db.js -p "port" -ip "ip"`
 
 - `node db.js -t "type" -p "port" -ip "ip"`
 
@@ -223,7 +223,7 @@ todo: add all features
 
 - `node db.js -s "shell" -t "type" -ip "ip"`
 
-- `node db.js -s "shell" -p "type" -ip "ip"`
+- `node db.js -s "shell" -p "port" -ip "ip"`
 
 - `node db.js -s "shell" -t "type" -p "port" -ip "ip"`
 
@@ -244,7 +244,7 @@ todo: add all features
 
 - `node db.js -t "type" -ip "ip" -u "user" -pwd "pass"`
 
-- `node db.js -p "type" -ip "ip" -u "user" -pwd "pass"`
+- `node db.js -p "port" -ip "ip" -u "user" -pwd "pass"`
 
 - `node db.js -t "type" -p "port" -ip "ip" -u "user" -pwd "pass"`
 
@@ -260,7 +260,7 @@ todo: add all features
 
 - `node db.js -s "shell" -t "type" -ip "ip" -u "user" -pwd "pass"`
 
-- `node db.js -s "shell" -p "type" -ip "ip" -u "user" -pwd "pass"`
+- `node db.js -s "shell" -p "port" -ip "ip" -u "user" -pwd "pass"`
 
 - `node db.js -s "shell" -t "type" -p "port" -ip "ip" -u "user" -pwd "pass"`
 
