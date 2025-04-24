@@ -267,23 +267,23 @@ todo: add all features
 
 - `node db.js -k "./fldr/key"`
 
-- `node db.js -t "https" -k "./fldr/key"`
+- `node db.js -t "type" -k "./fldr/key"`
 
-- `node db.js -t "https" -p 4567 -k "./fldr/key"`
+- `node db.js -t "type" -p 4567 -k "./fldr/key"`
 
-- `node db.js -t "https" -ip "127.0.0.1" -k "./fldr/key"`
+- `node db.js -t "type" -ip "127.0.0.1" -k "./fldr/key"`
 
 - `node db.js -p 4567 -ip "127.0.0.1" -k "./fldr/key"`
 
-- `node db.js -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key"`
+- `node db.js -t "type" -p 4567 -ip "127.0.0.1" -k "./fldr/key"`
 
 - `node db.js -s "shell" -k "./fldr/key"`
 
-- `node db.js -s "shell" -t "https" -k "./fldr/key"`
+- `node db.js -s "shell" -t "type" -k "./fldr/key"`
 
-- `node db.js -s "shell" -t "https" -p 4567 -k "./fldr/key"`
+- `node db.js -s "shell" -t "type" -p 4567 -k "./fldr/key"`
 
-- `node db.js -s "shell" -t "https" -p 4567 -ip "127.0.0.1" -k "./fldr/key"`
+- `node db.js -s "shell" -t "type" -p 4567 -ip "127.0.0.1" -k "./fldr/key"`
 
 
 
