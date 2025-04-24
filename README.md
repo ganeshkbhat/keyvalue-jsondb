@@ -158,6 +158,7 @@ todo: add all features
 
 ##### run database server with [d] with keys
 
+`type` options are always `https` or `wss`
 
 - `node db.js -s "db" -t "https"` (considering default as generate keys for db server)
 
