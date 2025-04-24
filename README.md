@@ -313,8 +313,6 @@ todo: add all features
 
 `prefix: "-t", server protocol [default: ws, will enable http and ws]`
 
-`-t type options: (a) http, (b) https, (c) ws, (d) wss` (consider enabling all protocols)
-
 `prefix: "-ip", ip address [default: 127.0.0.1]`
 
 `prefix: "-k", key path [default: none, will enable http or ws]` (consider generate as default)
@@ -331,11 +329,11 @@ todo: add all features
 ##### defaults
 
 
-- `shell` (`-s`), db server or shell options: `shell`, `db` [*default: `shell`*]
-- `type` (`-t`) options: `http`, `https`, `ws`, `wss` [*default: `ws`*]
-- `port` (`-p`) [default: `4567` or provided custom port]
-- `ip` (`-ip`) [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
-- `key` (`-k`)/ `cert` (`-c`) [default: `generate` `public and private key pair` for db server] 
+- `shell` (`-s`) options: `shell`, `db` [*default: `shell`*]
+- `type` (`-t`) options: `http`, `https`, `ws`, `wss` [*default: `ws`*] (consider enabling all protocols)
+- `port` (`-p`) options: [default: `4567` or provided custom port]
+- `ip` (`-ip`) options: [default: `127.0.0.1` / `192.168.1.1`] or provided custom ip address
+- `key` (`-k`)/ `cert` (`-c`) options: [default: `generate` `public and private key pair` for db server] 
 
 
 
