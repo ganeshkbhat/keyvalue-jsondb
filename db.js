@@ -18,7 +18,7 @@
 
 const startServer = require('./index').startServer;
 
-// // USAGE
+// // USAGE 
 // node server.js type port ip key cert
 
 // node server.js -t type -p port -ip ip -k key -c cert
