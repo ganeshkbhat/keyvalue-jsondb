@@ -70,8 +70,8 @@ var port = results["-p"] || 3443;
 var ip = results["-ip"] || "127.0.0.1";
 var key = results["-k"] || null;
 var cert = results["-c"] || null;
-var username = results["-k"] || null;
-var password = results["-c"] || null;
+var username = results["-u"] || null;
+var password = results["-pwd"] || null;
 
 if (!results["-m"] || results["-m"] !== "db") {
     var srv = startServer(type, port, ip, middlewares, app, key, cert);
