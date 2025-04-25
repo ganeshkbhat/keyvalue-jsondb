@@ -361,7 +361,7 @@ todo: add all features
 
 `node db.js -p "port" -ip "ip"`
 
-`node db.js -p "port" -ip "ip" -t wss`
+`node db.js -p "port" -ip "ip" -t "type"`
 
 
 
