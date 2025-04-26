@@ -120,6 +120,10 @@ todo: add all features
 
 - `node db.js -s "db" -t "type" -p "port" -ip "ip"`
 
+example: 
+
+- `node db.js -s "db" -t "http" -p "4567" -ip "127.0.0.1"`
+
 
 
 ##### run database server with [c] with username/password
@@ -132,6 +136,10 @@ todo: add all features
 - `node db.js -s "db" -t "type" -p "port" -u "user" -pwd "pass"`
 
 - `node db.js -s "db" -t "type" -p "port" -ip "ip" -u "user" -pwd "pass"`
+
+example: 
+
+- `node db.js -s "db" -t "https" -p "4567" -ip "127.0.0.1" -u "user_name" -pwd "password"`
 
 
 
@@ -153,6 +161,10 @@ todo: add all features
 - `node db.js -s "db" -p "port" -ip "ip"`
 
 - `node db.js -s "db" -t "type" -p "port" -ip "ip"`
+
+example: 
+
+- `node db.js -s "db" -t "ws" -p "4567" -ip "127.0.0.1"`
 
 
 
@@ -179,6 +191,10 @@ todo: add all features
 - `node db.js -s "db" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
 
 - `node db.js -s "db" -t "type" -p "port" -ip "ip" -k "./fldr/key" -c "./fldr/cert.crt"`
+
+example: 
+
+- `node db.js -s "db" -t "wss" -p "4567" -ip "127.0.0.1" -k "./fldr/key" -c "./fldr/cert.crt"`
 
 
 
@@ -224,6 +240,10 @@ todo: add all features
 
 - `node db.js -s "shell" -t "type" -p "port" -ip "ip"`
 
+example:
+
+- `node db.js -s "shell" -t "ws" -p "4567" -ip "127.0.0.1"`
+
 
 
 ##### run shell or login to shell with [c] with username/password
@@ -260,6 +280,10 @@ todo: add all features
 - `node db.js -s "shell" -p "port" -ip "ip" -u "user" -pwd "pass"`
 
 - `node db.js -s "shell" -t "type" -p "port" -ip "ip" -u "user" -pwd "pass"`
+
+example:
+
+- `node db.js -s "shell" -t "http" -p "4567" -ip "127.0.0.1" -u "user_name" -pwd "password"`
 
 
 
@@ -298,6 +322,9 @@ todo: add all features
 
 - `node db.js -s "shell" -t "type" -p "port" -ip "ip" -k "./fldr/key"`
 
+example:
+
+- `node db.js -s "shell" -t "https" -p "4567" -ip "127.0.0.1" -k "./fldr/key"`
 
 
 ### Architecture of kvjsondb - Basic Design
