@@ -841,7 +841,7 @@ there are possibilities for system hacks if `someDataProcessorFunction(d)` (the 
   - issues due to Unsanitized strings especially when using using `eval()`, `child_process.exec()` with user-provided input, or similar mechanisms. 
   - this is similar to classic SQL injection vulnerability, but for code execution. 
   - Never `eval()` or `child_process.exec()` or Dynamically Execute Unsanitized String Data
-  - Strict Input Validation and Sanitization
+  - Recommendation: Strict Input Validation and Sanitization
     - Binary Data Handling 
       - uses the binary data to construct system commands or file paths without proper validation, it could be exploited 
       - preferably, sanitize by converting to utf-8 text
