@@ -73,7 +73,7 @@ var cert = results["-c"] || null;
 var username = results["-u"] || null;
 var password = results["-pwd"] || null;
 
-if (results["-m"] !== "db") {
+if (!!results["-m"] && results["-m"] === "db") {
     var srv = startServer(type, port, ip, middlewares, app, key, cert);
     console.log("Running server at: ", `${type}, ${port}, ${ip}`)
 } else {
