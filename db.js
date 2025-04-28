@@ -40,7 +40,9 @@ const prefixDefinitions = [
     // -u : username : username for authentication
     { prefix: "-u", handler: () => console.log },
     // -pwd : password : password for authentication
-    { prefix: "-pwd", handler: () => console.log }
+    { prefix: "-pwd", handler: () => console.log },
+    // // -j : json config file : password for authentication
+    // { prefix: "-j", handler: () => console.log }
 ];
 
 var results = shellflags(prefixDefinitions)
