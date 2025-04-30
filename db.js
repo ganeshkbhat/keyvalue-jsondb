@@ -25,6 +25,9 @@ const shellflags = require("shellflags");
 // node db.js -t type -p port -ip ip -k key -c cert
 // // default 
 
+// node db.js -t type -p port -ip ip -u username -pwd password
+// // default 
+
 const prefixDefinitions = [
     // -t: type : http, https, ws, wss
     { prefix: "-t", handler: () => console.log },
