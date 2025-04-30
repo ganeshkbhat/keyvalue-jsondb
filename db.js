@@ -17,6 +17,7 @@
 'use strict';
 
 const startServer = require('./index').startServer;
+const shellflags = require("shellflags");
 
 // // USAGE 
 // node db.js type port ip key cert
@@ -28,7 +29,7 @@ const prefixDefinitions = [
     // -t: type : http, https, ws, wss
     { prefix: "-t", handler: () => console.log },
     // -p : port : 3443, 8080, 80, 443
-    { prefix: "-p", handler: () => console.log },
+    { prefix: "-p", handler: (v) => Number(v) },
     // -ip : ip : ip address, url, domain name
     { prefix: "-ip", handler: () => console.log },
     // -k : key : certificate key
@@ -68,7 +69,7 @@ if (!results || !results["-t"] || !results["-p"] || !results["-ip"] || !results[
 }
 
 var type = results["-t"] || "http";
-var port = results["-p"] || 3443;
+var port = Number(results["-p"]) || 3443;
 var ip = results["-ip"] || "127.0.0.1";
 var key = results["-k"] || null;
 var cert = results["-c"] || null;
@@ -88,5 +89,4 @@ if (!!results["-m"] && results["-m"] === "db") {
         srv = Shell(port, ip, certkey, null, null);
     }
 }
-
 
