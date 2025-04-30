@@ -86,10 +86,10 @@ if (!!results["-m"] && results["-m"] === "db") {
     var srv;
     if (!!username && !!password) {
         srv = Shell(port, ip, null, username, password);
-    } else if (!!certkey) {
+    } else if (!!cert) {
         console.log("Certificate not provided. Running shell in insecure mode");
-        certkey = "";
-        srv = Shell(port, ip, certkey, null, null);
+        cert = "";
+        srv = Shell(port, ip, cert, null, null);
     }
 }
 
