@@ -17,6 +17,7 @@
 'use strict';
 
 const startServer = require('./index').startServer;
+const Shell = require('./index').Shell;
 const shellflags = require("shellflags");
 
 // // USAGE 
@@ -87,9 +88,10 @@ if (!!results["-m"] && results["-m"] === "db") {
     if (!!username && !!password) {
         srv = Shell(port, ip, null, username, password);
     } else if (!!cert) {
-        console.log("Certificate not provided. Running shell in insecure mode");
         cert = "";
         srv = Shell(port, ip, cert, null, null);
+    } else {
+        console.log("Certificate not provided. Running shell in insecure mode");
+        srv = Shell(port, ip, null, null, null);
     }
 }
-
