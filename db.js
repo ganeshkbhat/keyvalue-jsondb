@@ -16,18 +16,18 @@
 
 'use strict';
 
+// // USAGE 
+// 
+// node db.js type port ip key cert
+// node db.js -s mode -t type -p port -ip ip -k key -c cert
+// node db.js -s mode -t type -p port -ip ip -u username -pwd password
+// 
+// // defaults -s shell -t http -p 3443 -ip "127.0.0.1" -k null -c null - u null -pwd null 
+//
+
 const startServer = require('./index').startServer;
 const Shell = require('./index').Shell;
 const shellflags = require("shellflags");
-
-// // USAGE 
-// node db.js type port ip key cert
-
-// node db.js -t type -p port -ip ip -k key -c cert
-// // default 
-
-// node db.js -t type -p port -ip ip -u username -pwd password
-// // default 
 
 const prefixDefinitions = [
     // -t: type : http, https, ws, wss
@@ -46,6 +46,8 @@ const prefixDefinitions = [
     { prefix: "-u", handler: () => console.log },
     // -pwd : password : password for authentication
     { prefix: "-pwd", handler: () => console.log },
+    // -s : mode : mode of operation : shell, db
+    { prefix: "-pwd", handler: () => console.log },
     // // -j : json config file : password for authentication
     // { prefix: "-j", handler: () => console.log }
 ];
@@ -53,13 +55,13 @@ const prefixDefinitions = [
 var results = shellflags(prefixDefinitions)
 console.log(results);
 
-console.log("type: number ::", results["-t"], "port: number ::", results["-p"], ", ip: string/text ::", results["-ip"], "certkey: string/text ::", results["-k"], "username: string/text ::", results["-c"]);
+console.log("type: number ::", results["-t"], "port: number ::", results["-p"], ", ip: string/text ::", results["-ip"], "certkey: string/text ::", results["-k"], "username: string/text ::", results["-c"],  "mode: string/text ::", results["-s"]);
 
 // type, port, ip/url, key, certificate, server, mode
 var middlewares = [];
 var app = (req, res, next) => { next() };
 
-if (!results || !results["-t"] || !results["-p"] || !results["-ip"] || !results["-k"] || !results["-c"] || !results["-u"] || !results["-pwd"]) {
+if (!results || !results["-t"] || !results["-p"] || !results["-ip"] || !results["-k"] || !results["-c"] || !results["-u"] || !results["-pwd"] || !results["-s"]) {
     results = {
         "-t": (results["-t"]) ? results["-t"] : (process.argv.length > 2 && !!process.argv[2]) ? process.argv[2] : "http",
         "-p": (results["-p"]) ? results["-p"] : (process.argv.length > 3 && !!process.argv[3]) ? process.argv[3] : 3443,
@@ -68,7 +70,8 @@ if (!results || !results["-t"] || !results["-p"] || !results["-ip"] || !results[
         "-c": (results["-c"]) ? results["-c"] : (process.argv.length > 6 && !!process.argv[6]) ? process.argv[6] : null,
         "-m": (results["-m"]) ? results["-m"] : "shell",
         "-u": (results["-u"]) ? results["-u"] : null,
-        "-pwd": (results["-pwd"]) ? results["-pwd"] : null
+        "-pwd": (results["-pwd"]) ? results["-pwd"] : null,
+        "-s": (results["-s"]) ? results["-s"] : "shell"
     }
 }
 
@@ -79,8 +82,9 @@ var key = results["-k"] || null;
 var cert = results["-c"] || null;
 var username = results["-u"] || null;
 var password = results["-pwd"] || null;
+var mode = results["-s"] || "shell";
 
-if (!!results["-m"] && results["-m"] === "db") {
+if (!!mode && mode === "db") {
     var srv = startServer(type, port, ip, middlewares, app, key, cert);
     console.log("Running server at: ", `${type}, ${port}, ${ip}`)
 } else {
