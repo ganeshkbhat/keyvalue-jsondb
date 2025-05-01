@@ -55,7 +55,7 @@ const prefixDefinitions = [
 var results = shellflags(prefixDefinitions)
 console.log(results);
 
-console.log("type: number ::", results["-t"], "port: number ::", results["-p"], ", ip: string/text ::", results["-ip"], "certkey: string/text ::", results["-k"], "username: string/text ::", results["-c"],  "mode: string/text ::", results["-s"]);
+console.log("type: number ::", results["-t"], "port: number ::", results["-p"], ", ip: string/text ::", results["-ip"], "certkey: string/text ::", results["-k"], "username: string/text ::", results["-c"], "mode: string/text ::", results["-s"]);
 
 // type, port, ip/url, key, certificate, server, mode
 var middlewares = [];
@@ -83,6 +83,14 @@ var cert = results["-c"] || null;
 var username = results["-u"] || null;
 var password = results["-pwd"] || null;
 var mode = results["-s"] || "shell";
+
+if (!!results["-j"]) {
+    try {
+        results = { ...results, ...JSON.parse(results["-j"]) }
+    } catch (e) {
+        results = { ...results, ...JSON.parse(require(results["-j"])) }
+    }
+}
 
 if (!!mode && mode === "db") {
     var srv = startServer(type, port, ip, middlewares, app, key, cert);
