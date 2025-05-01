@@ -87,9 +87,9 @@ var mode = results["-s"] || "shell";
 
 if (!!results["-j"]) {
     try {
-        results = { ...results, ...JSON.parse(results["-j"]) }
+        results = { ...results, ...JSON.parse(JSON.stringify(results["-j"])) }
     } catch (e) {
-        results = { ...results, ...JSON.parse(require(path.join(process.cwd(), results["-j"]))) }
+        results = { ...results, ...JSON.parse(JSON.stringify(require(path.join(process.cwd(), results["-j"])))) }
     }
 }
 
