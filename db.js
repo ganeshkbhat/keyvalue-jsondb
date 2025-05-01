@@ -28,6 +28,7 @@
 const startServer = require('./index').startServer;
 const Shell = require('./index').Shell;
 const shellflags = require("shellflags");
+const path = require("path");
 
 const prefixDefinitions = [
     // -t: type : http, https, ws, wss
@@ -88,7 +89,7 @@ if (!!results["-j"]) {
     try {
         results = { ...results, ...JSON.parse(results["-j"]) }
     } catch (e) {
-        results = { ...results, ...JSON.parse(require(results["-j"])) }
+        results = { ...results, ...JSON.parse(require(path.join(process.cwd(), results["-j"]))) }
     }
 }
 
