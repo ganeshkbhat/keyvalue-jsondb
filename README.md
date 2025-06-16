@@ -5,7 +5,7 @@
 planned architecture withour load balancer and with single node
 
 
-`
+```
                                     => client
                           => client => client
                                     => client
@@ -17,12 +17,12 @@ jsondb => queue => server => client => client
                                     => client
                           => client => client
                                     => client
-`
+```
 
 
 planned architecture with load balancer and with multi nodes
 
-`
+```
                                                                 => client
                                                       => client => client
                                                                 => client
@@ -34,7 +34,7 @@ jsondb => queue => server => load balancing => server => client => client
                                                                 => client
                                                       => client => client
                                                                 => client
-`
+```
 
 
 ##### indevelopment - do not use in production
