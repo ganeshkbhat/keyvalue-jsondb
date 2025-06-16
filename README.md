@@ -2,6 +2,41 @@
 *`fast`, `secure`, `private`, and `memory leak resistant` `in-memory` `key-value` `(closure encapsulated)` `json based` `datastore or database` that supports `http`, `https`, `ws`, `wss`, and a `command shell (without or with [todo] authentication)` and is `extendible with expressjs middlewares`*
 
 
+planned architecture withour load balancer and with single node
+
+
+`
+                                  => client
+                        => client => client
+                                  => client
+                 
+                                  => client
+json => queue => server => client => client
+                                  => client
+
+                                  => client
+                        => client => client
+                                  => client
+`
+
+
+planned architecture with load balancer and with multi nodes
+
+`
+                                                              => client
+                                                    => client => client
+                                                              => client
+                 server
+                 server                                       => client
+json => queue => server => load balancing => server => client => client
+                 server                                       => client
+                 server
+                                                              => client
+                                                    => client => client
+                                                              => client
+`
+
+
 ##### indevelopment - do not use in production
 
 
