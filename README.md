@@ -2,41 +2,6 @@
 *`fast`, `secure`, `private`, and `memory leak resistant` `in-memory` `key-value` `(closure encapsulated)` `json based` `datastore or database` that supports `http`, `https`, `ws`, `wss`, and a `command shell (without or with [todo] authentication)` and is `extendible with expressjs middlewares`*
 
 
-planned architecture withour load balancer and with single node
-
-
-```
-                                    ( => client local thread)
-                          => client ( => client local thread)
-                                    ( => client local thread)
-                  
-                                    ( => client local thread)
-jsondb => queue => server => client ( => client local thread)
-                                    ( => client local thread)
-
-                                    ( => client local thread)
-                          => client ( => client local thread)
-                                    ( => client local thread)
-```
-
-
-planned architecture with load balancer and with multi nodes
-
-```
-                                                                ( => client local thread)
-                                                      => client ( => client local thread)
-                                                                ( => client local thread)
-                   server
-                   server                                       ( => client local thread)
-jsondb => queue => server => load balancing => server => client ( => client local thread)
-                   server                                       ( => client local thread)
-                   server
-                                                                ( => client local thread)
-                                                      => client ( => client local thread)
-                                                                ( => client local thread)
-```
-
-
 ##### indevelopment - do not use in production
 
 
@@ -81,6 +46,41 @@ please note: `redis-like` is an inference most of the shell commands are like re
 - any programming language that supports `http`, `https`, `ws`, `wss` requests can be used as a client *[todo add request structure and parameters to docs]*
 
 todo: add all features
+
+
+planned architecture withour load balancer and with single node
+
+
+```
+                                    ( => client local thread)
+                          => client ( => client local thread)
+                                    ( => client local thread)
+                  
+                                    ( => client local thread)
+jsondb => queue => server => client ( => client local thread)
+                                    ( => client local thread)
+
+                                    ( => client local thread)
+                          => client ( => client local thread)
+                                    ( => client local thread)
+```
+
+
+planned architecture with load balancer and with multi nodes
+
+```
+                                                                ( => client local thread)
+                                                      => client ( => client local thread)
+                                                                ( => client local thread)
+                   server
+                   server                                       ( => client local thread)
+jsondb => queue => server => load balancing => server => client ( => client local thread)
+                   server                                       ( => client local thread)
+                   server
+                                                                ( => client local thread)
+                                                      => client ( => client local thread)
+                                                                ( => client local thread)
+```
 
 
 #### Running/ Usage
