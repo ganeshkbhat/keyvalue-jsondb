@@ -23,17 +23,17 @@ jsondb => queue => server => client ( => client local thread)
 planned architecture with load balancer and with multi nodes
 
 ```
-                                                                => client local thread
-                                                      => client => client local thread
-                                                                => client local thread
+                                                                (=> client local thread)
+                                                      => client (=> client local thread)
+                                                                (=> client local thread)
                    server
-                   server                                       => client local thread
-jsondb => queue => server => load balancing => server => client => client local thread
-                   server                                       => client local thread
+                   server                                       (=> client local thread)
+jsondb => queue => server => load balancing => server => client (=> client local thread)
+                   server                                       (=> client local thread)
                    server
-                                                                => client local thread
-                                                      => client => client local thread
-                                                                => client local thread
+                                                                (=> client local thread)
+                                                      => client (=> client local thread)
+                                                                (=> client local thread)
 ```
 
 
