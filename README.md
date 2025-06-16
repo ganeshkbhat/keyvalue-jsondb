@@ -6,34 +6,34 @@ planned architecture withour load balancer and with single node
 
 
 ```
-                                    => client
-                          => client => client
-                                    => client
+                                    => client local thread
+                          => client => client local thread
+                                    => client local thread
                   
-                                    => client
-jsondb => queue => server => client => client
-                                    => client
+                                    => client local thread
+jsondb => queue => server => client => client local thread
+                                    => client local thread
 
-                                    => client
-                          => client => client
-                                    => client
+                                    => client local thread
+                          => client => client local thread
+                                    => client local thread
 ```
 
 
 planned architecture with load balancer and with multi nodes
 
 ```
-                                                                => client
-                                                      => client => client
-                                                                => client
+                                                                => client local thread
+                                                      => client => client local thread
+                                                                => client local thread
                    server
-                   server                                       => client
-jsondb => queue => server => load balancing => server => client => client
-                   server                                       => client
+                   server                                       => client local thread
+jsondb => queue => server => load balancing => server => client => client local thread
+                   server                                       => client local thread
                    server
-                                                                => client
-                                                      => client => client
-                                                                => client
+                                                                => client local thread
+                                                      => client => client local thread
+                                                                => client local thread
 ```
 
 
