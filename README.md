@@ -6,17 +6,17 @@ planned architecture withour load balancer and with single node
 
 
 ```
-                                    => client local thread
-                          => client => client local thread
-                                    => client local thread
+                                    ( => client local thread)
+                          => client ( => client local thread)
+                                    ( => client local thread)
                   
-                                    => client local thread
-jsondb => queue => server => client => client local thread
-                                    => client local thread
+                                    ( => client local thread)
+jsondb => queue => server => client ( => client local thread)
+                                    ( => client local thread)
 
-                                    => client local thread
-                          => client => client local thread
-                                    => client local thread
+                                    ( => client local thread)
+                          => client ( => client local thread)
+                                    ( => client local thread)
 ```
 
 
