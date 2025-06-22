@@ -48,7 +48,7 @@ const prefixDefinitions = [
     // -pwd : password : password for authentication
     { prefix: "-pwd", handler: () => console.log },
     // -s : mode : mode of operation : shell, db
-    { prefix: "-pwd", handler: () => console.log },
+    { prefix: "-s", handler: () => console.log },
     // // -j : json config file : password for authentication
     // { prefix: "-j", handler: () => console.log }
 ];

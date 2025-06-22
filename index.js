@@ -849,55 +849,55 @@ function ClientAPI(ipURL, options, type = "http") {
     var request = (type === "wss") ? wssAPI : (type === "ws") ? wsAPI : (type === "https") ? httpsAPI : httpAPI;
 
     return {
-        hasKey: (msg, opts) => {
+        hasKey: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        getKey: (msg, opts) => {
+        getKey: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        setKey: (msg, opts) => {
+        setKey: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        updateKey: (msg, opts) => {
+        updateKey: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        delKey: (msg, opts) => {
+        delKey: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        read: (msg, opts) => {
+        read: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        dump: (msg, opts) => {
+        dump: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        dumpToFile: (msg, opts) => {
+        dumpToFile: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        dumpKeys: (msg, opts) => {
+        dumpKeys: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        dumpKeysToFile: (msg, opts) => {
+        dumpKeysToFile: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        init: (msg, opts) => {
+        init: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        clear: (msg, opts) => {
+        clear: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        load: (msg, opts) => {
+        load: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        search: (msg, opts) => {
+        search: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        searchValue: (msg, opts) => {
+        searchValue: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        searchKey: (msg, opts) => {
+        searchKey: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         },
-        searchKeyValue: (msg, opts) => {
+        searchKeyValue: (msg, opts = {}) => {
             return request(ipURL, msg, { ...options, ...opts })
         }
     }
@@ -985,14 +985,16 @@ function Shell(port, ip, certkey, username, password) {
         if (commandName === 'set' && valueParts.length >= 2) {
             const key = valueParts[0];
             const val = valueParts.slice(1).join(' ');
+            console.log(`${key} - ${val}`);
             commandMap.set(key, val);
             return recursivePrompt();
         }
 
-        if (commandName === 'load' || commandName === 'init' || commandName === 'update') {
+        if (commandName === 'load') {
             if (flags === '-f') {
                 if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
                     value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                    console.log(`${value}`);
                 } else {
                     console.log('Filename must be within quotes for -f flag.');
                     return recursivePrompt();
@@ -1000,6 +1002,61 @@ function Shell(port, ip, certkey, username, password) {
             } else {
                 try {
                     value = JSON.parse(valueParts.join(' '));
+                    console.log(`${value}`);
+                } catch (e) {
+                    console.log('Invalid JSON for', commandName);
+                    return recursivePrompt();
+                }
+            }
+        } else if (commandName === 'init') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                    console.log(`${value}`);
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                try {
+                    value = JSON.parse(valueParts.join(' '));
+                    console.log(`${value}`);
+                } catch (e) {
+                    console.log('Invalid JSON for', commandName);
+                    return recursivePrompt();
+                }
+            }
+        } else if (commandName === 'update') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                    console.log(`${value}`);
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                try {
+                    value = JSON.parse(valueParts.join(' '));
+                    console.log(`${value}`);
+                } catch (e) {
+                    console.log('Invalid JSON for', commandName);
+                    return recursivePrompt();
+                }
+            }
+        } else if (commandName === 'load' || commandName === 'init' || commandName === 'update') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                    console.log(`${value}`);
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                try {
+                    value = JSON.parse(valueParts.join(' '));
+                    console.log(`${value}`);
                 } catch (e) {
                     console.log('Invalid JSON for', commandName);
                     return recursivePrompt();
@@ -1009,22 +1066,58 @@ function Shell(port, ip, certkey, username, password) {
             if (flags === '-f') {
                 if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
                     value = valueParts[0].slice(1, -1);
+                    console.log(`${value}`);
                 } else {
-                    console.log('Filename must be within quotes for -f flag.');
+                    console.log('Error: Filename must be within quotes for -f flag.');
                     return recursivePrompt();
                 }
             } else {
                 console.log('dump requires -f flag with filename');
                 return recursivePrompt();
             }
+        } else if (commandName === 'dumpKey') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = valueParts[0].slice(1, -1);
+                    console.log(`${value}`);
+                } else {
+                    console.log('Error: Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                console.log('dump requires -f flag with filename');
+                return recursivePrompt();
+            }
+        } else if (commandName === 'read') {
+            value = valueParts.join(' ');
+            console.log(`${value}`);
+        } else if (commandName === 'has') {
+            value = valueParts.join(' ');
+            console.log(`${value}`);
+        } else if (commandName === 'get') {
+            value = valueParts.join(' ');
+            console.log(`${value}`);
+        } else if (commandName === 'del') {
+            value = valueParts.join(' ');
+            console.log(`${value}`);
         } else if (commandName === 'read' || commandName === 'has' || commandName === 'get' || commandName === 'del') {
             value = valueParts.join(' ');
+            console.log(`${value}`);
         } else if (commandName === 'search') {
             value = valueParts.join(' ');
+            console.log(`${value}`);
+        } else if (commandName === 'clear') {
+            //no arguments required
+            console.log(`${value}`);
+        } else if (commandName === 'init') {
+            //no arguments required
+            console.log(`${value}`);
         } else if (commandName === 'clear' || commandName === 'init') {
             //no arguments required
+            console.log(`${value}`);
         } else {
             value = valueParts.join(' ');
+            console.log(`${value}`);
         }
 
         if (commandMap[commandName]) {
