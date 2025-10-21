@@ -47,7 +47,7 @@ please note: `redis-like` is an inference most of the shell commands are like re
 
 todo: add all features
 
-
+<!-- 
 planned architecture withour load balancer and with single node
 
 
@@ -81,7 +81,7 @@ jsondb => queue => serverNode => load balancing => server => client ( => client 
                                                           => client ( => client local thread)
                                                                     ( => client local thread)
 ```
-
+ -->
 
 #### Running/ Usage
 
