@@ -934,7 +934,9 @@ function Shell(port, ip, certkey, username, password) {
     // del key
     // dump -f "filename/within/quotes"
 
-    const search = (query) => `Search results for: ${query}`;
+    const search = function (query) { 
+        return `Search test results for: ${query}`
+    };
     const searchKey = (query) => `Search key results for: ${query}`;
     const searchValue = (query) => `Search value results for: ${query}`;
     const searchKeyValue = (query) => `Search key-value results for: ${query}`;
@@ -943,7 +945,9 @@ function Shell(port, ip, certkey, username, password) {
     const init = (data) => `Initialized with: ${JSON.stringify(data)}`;
     const clear = () => 'Cleared';
     const load = (data) => `Loaded: ${JSON.stringify(data)}`;
-    const read = (key) => `Read: ${key}`;
+    const read = (key) => {
+        ClientAPI().search({ event: 'read', query })
+    }
     const create = (key, value) => `Created: ${key} = ${value}`;
     const update = (data) => `Updated with: ${JSON.stringify(data)}`;
     const deleteItem = (key) => `Deleted: ${key}`;
@@ -1100,9 +1104,9 @@ function Shell(port, ip, certkey, username, password) {
         } else if (commandName === 'del') {
             value = valueParts.join(' ');
             console.log(`${value}`);
-        } else if (commandName === 'read' || commandName === 'has' || commandName === 'get' || commandName === 'del') {
-            value = valueParts.join(' ');
-            console.log(`${value}`);
+        // } else if (commandName === 'read' || commandName === 'has' || commandName === 'get' || commandName === 'del') {
+        //     value = valueParts.join(' ');
+        //     console.log(`${value}`);
         } else if (commandName === 'search') {
             value = valueParts.join(' ');
             console.log(`${value}`);
@@ -1521,6 +1525,7 @@ module.exports = {
     startWebsocketSecureServer,
     startServer,
     Clients,
+    ClientAPI,
     Shell,
     RShell,
     TShell
