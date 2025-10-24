@@ -85,9 +85,10 @@ var username = results["-u"] || null;
 var password = results["-pwd"] || null;
 var mode = results["-s"] || "shell";
 
+// if all are not defined then parse json file or json object
 if (!!results["-j"]) {
     try {
-        results = { ...results, ...JSON.parse(JSON.stringify(results["-j"])) }
+        results = { ...results, ...JSON.parse(JSON.stringify(require(results["-j"]))) }
     } catch (e) {
         results = { ...results, ...JSON.parse(JSON.stringify(require(path.join(process.cwd(), results["-j"])))) }
     }

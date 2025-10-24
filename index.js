@@ -934,25 +934,51 @@ function Shell(port, ip, certkey, username, password) {
     // del key
     // dump -f "filename/within/quotes"
 
-    const search = function (query) { 
-        return `Search test results for: ${query}`
+    const search = function (query = { key: '', value: '' }) {
+        `Search key results for: ${query}`
     };
-    const searchKey = (query) => `Search key results for: ${query}`;
-    const searchValue = (query) => `Search value results for: ${query}`;
-    const searchKeyValue = (query) => `Search key-value results for: ${query}`;
-    const hasKey = (key) => `Has key: ${key}`;
-    const getKey = (key) => `Get key: ${key}`;
-    const init = (data) => `Initialized with: ${JSON.stringify(data)}`;
-    const clear = () => 'Cleared';
-    const load = (data) => `Loaded: ${JSON.stringify(data)}`;
-    const read = (key) => {
+    const searchKey = function (query = { key: '' }) {
+        `Search key results for: ${query.key}`
+    };
+    const searchValue = function (query = { value: '' }) {
+        `Search value results for: ${query.value}`
+    };
+    const searchKeyValue = function (query = { key: '', value: '' }) {
+        `Search key results for: ${query}`
+    };
+    const hasKey = function (query = { key: '', value: '' }) {
+        `Has key: ${key}`;
+    };
+    const getKey = function (query = { key: '', value: '' }) {
+        `Get key: ${key}`
+    };
+    const init = function (query) { 
+        `Initialized with: ${JSON.stringify(query.data)}`
+    };
+    const clear = function () {
+         'Cleared' 
+    };
+    const load = function (query= {data : ""}) {
+        `Loaded: ${JSON.stringify(query.data)}` 
+    }
+    const read = function (query = {key : ""}) {
         ClientAPI().search({ event: 'read', query })
     }
-    const create = (key, value) => `Created: ${key} = ${value}`;
-    const update = (data) => `Updated with: ${JSON.stringify(data)}`;
-    const deleteItem = (key) => `Deleted: ${key}`;
-    const dump = (filename) => `Dumped to: ${filename}`;
-    const dumpsToFile = (filename) => `Dumped to: ${filename}`;
+    const create = function (query = { key: '', value: '' }) {
+        `Created: ${query.key} = ${query.value}`
+    };
+    const update = function (query= {data : ""}) {
+        `Updated with: ${JSON.stringify(query.data)}`
+    };
+    const deleteItem = function (query = { key : ""}) { 
+        `Deleted: ${query.key}`
+    };
+    const dump = (query = {filename : ""}) { 
+        `Dumped to: ${filename}`
+    };
+    const dumpsToFile = (filename) {
+        `Dumped to: ${filename}`
+    };
 
     const commandMap = {
         set: create,
@@ -1104,9 +1130,9 @@ function Shell(port, ip, certkey, username, password) {
         } else if (commandName === 'del') {
             value = valueParts.join(' ');
             console.log(`${value}`);
-        // } else if (commandName === 'read' || commandName === 'has' || commandName === 'get' || commandName === 'del') {
-        //     value = valueParts.join(' ');
-        //     console.log(`${value}`);
+            // } else if (commandName === 'read' || commandName === 'has' || commandName === 'get' || commandName === 'del') {
+            //     value = valueParts.join(' ');
+            //     console.log(`${value}`);
         } else if (commandName === 'search') {
             value = valueParts.join(' ');
             console.log(`${value}`);
