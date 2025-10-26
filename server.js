@@ -138,7 +138,7 @@ function startServer(port, hostname, key = null, cert = null, username = null, p
 
     app.listen(PORT, HOSTNAME, () => {
         console.log(`JSON Manager App running on http://localhost:${PORT}`);
-        console.log(`Test with: curl -X POST http://localhost:${PORT}/api/store -H "Content-Type: application/json" -d '{"query": "set", "key": "counter", "value": 10}'`);
+        console.log(`Test with: curl -X POST http://localhost:${PORT}/store -H "Content-Type: application/json" -d '{"query": "set", "key": "counter", "value": 10}'`);
     });
 
     return app
@@ -148,6 +148,6 @@ function startServer(port, hostname, key = null, cert = null, username = null, p
 // http(s)_ws(s)
 // startServer(7000, "localhost")
 if (require.main === module) {
-    startServer({ port: 7000, hostname: "localhost" });
+    startServer( port = 7000, hostname = "localhost" );
 }
 module.exports = startServer;
