@@ -147,4 +147,7 @@ function startServer(port, hostname, key = null, cert = null, username = null, p
 
 // http(s)_ws(s)
 // startServer(7000, "localhost")
+if (require.main === module) {
+    startServer({ port: 7000, hostname: "localhost" });
+}
 module.exports = startServer;
