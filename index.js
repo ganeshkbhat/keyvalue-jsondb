@@ -32,6 +32,7 @@ const manager = new JsonManager();
 
 function CommonFuncs() {
 
+
     /**
      *
      *
@@ -40,7 +41,7 @@ function CommonFuncs() {
      * @return {*} 
      */
     function hasKey(body, queryParams) {
-        return manager.hasKey(body.query);
+        return manager.hasKey(body.query.key);
     }
 
 
@@ -52,7 +53,7 @@ function CommonFuncs() {
      * @return {*} 
      */
     function getKey(body, queryParams) {
-        return manager.getKey(body.query);
+        return manager.getKey(body.query.key);
     }
 
 
@@ -255,6 +256,7 @@ function CommonFuncs() {
  * @return {*} 
  */
 function run(body, queryParams) {
+    
     try {
         // Attempt to parse body as JSON
         const parsedBody = JSON.parse(body);
@@ -376,9 +378,9 @@ function startHttpServer(port = 3000, ip = "127.0.0.1", middlewares = [], app = 
 
     apps.all('/', (req, res) => {
         const parsedUrl = url.parse(req.url, true);
-        const path = parsedUrl.pathname;
+        const uriPath = parsedUrl.pathname;
         const queryParams = parsedUrl.query;
-        if (path === '/') {
+        if (uriPath === '/') {
             if (req.method === 'POST') {
                 let body = '';
                 req.on('data', (chunk) => {
@@ -439,9 +441,9 @@ function startHttpsServer(port = 3443, ip = "127.0.0.1", key, cert, middlewares 
     try {
         app.all('/', (req, res) => {
             const parsedUrl = url.parse(req.url, true);
-            const path = parsedUrl.pathname;
+            const uriPath = parsedUrl.pathname;
             const queryParams = parsedUrl.query;
-            if (path === '/') {
+            if (uriPath === '/') {
                 if (req.method === 'POST') {
                     let body = '';
                     req.on('data', (chunk) => {
@@ -459,7 +461,7 @@ function startHttpsServer(port = 3443, ip = "127.0.0.1", key, cert, middlewares 
                     res.writeHead(405, { 'Content-Type': 'text/plain' });
                     res.end('Method Not Allowed');
                 }
-            } else if (path === '/health') {
+            } else if (uriPath === '/health') {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(`{"health": "alive", "since": ${datetime} }`);
             } else {
@@ -636,6 +638,7 @@ function Clients() {
      * @return {*} 
      */
     function Http(serverPath, message, options) {
+        console.log(url.parse(serverPath), serverPath, message)
         const parsedUrl = url.parse(serverPath);
         if (parsedUrl.protocol !== 'http:') return Promise.reject(new Error('Invalid protocol: http'));
 
@@ -740,7 +743,8 @@ function Clients() {
 
             ws.on('message', (msg) => {
                 // process message and respond
-                resolve(processWs(msg));
+                // resolve(processWs(msg));
+                ws.send(processWs(msg))
                 // ws.close();
                 // resolve(msg);
             });
@@ -750,7 +754,9 @@ function Clients() {
             });
 
             ws.on('error', (error) => {
-                reject(error);
+                // reject(error);
+                ws.send({error: "closing connect"})
+                // ws.close();
             });
         });
 
@@ -947,10 +953,10 @@ function Shell(port, ip, certkey, username, password) {
         `Search key results for: ${query}`
     };
     const hasKey = function (query = { key: '', value: '' }) {
-        `Has key: ${key}`;
+        console.log(`Has key: ${query.key}`)
     };
     const getKey = function (query = { key: '', value: '' }) {
-        `Get key: ${key}`
+        console.log(`Get key: ${query} - `, )
     };
     const init = function (query) { 
         `Initialized with: ${JSON.stringify(query.data)}`
@@ -973,11 +979,11 @@ function Shell(port, ip, certkey, username, password) {
     const deleteItem = function (query = { key : ""}) { 
         `Deleted: ${query.key}`
     };
-    const dump = (query = {filename : ""}) { 
-        `Dumped to: ${filename}`
+    const dump = function (query = {filename : ""}) { 
+        `Dumped to: ${query.filename}`
     };
-    const dumpsToFile = (filename) {
-        `Dumped to: ${filename}`
+    const dumpsToFile = function (query = { filename: ""}) {
+        `Dumped to: ${query.filename}`
     };
 
     const commandMap = {
@@ -1024,7 +1030,7 @@ function Shell(port, ip, certkey, username, password) {
             if (flags === '-f') {
                 if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
                     value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
-                    console.log(`${value}`);
+                    console.log(`running  command map 1 ${JSON.stringify(value)} ${value.filename}`);
                 } else {
                     console.log('Filename must be within quotes for -f flag.');
                     return recursivePrompt();
@@ -1032,7 +1038,7 @@ function Shell(port, ip, certkey, username, password) {
             } else {
                 try {
                     value = JSON.parse(valueParts.join(' '));
-                    console.log(`${value}`);
+                    // console.log(`${value}`);
                 } catch (e) {
                     console.log('Invalid JSON for', commandName);
                     return recursivePrompt();
@@ -1364,10 +1370,12 @@ function TShell(port, ip, filename) {
  * @return {*} 
  */
 function startServer(type = "http", port = 3443, ip = "127.0.0.1", middlewares = [], app = (req, res, next) => next(), key, cert) {
+
     if (type === "ws") return startWebsocketServer(port, ip, middlewares, app);
     if (type === "wss") return startWebsocketSecureServer(port, ip, middlewares, app, key, cert);
     if (type === "https") return startHttpsServer(port, ip, middlewares, app, key, cert);
     if (type === "http") return startHttpServer(port, ip, middlewares, app);
+    
     // if (type === "all") {
     //     if (!key || !cert) {
     //         return {

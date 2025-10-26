@@ -1,6 +1,6 @@
 const assert = require('assert');
 const sinon = require('sinon');
-const { Http, Https, Ws, Wss } = require('../index').;
+const { Http, Https, Ws, Wss } = require('../index');
 const http = require('http');
 const https = require('https');
 const WebSocket = require('ws');

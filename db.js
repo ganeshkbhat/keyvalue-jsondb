@@ -54,7 +54,6 @@ const prefixDefinitions = [
 ];
 
 var results = shellflags(prefixDefinitions)
-console.log(results);
 
 console.log("type: number ::", results["-t"], "port: number ::", results["-p"], ", ip: string/text ::", results["-ip"], "certkey: string/text ::", results["-k"], "username: string/text ::", results["-c"], "mode: string/text ::", results["-s"]);
 
@@ -84,6 +83,8 @@ var cert = results["-c"] || null;
 var username = results["-u"] || null;
 var password = results["-pwd"] || null;
 var mode = results["-s"] || "shell";
+
+console.log("results of shell command : ", JSON.stringify(results));
 
 // if all are not defined then parse json file or json object
 if (!!results["-j"]) {
