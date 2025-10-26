@@ -5,7 +5,7 @@ function startServer(port, hostname, key = null, cert = null, username = null, p
     const datetime = Date.now();
     const app = express();
 
-    const PORT = port || 3000;
+    const PORT = port || 7000;
     const HOSTNAME = hostname || "localhost";
 
     if (!!apps) app.use(apps);
@@ -150,4 +150,4 @@ function startServer(port, hostname, key = null, cert = null, username = null, p
 if (require.main === module) {
     startServer( port = 7000, hostname = "localhost" );
 }
-module.exports = startServer;
+module.exports = startServer
