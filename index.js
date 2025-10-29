@@ -8,32 +8,222 @@ const JsonManager = require("json-faster").JsonManager;
 const express = require('express');
 const path = require("path");
 
-// -----------------------------------------------------------
-// Express Server for Command-Based Single Endpoint API
-// -----------------------------------------------------------
+function CommonFuncs() {
 
-// has to run if shell has to run. 
-// ** seperate this from server shell
-//   + server shell 
-//   + client shell 
-// 
-// set key value
-// get key
-// has key
-// search string
-// search -v string
-// search -k string
-// search -kv string
-// load -f filename
-// load jsonobject
-// read key
-// clear
-// init -f filename
-// init jsonobject
-// update -f filename
-// update jsonobject
-// del key
-// dump -f "filename/within/quotes"
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function hasKey(body, queryParams) {
+        return manager.hasKey(body.query.key);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function getKey(body, queryParams) {
+        return manager.getKey(body.query.key);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function search(body, queryParams) {
+        return manager.search(body.query, body.options);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function searchValue(body, queryParams) {
+        return manager.searchValue(body.query, body.options);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function searchKeyValue(body, queryParams) {
+        return manager.searchKeyValue(body.query, body.options);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function read(body, queryParams) {
+        return manager.read(body.query, body.options);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function create(body, queryParams) {
+        return manager.write(body.query.key, body.query.value);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function update(body, queryParams) {
+        return manager.update(body.query);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function del(body, queryParams) {
+        return manager.deleteKey(body.query);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function dump(body, queryParams) {
+        return manager.dump();
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function dumpKeys(body, queryParams) {
+        return manager.dumpKeys(body.query, body.options, body.type);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function dumpToFile(body, queryParams) {
+        return manager.dumpToFile(manager.dump(), body.filename);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function dumpKeysToFile(body, queryParams) {
+        // return manager.dumpToFile(manager.dump(body.query, body.options, body.type), body.filename); // consider this functionality as well
+        return manager.dumpToFile(manager.dumpKeys(body.query, body.options, body.type), body.filename);
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function load(body, queryParams) {
+        return manager.update(!!body.query ? body.query : {}); // use previous data plus load new data
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function init(body, queryParams) {
+        return manager.init(body.query || {}); // load data
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} body
+     * @param {*} queryParams
+     * @return {*} 
+     */
+    function clear(body, queryParams) {
+        return manager.init(body.query || {}); // clear with blank object
+    }
+
+
+    return {
+        hasKey,
+        getKey,
+        search,
+        searchValue,
+        searchKeyValue,
+        read,
+        create,
+        update,
+        del,
+        dump,
+        dumpKeys,
+        dumpToFile,
+        dumpKeysToFile,
+        load,
+        init,
+        clear
+    }
+
+}
 
 // options = { username, password, key, cert, middlewares: [], apps: null }
 function startServer(port, hostname = "localhost", options = {}, apps = [], middlewares = []) {
@@ -46,11 +236,11 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
     // Use express.json() to parse incoming JSON bodies
     app.use(express.json());
     // Set server datatime
-    app.datetime = datetime
+    app.datetime = datetime;
     // if (!!apps || apps !== undefined) app.use(apps);
     if (!!middlewares.length) app.use(middlewares);
 
-    
+
     // Attach the singleton JSON manager 
     // Keys and values are stored here.
     app.dataStore = new JsonManager();
@@ -73,7 +263,7 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
     // Create the standard HTTP server using the Express app
     const server = http.createServer(app);
     let wss = new WebSocket.Server({ server });
-    
+
     app.all("*", (req, res) => { })
 
     // 3. WebSocket Connection Handler
@@ -198,13 +388,15 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
         });
     });
 
-
     // 4. HTTP Connection Handler
     // This route manages all operations based on req.body.event and req.body.data {key, value, other}
     app.post('/', (req, res) => {
         // Destructure event and data from the request body
         const { event, data } = req.body;
-        const events = ["set", "get", "search", "searchkey", "searchvalue", "searchkeyvalue", "haskey", "getkey"]
+
+        // All kinds of events
+        const events = ["set", "get", "getKey", "haskey", "search", "searchkey", "searchvalue", "searchkeyvalue", "del"]
+
         // Check for essential request body components
         if (!event || !events.includes(event)) {
             return res.status(400).json({
@@ -213,8 +405,8 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
             });
         }
 
-        // Determine the action based on the 'event' field
-        console.log(`Received event: ${event}`);
+        // // Determine the action based on the 'event' field
+        // console.log(`Received event: ${event}`);
 
         try {
             switch (event.toLowerCase()) {
@@ -226,12 +418,20 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     }
 
                     app.dataStore.set(key, value);
-                    return res.status(200).json({
-                        success: true,
-                        message: `Key '${key}' set successfully.`,
-                        current_value: value
-                    });
-
+                    if (!!app.dataStore[key]) {
+                        return res.status(400).json({
+                            success: true,
+                            message: `Key '${key}' set successfully.`,
+                            current_value: app.dataStore.get(value)
+                        })
+                    } else {
+                        return res.status(200).json({
+                            success: true,
+                            message: `Key '${key}' set successfully.`,
+                            current_value: app.dataStore.get(value)
+                        });
+                    }
+                    
                 case 'get':
                     // Required data: key
                     const getKey = data?.key;
@@ -285,22 +485,53 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
             console.error("Error processing request:", error);
             return res.status(500).json({ error: "An unexpected server error occurred." });
         }
+
     });
 
     // 4. Server Start
-    app.listen(PORT, HOSTNAME, () => {
+    app.server = app.listen(PORT, HOSTNAME, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
         console.log(`Use POST requests to the root path '/' with a JSON body.`);
         console.log(`Example body to set a value: {"event": "set", "data": {"key": "user_id", "value": 1234}}`);
     });
 
-    // To run this server:
-    // 1. Make sure you have Node.js installed.
-    // 2. Run 'npm install express' in your terminal.
-    // 3. Save the code as 'server.js'.
-    // 4. Run 'node server.js'.
-    // 5. Test with a tool like cURL or Postman.
-    // -----------------------------------------------------------
+
+    app.server.on('upgrade', (request, socket, head) => {
+        const pathname = url.parse(request.url).pathname;
+
+        // Check if the path is the one for WebSockets
+        if (pathname === '/ws') {
+            // Extract the token from the query parameters (e.g., /ws?token=...)
+            const token = url.parse(request.url, true).query.token;
+
+            if (!token) {
+                socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+                socket.destroy();
+                return;
+            }
+
+            try {
+                // 2b. Verify and decode the JWT
+                const decoded = jwt.verify(token, JWT_SECRET);
+
+                // 2c. Attach the decoded user data to the request object
+                request.user = decoded;
+
+                // 2d. If valid, proceed with the WebSocket handshake
+                wss.handleUpgrade(request, socket, head, (ws) => {
+                    wss.emit('connection', ws, request);
+                });
+            } catch (err) {
+                // If token is invalid (expired, wrong secret, etc.)
+                socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+                socket.destroy();
+            }
+        } else {
+            socket.destroy(); // Reject non-ws paths
+        }
+    });
+
+
     return app
 }
 

@@ -7,58 +7,334 @@ const WebSocket = require('ws');
 const readline = require('readline');
 const express = require('express');
 const path = require("path");
+const JsonManager = require("json-faster").JsonManager;
+const manager = new JsonManager()
 
-const shellflags = require("shellflags");
-const path = require("path");
 
-const prefixDefinitions = [
-    // -t: type : http, https, ws, wss
-    { prefix: "-t", handler: () => console.log },
-    // -p : port : 3443, 8080, 80, 443
-    { prefix: "-p", handler: (v) => Number(v) },
-    // -ip : ip : ip address, url, domain name
-    { prefix: "-ip", handler: () => console.log },
-    // -k : key : certificate key
-    { prefix: "-k", handler: () => console.log },
-    // -c : cert : certificate
-    { prefix: "-c", handler: () => console.log },
-    // -m : mode : db, shell
-    { prefix: "-m", handler: () => console.log },
-    // -u : username : username for authentication
-    { prefix: "-u", handler: () => console.log },
-    // -pwd : password : password for authentication
-    { prefix: "-pwd", handler: () => console.log },
-    // -s : mode : mode of operation : shell, db
-    { prefix: "-s", handler: () => console.log },
-    // // -j : json config file : password for authentication
-    // { prefix: "-j", handler: () => console.log }
-];
+// -----------------------------------------------------------
+// Shell Commands Single Endpoint API
+// -----------------------------------------------------------
 
-var results = shellflags(prefixDefinitions);
-console.log(JSON.parse(JSON.stringify(results)));
+// has to run if shell has to run. 
+// ** seperate this from server shell
+//   + server shell 
+//   + client shell 
+// 
+// 
+// set key value
+// get key
+// has key
+// search string
+// search -v string
+// search -k string
+// search -kv string
+// load -f filename
+// load jsonobject
+// read key
+// clear
+// init -f filename
+// init jsonobject
+// update -f filename
+// update jsonobject
+// del key
+// dump -f "filename/within/quotes"
 
-// type, port, ip/url, key, certificate, server, mode
-var middlewares = [];
-var app = (req, res, next) => { next() };
 
-// parsing shell and their values
-var type = results["-t"] = results["-t"] || "http";
-var port = results["-p"] = Number(results["-p"]) || 3443;
-var ip = results["-ip"] = results["-ip"] || "127.0.0.1";
-var key = results["-k"] = results["-k"] || null;
-var cert = results["-c"] = results["-c"] || null;
-var username = results["-u"] = results["-u"] || null;
-var password = results["-pwd"] = results["-pwd"] || null;
-var dataLoad = results["-dt"] = results["-dt"] || "{}";
-var mode = results["-s"] = results["-s"] || "shell";
+/**
+ *
+ *
+ * @param {*} port
+ * @param {*} ip
+ * @param {*} certkey
+ * @param {*} username
+ * @param {*} password
+ */
+function Shell(port, ip, certkey, username, password) {
 
-console.log("results of shell command : ", JSON.stringify(results));
+    // has to run if shell has to run. 
+    // ** seperate this from server shell
+    //   + server shell 
+    //   + client shell 
 
-// // if all are not defined then parse json file for json object
-// if (!!results["-j"]) {
-//     try {
-//         results = { ...results, ...JSON.parse(JSON.stringify(require(results["-j"]))) }
-//     } catch (e) {
-//         results = { ...results, ...JSON.parse(JSON.stringify(require(path.join(process.cwd(), results["-j"])))) }
-//     }
-// }
+    // set key value
+    // get key
+    // has key
+    // search string
+    // search -v string
+    // search -k string
+    // search -kv string
+    // load -f filename
+    // load jsonobject
+    // read key
+    // clear
+    // init -f filename
+    // init jsonobject
+    // update -f filename
+    // update jsonobject
+    // del key
+    // dump -f "filename/within/quotes"
+
+    const search = function (key = '', value = '') {
+        console.log(`Search key results for: ${query}`)
+    };
+    const searchKey = function (key = '') {
+        console.log(`Search key results for: ${key}`)
+    };
+    const searchValue = function (value = '') {
+        console.log(`Search value results for: ${value}`)
+    };
+    const searchKeyValue = function (key = '', value = '') {
+        console.log(`Search key results for: ${key} , ${value}`)
+    };
+
+    const hasKey = function (key = '') {
+        console.log(`Has key: ${key}`)
+    };
+
+    const getKey = function (key = '') {
+        // set a http command for get feature for JSON.manager
+        // console.log(`Get key: ${query} - `, manager.get(key))
+        console.log(key) //, manager.search({ event: 'read', }))
+    };
+
+    const init = function (jsonValues = {}) {
+        // set a http command for get feature for JSON.manager
+        console.log(`Initialized with: ${JSON.stringify(query.data)}`)
+    };
+    const clear = function () {
+        console.log('Cleared')
+    };
+    const load = function (jsonValues = {}) {
+        console.log(`Loaded: ${JSON.stringify(query.data)}`)
+    }
+    const read = function (key = "") {
+        console.log(key, data.search({ event: 'read', }))
+    }
+    const create = function (key = '', value = '') {
+        console.log(`Created: ${key} = ${value}`)
+    };
+    const update = function (query = { data: "" }) {
+        console.log(`Updated with: ${JSON.stringify(query.data)}`)
+    };
+    const deleteItem = function (query = { key: "" }) {
+        console.log(`Deleted: ${query.key}`)
+    };
+    const dump = function (query = { filename: "" }) {
+        console.log(`Dumped to: ${query.filename}`)
+    };
+    const dumpsToFile = function (query = { filename: "" }) {
+        console.log(`Dumped to: ${query.filename}`)
+    };
+
+    const commandMap = {
+        set: create,
+        get: getKey,
+        has: hasKey,
+        search: {
+            '': search,
+            '-v': searchValue,
+            '-k': searchKey,
+            '-kv': searchKeyValue,
+        },
+        load: load,
+        read: read,
+        clear: clear,
+        init: init,
+        update: update,
+        del: deleteItem,
+        dump: dump,
+        dumpToFile: dumpsToFile
+    };
+
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    });
+
+    function processCommand(commandString) {
+        const parts = commandString.trim().split(' ');
+        const commandName = parts[0];
+        const flags = parts.filter((part) => part.startsWith('-')).join('');
+        let valueParts = parts.slice(1).filter((part) => !part.startsWith('-'));
+        let value;
+
+        console.log(value, valueParts)
+
+        if (commandName === 'set' && valueParts.length >= 2) {
+            const key = valueParts[0];
+            const val = valueParts.slice(1).join(' ');
+            console.log("value", `${key} - ${val}`);
+            commandMap.set(key, val)
+            return recursivePrompt();
+        }
+
+        if (commandName === 'load') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                    console.log(`running  command map 1 ${JSON.stringify(value)} ${value.filename}`);
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                try {
+                    value = JSON.parse(valueParts.join(' '));
+                    // console.log(`${value}`);
+                } catch (e) {
+                    console.log('Invalid JSON for', commandName);
+                    return recursivePrompt();
+                }
+            }
+        } else if (commandName === 'init') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                    console.log(`${value}`);
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                try {
+                    value = JSON.parse(valueParts.join(' '));
+                    console.log(`${value}`);
+                } catch (e) {
+                    console.log('Invalid JSON for', commandName);
+                    return recursivePrompt();
+                }
+            }
+        } else if (commandName === 'update') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                    console.log(`${value}`);
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                try {
+                    value = JSON.parse(valueParts.join(' '));
+                    console.log(`${value}`);
+                } catch (e) {
+                    console.log('Invalid JSON for', commandName);
+                    return recursivePrompt();
+                }
+            }
+        } else if (commandName === 'load' || commandName === 'init' || commandName === 'update') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
+                    console.log(`${value}`);
+                } else {
+                    console.log('Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                try {
+                    value = JSON.parse(valueParts.join(' '));
+                    console.log(`${value}`);
+                } catch (e) {
+                    console.log('Invalid JSON for', commandName);
+                    return recursivePrompt();
+                }
+            }
+        } else if (commandName === 'dump') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = valueParts[0].slice(1, -1);
+                    console.log(`${value}`);
+                } else {
+                    console.log('Error: Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                console.log('dump requires -f flag with filename');
+                return recursivePrompt();
+            }
+        } else if (commandName === 'dumpKey') {
+            if (flags === '-f') {
+                if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
+                    value = valueParts[0].slice(1, -1);
+                    console.log(`${value}`);
+                } else {
+                    console.log('Error: Filename must be within quotes for -f flag.');
+                    return recursivePrompt();
+                }
+            } else {
+                console.log('dump requires -f flag with filename');
+                return recursivePrompt();
+            }
+        } else if (commandName === 'read') {
+            value = valueParts.join(' ');
+            console.log(`${value}`);
+        } else if (commandName === 'has') {
+            value = valueParts.join(' ');
+            console.log(`has ${value}`);
+        } else if (commandName === 'get') {
+            value = valueParts.join(' ');
+            let s = getKey(value)
+            console.log(`${value} - ${s}`);
+        } else if (commandName === 'del') {
+            value = valueParts.join(' ');
+            console.log(`${value}`);
+            // } else if (commandName === 'read' || commandName === 'has' || commandName === 'get' || commandName === 'del') {
+            //     value = valueParts.join(' ');
+            //     console.log(`${value}`);
+        } else if (commandName === 'search') {
+            value = valueParts.join(' ');
+            console.log(`${value}`);
+        } else if (commandName === 'clear') {
+            //no arguments required
+            console.log(`${value}`);
+        } else if (commandName === 'init') {
+            //no arguments required
+            console.log(`${value}`);
+        } else if (commandName === 'clear' || commandName === 'init') {
+            //no arguments required
+            console.log(`${value}`);
+        } else {
+            value = valueParts.join(' ');
+            console.log(`${value}`);
+        }
+
+        if (commandMap[commandName]) {
+            let commandFunction = commandMap[commandName];
+            if (typeof commandFunction === 'object' && flags) {
+                commandFunction = commandFunction[flags];
+            } else if (typeof commandFunction === 'object' && !flags) {
+                commandFunction = commandFunction[''];
+            }
+
+            if (commandFunction) {
+                console.log(commandFunction(value), commandFunction);
+            } else {
+                console.log('Invalid flags or arguments for command:', commandName);
+            }
+        } else {
+            console.log('Invalid command:', commandName);
+        }
+
+        recursivePrompt();
+    }
+
+    function recursivePrompt() {
+        rl.question('> ', (input) => {
+            if (input.toLowerCase() === 'exit') {
+                rl.close();
+            } else {
+                processCommand(input);
+            }
+        });
+    }
+
+    console.log('Recursive shell started. Type "exit" to quit.');
+    recursivePrompt();
+}
+
+Shell()
+
+module.exports = Shell
+
+
