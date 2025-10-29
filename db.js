@@ -53,36 +53,23 @@ const prefixDefinitions = [
     // { prefix: "-j", handler: () => console.log }
 ];
 
-var results = shellflags(prefixDefinitions)
-
-console.log("type: number ::", results["-t"], "port: number ::", results["-p"], ", ip: string/text ::", results["-ip"], "certkey: string/text ::", results["-k"], "username: string/text ::", results["-c"], "mode: string/text ::", results["-s"]);
+var results = shellflags(prefixDefinitions);
+console.log(...results);
 
 // type, port, ip/url, key, certificate, server, mode
 var middlewares = [];
 var app = (req, res, next) => { next() };
 
-if (!results || !results["-t"] || !results["-p"] || !results["-ip"] || !results["-k"] || !results["-c"] || !results["-u"] || !results["-pwd"] || !results["-s"]) {
-    results = {
-        "-t": (results["-t"]) ? results["-t"] : (process.argv.length > 2 && !!process.argv[2]) ? process.argv[2] : "http",
-        "-p": (results["-p"]) ? results["-p"] : (process.argv.length > 3 && !!process.argv[3]) ? process.argv[3] : 3443,
-        "-ip": (results["-ip"]) ? results["-ip"] : (process.argv.length > 4 && !!process.argv[4]) ? process.argv[4] : "127.0.0.1",
-        "-k": (results["-k"]) ? results["-k"] : (process.argv.length > 5 && !!process.argv[5]) ? process.argv[5] : null,
-        "-c": (results["-c"]) ? results["-c"] : (process.argv.length > 6 && !!process.argv[6]) ? process.argv[6] : null,
-        "-m": (results["-m"]) ? results["-m"] : "shell",
-        "-u": (results["-u"]) ? results["-u"] : null,
-        "-pwd": (results["-pwd"]) ? results["-pwd"] : null,
-        "-s": (results["-s"]) ? results["-s"] : "shell"
-    }
-}
-
-var type = results["-t"] || "http";
-var port = Number(results["-p"]) || 3443;
-var ip = results["-ip"] || "127.0.0.1";
-var key = results["-k"] || null;
-var cert = results["-c"] || null;
-var username = results["-u"] || null;
-var password = results["-pwd"] || null;
-var mode = results["-s"] || "shell";
+// parsing shell and their values
+var type = results["-t"] = results["-t"] || "http";
+var port = results["-p"] = Number(results["-p"]) || 3443;
+var ip = results["-ip"] = results["-ip"] || "127.0.0.1";
+var key = results["-k"] = results["-k"] || null;
+var cert = results["-c"] = results["-c"] || null;
+var username = results["-u"] = results["-u"] || null;
+var password = results["-pwd"] = results["-pwd"] || null;
+var dataLoad = results["-dt"] = results["-dt"] || "{}";
+var mode = results["-s"] = results["-s"] || "shell";
 
 console.log("results of shell command : ", JSON.stringify(results));
 
@@ -95,11 +82,12 @@ if (!!results["-j"]) {
     }
 }
 
+var srv
+
 if (!!mode && mode === "db") {
-    var srv = startServer(type, port, ip, middlewares, app, key, cert);
+    srv = startServer(type, port, ip, middlewares, app, key, cert);
     console.log("Running server at: ", `${type}, ${port}, ${ip}`)
 } else {
-    var srv;
     if (!!username && !!password) {
         srv = Shell(port, ip, null, username, password);
     } else if (!!cert) {

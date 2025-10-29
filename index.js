@@ -922,6 +922,11 @@ function ClientAPI(ipURL, options, type = "http") {
  */
 function Shell(port, ip, certkey, username, password) {
 
+    // has to run if shell has to run. 
+    // ** seperate this from server shell
+    //   + server shell 
+    //   + client shell 
+
     // set key value
     // get key
     // has key
