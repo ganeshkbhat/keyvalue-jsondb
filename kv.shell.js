@@ -8,8 +8,6 @@ const readline = require('readline');
 const express = require('express');
 const path = require("path");
 
-const startServer = require('./old_backup/_index').startServer;
-const Shell = require('./old_backup/_index').Shell;
 const shellflags = require("shellflags");
 const path = require("path");
 
