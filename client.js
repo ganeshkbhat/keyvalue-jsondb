@@ -146,9 +146,28 @@ class WebSocketClient {
                 reject(err);
             });
 
+            // Implement keep-alive (simplified example)
+            // Send ping every 30 seconds
+            const interval = setInterval(() => {
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.ping(); // Send a ping frame
+                } else {
+                    clearInterval(interval);
+                }
+            }, 30000); 
+            
+            ws.on('pong', () => {
+                // Client responded to ping, connection is alive
+                console.log('Received pong from client');
+            });
             this.ws.on('message', (data) => {
                 try {
                     const msg = JSON.parse(data.toString());
+                    switch (data.event.toLowercase()) {
+                        case "set":
+                            console.log("set running")
+                            break;
+                    }
                     console.log(`[WS] Received response:`, msg);
                 } catch (e) {
                     console.error('[WS] Received non-JSON message:', data.toString());
@@ -170,7 +189,7 @@ class WebSocketClient {
             console.error('[WS] Cannot send query: WebSocket is not open.');
         }
     }
-    
+
     close() {
         if (this.ws) {
             this.ws.close();
@@ -210,7 +229,7 @@ async function runDemo() {
         // 6. DELETE
         const deleteResponse = await ClientAPI.delete('newUserKey');
         console.log(deleteResponse.message);
-        
+
         console.log(`Verification: Attempting to get deleted key...`);
         await ClientAPI.get('newUserKey').catch(err => console.error(err.message));
 
@@ -218,16 +237,16 @@ async function runDemo() {
     } catch (error) {
         console.error('\nHTTP DEMO FAILED:', error.message);
     }
-    
-    
+
+
     console.log('\n--- STARTING WEBSOCKET CLIENT DEMO ---');
     let wsClient = null;
     try {
         wsClient = await new WebSocketClient(HOST, PORT).connect();
 
         // Give a moment for connection to fully establish
-        await new Promise(r => setTimeout(r, 500)); 
-        
+        await new Promise(r => setTimeout(r, 500));
+
         // WS DUMP query
         wsClient.sendQuery('DUMP');
 
@@ -236,12 +255,12 @@ async function runDemo() {
 
         // WS GET query
         wsClient.sendQuery('GET', 'wsTestKey');
-        
+
         // WS DELETE query
         wsClient.sendQuery('DELETE', 'wsTestKey');
 
         // Keep connection open briefly to receive messages
-        await new Promise(r => setTimeout(r, 1000)); 
+        await new Promise(r => setTimeout(r, 1000));
 
     } catch (error) {
         console.error('\nWEBSOCKET DEMO FAILED:', error.message);
