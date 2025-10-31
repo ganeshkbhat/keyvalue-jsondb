@@ -61,26 +61,26 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                 // CREATE: Uses 'set' as the event name
                 case 'set':
                     try {
-                        console.log("data.key, data.value1", data.key, data.value)
+                        console.log("data.key, data.value", data.key, data.value)
                         if (!data.key || !data.value) {
                             return res.status(400).json({ status: 'error', message: 'Missing required fields: "key" (string) and "value" (object) for "set" event.' });
                         }
-                        console.log("data.key, data.value2", data.key, data.value)
+                        console.log("data.key, data.value", data.key, data.value)
                         const createdItem = app.dataManager.write(data.key, data.value);
                         if (!app.dataManager.read(data.key)) {
                             return res.status(409).json({ status: 'error', message: `Key "${key}" already exists. Use "update" to modify.` });
                         }
-                        console.log("data.key, data.value3", data.key, data.value)
+                        console.log("data.key, data.value", data.key, data.value)
                         return res.status(201).json({ status: 'success', event: 'set', result: createdItem });
                     } catch (e) {
-                        console.log("data.key, data.value4", data.key, data.value)
+                        console.log("data.key, data.value", data.key, data.value)
                         console.log("event_set: error:", app.dataManager.getKey(data.key), JSON.stringify({ "event_set": e }))
                         return res.status(500).json({ status: 'failed', event: 'set', result: e });
                     }
-                    
+
                 // READ ONE: Uses 'get' as the event name
                 case 'get':
-                    if (!key) {
+                    if (!data.key) {
                         return res.status(400).json({ status: 'error', message: 'Missing "key" field for "get" event.' });
                     }
                     const foundItem = app.dataManager.read(key);
@@ -88,14 +88,18 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                         return res.status(404).json({ status: 'error', message: `Item with key "${key}" not found.` });
                     }
                     return res.status(200).json({ status: 'success', event: 'get', result: foundItem });
+                case 'read':
+                    // app.dataManager.write("test_write", "testingvalue")
+                    // console.log(app.dataManager.dump());
+                    // const allItems = app.dataManager.dump();
+                    return res.status(200).json({ status: 'success', event: 'dump', result: allItems, count: allItems.length });
 
                 // LIST ALL: Uses 'dump' as the event name
                 case 'dump':
                     // app.dataManager.write("test_write", "testingvalue")
-                    console.log(app.dataManager.dump())
+                    console.log(app.dataManager.dump());
                     const allItems = app.dataManager.dump();
                     return res.status(200).json({ status: 'success', event: 'dump', result: allItems, count: allItems.length });
-
 
                 // UPDATE: Uses 'update' as the event name
                 case 'update':
