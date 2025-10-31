@@ -8,223 +8,6 @@ const JsonManager = require("json-faster").JsonManager;
 const express = require('express');
 const path = require("path");
 
-function CommonFuncs() {
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function hasKey(body, queryParams) {
-        return manager.hasKey(body.query.key);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function getKey(body, queryParams) {
-        return manager.getKey(body.query.key);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function search(body, queryParams) {
-        return manager.search(body.query, body.options);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function searchValue(body, queryParams) {
-        return manager.searchValue(body.query, body.options);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function searchKeyValue(body, queryParams) {
-        return manager.searchKeyValue(body.query, body.options);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function read(body, queryParams) {
-        return manager.read(body.query, body.options);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function create(body, queryParams) {
-        return manager.write(body.query.key, body.query.value);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function update(body, queryParams) {
-        return manager.update(body.query);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function del(body, queryParams) {
-        return manager.deleteKey(body.query);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function dump(body, queryParams) {
-        return manager.dump();
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function dumpKeys(body, queryParams) {
-        return manager.dumpKeys(body.query, body.options, body.type);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function dumpToFile(body, queryParams) {
-        return manager.dumpToFile(manager.dump(), body.filename);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function dumpKeysToFile(body, queryParams) {
-        // return manager.dumpToFile(manager.dump(body.query, body.options, body.type), body.filename); // consider this functionality as well
-        return manager.dumpToFile(manager.dumpKeys(body.query, body.options, body.type), body.filename);
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function load(body, queryParams) {
-        return manager.update(!!body.query ? body.query : {}); // use previous data plus load new data
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function init(body, queryParams) {
-        return manager.init(body.query || {}); // load data
-    }
-
-
-    /**
-     *
-     *
-     * @param {*} body
-     * @param {*} queryParams
-     * @return {*} 
-     */
-    function clear(body, queryParams) {
-        return manager.init(body.query || {}); // clear with blank object
-    }
-
-
-    return {
-        hasKey,
-        getKey,
-        search,
-        searchValue,
-        searchKeyValue,
-        read,
-        create,
-        update,
-        del,
-        dump,
-        dumpKeys,
-        dumpToFile,
-        dumpKeysToFile,
-        load,
-        init,
-        clear
-    }
-
-}
-
 // options = { username, password, key, cert, middlewares: [], apps: null }
 function startServer(port, hostname = "localhost", options = {}, apps = [], middlewares = []) {
     const app = express();
@@ -241,297 +24,130 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
     if (!!middlewares.length) app.use(middlewares);
 
 
-    // Attach the singleton JSON manager 
-    // Keys and values are stored here.
-    app.dataStore = new JsonManager();
+    // Middleware to parse JSON request bodies
+    app.use(express.json());
+
+    // Instantiate the manager for 'Item' entities
+    app.dataManager = new JsonManager();
 
     /**
-     * GET route for debugging: shows the current state of the JSON store.
-     */
+         * GET route for debugging: shows the current state of the JSON store.
+         */
     app.get('/', (req, res) => {
         // console.log(app.mgr.dump())
         res.status(200).json({
             status: 'ok',
             // store_state: app.mgr.dump(),
             message: 'Current state of the singleton JSON manager.',
-            data: app.dataStore.dump()
-        });
-    });
-
-
-    // 2. HTTP and WebSocket Server Setup
-    // Create the standard HTTP server using the Express app
-    const server = http.createServer(app);
-    let wss = new WebSocket.Server({ server });
-
-    app.all("*", (req, res) => { })
-
-    // 3. WebSocket Connection Handler
-    // This route manages all operations based on req.body.event and req.body.data {key, value, other
-    wss.on('connection', (ws) => {
-        console.log('Client connected via WebSocket.');
-
-        // Event listener for incoming messages (commands)
-        ws.on('message', (message) => {
-            let reqBody;
-            try {
-                // WebSocket messages are buffers, convert to string, then parse JSON
-                reqBody = JSON.parse(message.toString(), "utf8");
-                console.log('Received JSON command:', reqBody);
-            } catch (e) {
-                // Handle invalid JSON sent by the client
-                const errorResponse = { success: false, error: 'Invalid JSON format in WebSocket message.' };
-                ws.send(JSON.stringify(errorResponse));
-                return;
-            }
-
-            // Destructure event and data from the received body
-            const { event, data } = reqBody;
-            let response; // The response object to be sent back
-
-            // Check for essential request body components
-            if (!event) {
-                response = {
-                    success: false,
-                    error: "Missing 'event' field in the message.",
-                    expected_events: ["set", "get", "search"]
-                };
-                return ws.send(JSON.stringify(response));
-            }
-
-            // Determine the action based on the 'event' field
-            try {
-                switch (event.toLowerCase()) {
-                    case 'set':
-                        // Required data: key and value
-                        const { key, value } = data || {};
-                        if (!key || value === undefined) {
-                            response = { success: false, error: "For 'set' event, 'data.key' and 'data.value' are required." };
-                        } else {
-                            app.dataStore.set(key, value);
-                            response = {
-                                success: true,
-                                message: `Key '${key}' set successfully.`,
-                                current_value: value
-                            };
-                        }
-                        break;
-
-                    case 'get':
-                        // Required data: key
-                        const getKey = data?.key;
-                        if (!getKey) {
-                            response = { success: false, error: "For 'get' event, 'data.key' is required." };
-                        } else {
-                            const getValue = app.dataStore.get(getKey);
-                            if (getValue !== undefined) {
-                                response = {
-                                    success: true,
-                                    key: getKey,
-                                    value: getValue
-                                };
-                            } else {
-                                response = {
-                                    success: false,
-                                    message: `Key '${getKey}' not found.`
-                                };
-                            }
-                        }
-                        break;
-
-                    case 'search':
-                        // Required data: key (used here as a search term for simplicity)
-                        const searchTerm = data?.key;
-                        if (!searchTerm) {
-                            response = { success: false, error: "For 'search' event, 'data.key' (search term) is required." };
-                        } else {
-                            // Simulate a simple search: find all keys/values containing the search term
-                            const results = [];
-                            for (const [k, v] of app.dataStore.entries()) {
-                                // Convert both key and value to string for loose search
-                                if (String(k).includes(searchTerm) || String(v).includes(searchTerm)) {
-                                    results.push({ key: k, value: v });
-                                }
-                            }
-
-                            response = {
-                                success: true,
-                                message: `Found ${results.length} results matching '${searchTerm}'.`,
-                                results: results
-                            };
-                        }
-                        break;
-
-                    default:
-                        // Handle unsupported events
-                        response = {
-                            success: false,
-                            error: `Unsupported event type: '${event}'.`,
-                            expected_events: ["set", "get", "search"]
-                        };
-                }
-            } catch (error) {
-                console.error("Error processing event:", error);
-                response = { success: false, error: "An unexpected server error occurred during event processing." };
-            }
-
-            // Send the response back to the client as a JSON string
-            ws.send(JSON.stringify(response));
-        });
-
-        ws.on('close', () => {
-            console.log('Client disconnected.');
-        });
-
-        ws.on('error', (error) => {
-            console.error('WebSocket error:', error);
+            data: app.dataManager.dump()
         });
     });
 
     // 4. HTTP Connection Handler
     // This route manages all operations based on req.body.event and req.body.data {key, value, other}
+
     app.post('/', (req, res) => {
-        // Destructure event and data from the request body
+        // Expected payload format: { event: 'action', key?: string, value?: object }
+        // Renamed 'id' to 'key' for clarity in this handler
         const { event, data } = req.body;
 
-        // All kinds of events
-        const events = ["set", "get", "getKey", "haskey", "search", "searchkey", "searchvalue", "searchkeyvalue", "del"]
-
-        // Check for essential request body components
-        if (!event || !events.includes(event)) {
-            return res.status(400).json({
-                error: "Missing 'event' field in the request body.",
-                expected_events: events
-            });
+        if (!event) {
+            return res.status(400).json({ status: 'error', message: 'Missing required field: event (e.g., "set", "get", "dump", "update", "remove")' });
         }
-
-        // // Determine the action based on the 'event' field
-        // console.log(`Received event: ${event}`);
 
         try {
             switch (event.toLowerCase()) {
-                case 'set':
-                    // Required data: key and value
-                    const { key, value } = data || {};
-                    if (!key || value === undefined) {
-                        return res.status(400).json({ error: "For 'set' event, 'data.key' and 'data.value' are required." });
-                    }
 
-                    app.dataStore.set(key, value);
-                    if (!!app.dataStore[key]) {
-                        return res.status(400).json({
-                            success: true,
-                            message: `Key '${key}' set successfully.`,
-                            current_value: app.dataStore.get(value)
-                        })
-                    } else {
-                        return res.status(200).json({
-                            success: true,
-                            message: `Key '${key}' set successfully.`,
-                            current_value: app.dataStore.get(value)
-                        });
+                // CREATE: Uses 'set' as the event name
+                case 'set':
+                    try {
+                        console.log("data.key, data.value1", data.key, data.value)
+                        if (!data.key || !data.value) {
+                            return res.status(400).json({ status: 'error', message: 'Missing required fields: "key" (string) and "value" (object) for "set" event.' });
+                        }
+                        console.log("data.key, data.value2", data.key, data.value)
+                        const createdItem = app.dataManager.write(data.key, data.value);
+                        if (!app.dataManager.read(data.key)) {
+                            return res.status(409).json({ status: 'error', message: `Key "${key}" already exists. Use "update" to modify.` });
+                        }
+                        console.log("data.key, data.value3", data.key, data.value)
+                        return res.status(201).json({ status: 'success', event: 'set', result: createdItem });
+                    } catch (e) {
+                        console.log("data.key, data.value4", data.key, data.value)
+                        console.log("event_set: error:", app.dataManager.getKey(data.key), JSON.stringify({ "event_set": e }))
+                        return res.status(500).json({ status: 'failed', event: 'set', result: e });
                     }
                     
+                // READ ONE: Uses 'get' as the event name
                 case 'get':
-                    // Required data: key
-                    const getKey = data?.key;
-                    if (!getKey) {
-                        return res.status(400).json({ error: "For 'get' event, 'data.key' is required." });
+                    if (!key) {
+                        return res.status(400).json({ status: 'error', message: 'Missing "key" field for "get" event.' });
                     }
-
-                    const getValue = app.dataStore.get(getKey);
-                    if (getValue !== undefined) {
-                        return res.status(200).json({
-                            success: true,
-                            key: getKey,
-                            value: getValue
-                        });
-                    } else {
-                        return res.status(404).json({
-                            success: false,
-                            message: `Key '${getKey}' not found.`
-                        });
+                    const foundItem = app.dataManager.read(key);
+                    if (!foundItem) {
+                        return res.status(404).json({ status: 'error', message: `Item with key "${key}" not found.` });
                     }
+                    return res.status(200).json({ status: 'success', event: 'get', result: foundItem });
 
-                case 'search':
-                    // Required data: key (used here as a search term for simplicity)
-                    const searchTerm = data?.key;
-                    if (!searchTerm) {
-                        return res.status(400).json({ error: "For 'search' event, 'data.key' (search term) is required." });
+                // LIST ALL: Uses 'dump' as the event name
+                case 'dump':
+                    // app.dataManager.write("test_write", "testingvalue")
+                    console.log(app.dataManager.dump())
+                    const allItems = app.dataManager.dump();
+                    return res.status(200).json({ status: 'success', event: 'dump', result: allItems, count: allItems.length });
+
+
+                // UPDATE: Uses 'update' as the event name
+                case 'update':
+                    if (!key || !value) {
+                        return res.status(400).json({ status: 'error', message: 'Missing required fields: "key" and "value" for "update" event.' });
                     }
-
-                    // Simulate a simple search: find all keys containing the search term
-                    const results = [];
-                    for (const [k, v] of app.dataStore.entries()) {
-                        if (String(k).includes(searchTerm) || String(v).includes(searchTerm)) {
-                            results.push({ key: k, value: v });
-                        }
+                    const updatedItem = app.dataManager.update(key, value);
+                    if (!updatedItem) {
+                        return res.status(404).json({ status: 'error', message: `Item with key "${key}" not found for update.` });
                     }
+                    return res.status(200).json({ status: 'success', event: 'update', result: updatedItem });
 
-                    return res.status(200).json({
-                        success: true,
-                        message: `Found ${results.length} results matching '${searchTerm}'.`,
-                        results: results
-                    });
+                // DELETE: Uses 'remove' as the event name
+                case 'remove':
+                    if (!key) {
+                        return res.status(400).json({ status: 'error', message: 'Missing "key" field for "remove" event.' });
+                    }
+                    const deleted = app.dataManager.delete(key);
+                    if (!deleted) {
+                        return res.status(404).json({ status: 'error', message: `Item with key "${key}" not found for deletion.` });
+                    }
+                    return res.status(200).json({ status: 'success', event: 'remove', message: `Item with key "${key}" successfully removed.` });
 
                 default:
-                    // Handle unsupported events
-                    return res.status(400).json({
-                        error: `Unsupported event type: '${event}'.`,
-                        expected_events: ["set", "get", "search"]
-                    });
+                    return res.status(400).json({ status: 'error', message: `Unknown event type: ${event}` });
             }
         } catch (error) {
-            console.error("Error processing request:", error);
-            return res.status(500).json({ error: "An unexpected server error occurred." });
+            console.error(`Error processing event ${event}:`, error);
+            return res.status(500).json({ status: 'error', message: 'Internal server error', details: error.message });
         }
-
     });
+
 
     // 4. Server Start
     app.server = app.listen(PORT, HOSTNAME, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
         console.log(`Use POST requests to the root path '/' with a JSON body.`);
-        console.log(`Example body to set a value: {"event": "set", "data": {"key": "user_id", "value": 1234}}`);
     });
 
-
-    app.server.on('upgrade', (request, socket, head) => {
-        const pathname = url.parse(request.url).pathname;
-
-        // Check if the path is the one for WebSockets
-        if (pathname === '/ws') {
-            // Extract the token from the query parameters (e.g., /ws?token=...)
-            const token = url.parse(request.url, true).query.token;
-
-            if (!token) {
-                socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
-                socket.destroy();
-                return;
-            }
-
-            try {
-                // 2b. Verify and decode the JWT
-                const decoded = jwt.verify(token, JWT_SECRET);
-
-                // 2c. Attach the decoded user data to the request object
-                request.user = decoded;
-
-                // 2d. If valid, proceed with the WebSocket handshake
-                wss.handleUpgrade(request, socket, head, (ws) => {
-                    wss.emit('connection', ws, request);
-                });
-            } catch (err) {
-                // If token is invalid (expired, wrong secret, etc.)
-                socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
-                socket.destroy();
-            }
-        } else {
-            socket.destroy(); // Reject non-ws paths
-        }
+    process.on('uncaughtException', (err) => {
+        console.error('Caught unhandled exception:', err);
+        // Perform cleanup or graceful shutdown
+        // app.dataManager.dump
+        process.exit(1);
     });
 
-
+    process.on('SIGINT', () => {
+        console.log('Received SIGINT. Shutting down gracefully...');
+        // Perform cleanup
+        // app.dataManager.dump
+        process.exit(0);
+    });
     return app
 }
 
