@@ -38,8 +38,18 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
         res.status(200).json({
             status: 'ok',
             // store_state: app.mgr.dump(),
+            message: 'Current state of the JSON manager.',
+            data: "hello"
+        });
+    });
+
+    app.get('/hello', (req, res) => {
+        // console.log(app.mgr.dump())
+        res.status(200).json({
+            status: 'ok',
+            // store_state: app.mgr.dump(),
             message: 'Current state of the singleton JSON manager.',
-            data: app.dataManager.dump()
+            data: {} // app.dataManager.dump()
         });
     });
 
@@ -50,62 +60,89 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
         // Expected payload format: { event: 'action', key?: string, value?: object }
         // Renamed 'id' to 'key' for clarity in this handler
         const { event, data } = req.body;
-
+        // needed created same named values to create or update
+        let allItems, foundItem, createdItem
+        
         if (!event) {
             return res.status(400).json({ status: 'error', message: 'Missing required field: event (e.g., "set", "get", "dump", "update", "remove")' });
         }
 
+        
         try {
             switch (event.toLowerCase()) {
-
-                // CREATE: Uses 'set' as the event name
-                case 'set':
+                case 'set': 
+                    // CREATE: Uses 'set' as the event name
+                    // minor codebase to test http protocol for kvjson [to be extended to ws and wss]
                     try {
-                        console.log("data.key, data.value", data.key, data.value)
                         if (!data.key || !data.value) {
                             return res.status(400).json({ status: 'error', message: 'Missing required fields: "key" (string) and "value" (object) for "set" event.' });
                         }
-                        console.log("data.key, data.value", data.key, data.value)
-                        const createdItem = app.dataManager.write(data.key, data.value);
-                        if (!app.dataManager.read(data.key)) {
+                        
+                        createdItem = app.dataManager.write(data.key, data.value);
+                        if (!app.dataManager.getKey(data.key)) {
                             return res.status(409).json({ status: 'error', message: `Key "${key}" already exists. Use "update" to modify.` });
                         }
-                        console.log("data.key, data.value", data.key, data.value)
-                        return res.status(201).json({ status: 'success', event: 'set', result: createdItem });
+                        
+                        return res.status(201).json({ status: 'success', event: 'set', result: { [data.key]: app.dataManager.read(data.key) } });
+                        // return res.status(201).json({ status: 'success', event: 'set', result: createdItem });
                     } catch (e) {
-                        console.log("data.key, data.value", data.key, data.value)
-                        console.log("event_set: error:", app.dataManager.getKey(data.key), JSON.stringify({ "event_set": e }))
-                        return res.status(500).json({ status: 'failed', event: 'set', result: e });
+                        return res.status(500).json({ status: 'failed', event: event, result: e });
                     }
-
+                    // console.log("data.key, data.value", data.key, data.value)
+                    // console.log("event_set: error:", app.dataManager.getKey(data.key), JSON.stringify({ "event_set": e }))
+                    
                 // READ ONE: Uses 'get' as the event name
                 case 'get':
+                    // minor codebase to test http protocol for kvjson [to be extended to ws and wss]
                     if (!data.key) {
                         return res.status(400).json({ status: 'error', message: 'Missing "key" field for "get" event.' });
                     }
-                    const foundItem = app.dataManager.read(key);
+                    foundItem = app.dataManager.read(data.key);
                     if (!foundItem) {
-                        return res.status(404).json({ status: 'error', message: `Item with key "${key}" not found.` });
+                        return res.status(404).json({ status: 'error', message: `Item with key "${data.key}" not found.` });
                     }
-                    return res.status(200).json({ status: 'success', event: 'get', result: foundItem });
+                    return res.status(200).json({ status: 'success', event: 'get', result: {"key": data.key, "value": foundItem} });
                 case 'read':
                     // app.dataManager.write("test_write", "testingvalue")
                     // console.log(app.dataManager.dump());
-                    // const allItems = app.dataManager.dump();
+                    allItems = app.dataManager.dump();
                     return res.status(200).json({ status: 'success', event: 'dump', result: allItems, count: allItems.length });
 
                 // LIST ALL: Uses 'dump' as the event name
                 case 'dump':
                     // app.dataManager.write("test_write", "testingvalue")
-                    console.log(app.dataManager.dump());
-                    const allItems = app.dataManager.dump();
+                    // console.log(app.dataManager.dump());
+                    allItems = app.dataManager.dump();
+                    return res.status(200).json({ status: 'success', event: 'dump', result: allItems, count: allItems.length });
+                
+                case 'dumpkey':
+                // LIST ALL: Uses 'dump' as the event name to return key requested
+                // app.dataManager.write("test_write", "testingvalue")
+                    // console.log(app.dataManager.dump());
+                    allItems = app.dataManager.dump();
                     return res.status(200).json({ status: 'success', event: 'dump', result: allItems, count: allItems.length });
 
                 // UPDATE: Uses 'update' as the event name
                 case 'update':
-                    if (!key || !value) {
-                        return res.status(400).json({ status: 'error', message: 'Missing required fields: "key" and "value" for "update" event.' });
+                    try {
+                        if (!data.key || !data.value) {
+                            return res.status(400).json({ status: 'error', message: 'Missing required fields: "key" and "value" for "update" event.' });
+                        }
+                        
+                        const updateItem = app.dataManager.write(data.key, data.value);
+                        if (!app.dataManager.getKey(data.key)) {
+                            return res.status(409).json({ status: 'error', message: `Key "${key}" already exists. Use "update" to modify.` });
+                        }
+                        
+                        return res.status(201).json({ status: 'success', event: 'set', result: { [data.key]: app.dataManager.getKey(data.key) } });
+                    } catch (e) {
+                        return res.status(500).json({ status: 'failed', event: event, result: e });
                     }
+                    // console.log("data.key, data.value", data.key, data.value)
+                    // console.log("event_set: error:", app.dataManager.getKey(data.key), JSON.stringify({ "event_set": e }))
+                    return res.status(201).json({ status: 'success', event: 'set', result: createdItem });
+
+                    
                     const updatedItem = app.dataManager.update(key, value);
                     if (!updatedItem) {
                         return res.status(404).json({ status: 'error', message: `Item with key "${key}" not found for update.` });
@@ -133,12 +170,6 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
     });
 
 
-    // 4. Server Start
-    app.server = app.listen(PORT, HOSTNAME, () => {
-        console.log(`Server is running on http://localhost:${PORT}`);
-        console.log(`Use POST requests to the root path '/' with a JSON body.`);
-    });
-
     process.on('uncaughtException', (err) => {
         console.error('Caught unhandled exception:', err);
         // Perform cleanup or graceful shutdown
@@ -152,6 +183,13 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
         // app.dataManager.dump
         process.exit(0);
     });
+    
+    // 4. Server Start
+    app.server = app.listen(PORT, HOSTNAME, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+        console.log(`Use POST requests to the root path '/' with a JSON body.`);
+    });
+
     return app
 }
 
