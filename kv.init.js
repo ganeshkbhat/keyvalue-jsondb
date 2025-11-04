@@ -10,7 +10,12 @@ const path = require("path");
 const JsonManager = require("json-faster").JsonManager;
 const shellflags = require("shellflags");
 
-const manager = new JsonManager()
+// init shell line 
+//  > capture auth and db values 
+//  > run the db server
+//  > run the shell commandline
+
+// const manager = new JsonManager()
 
 function shellParser(results = {}) {
     const prefixDefinitions = [
