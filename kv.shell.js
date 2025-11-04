@@ -7,6 +7,7 @@ const WebSocket = require('ws');
 const readline = require('readline');
 const express = require('express');
 const path = require("path");
+const shellParser = require("./kv.init");
 const JsonManager = require("json-faster").JsonManager;
 const manager = new JsonManager()
 
@@ -122,6 +123,13 @@ function Shell(port, ip, certkey, username, password) {
     //   + server shell 
     //   + client shell 
 
+    var serverkey = ""
+    var dataLoad = "";
+    var mode = "http";
+
+
+
+
     // set key value
     // get key
     // has key
@@ -162,14 +170,14 @@ function Shell(port, ip, certkey, username, password) {
         // set a http command for get feature for JSON.manager
         // console.log(`Get key: ${query} - `, manager.get(key))
         console.log(key) //, manager.search({ event: 'read', }))
-        return await makePostRequest(ip, port, path = "/", payload = { event: 'read', data: {k : key }})
+        return await makePostRequest(ip, port, path = "/", payload = { event: 'read', data: { k: key } })
     };
 
     const init = function (jsonValues = {}) {
         // set a http command for get feature for JSON.manager
-        
+
         console.log(`Initialized with: ${JSON.stringify(query.data)}`)
-        makePostRequest(ip, port, path = "/", payload = { event: 'init', data: jsonValues})
+        makePostRequest(ip, port, path = "/", payload = { event: 'init', data: jsonValues })
     };
     const clear = function () {
         console.log('Cleared')
@@ -232,6 +240,7 @@ function Shell(port, ip, certkey, username, password) {
         console.log(value, valueParts)
 
         if (commandName === 'set' && valueParts.length >= 2) {
+            // event set should send key-value pair
             const key = valueParts[0];
             const val = valueParts.slice(1).join(' ');
             console.log("value", `${key} - ${val}`);
@@ -240,6 +249,7 @@ function Shell(port, ip, certkey, username, password) {
         }
 
         if (commandName === 'load') {
+            // event load load the read file to the commandname
             if (flags === '-f') {
                 if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
                     value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
@@ -258,6 +268,7 @@ function Shell(port, ip, certkey, username, password) {
                 }
             }
         } else if (commandName === 'init') {
+            // event init should send object to load to database 
             if (flags === '-f') {
                 if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
                     value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
@@ -276,6 +287,9 @@ function Shell(port, ip, certkey, username, password) {
                 }
             }
         } else if (commandName === 'update') {
+            // event update should send new key-value pair
+            // if it is a file then the file should be read and sent for update
+            // 
             if (flags === '-f') {
                 if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
                     value = { filename: valueParts[0].slice(1, -1) }; // Remove quotes
@@ -312,6 +326,7 @@ function Shell(port, ip, certkey, username, password) {
                 }
             }
         } else if (commandName === 'dump') {
+            // event dump should dump entire saved value pair or dump the specific dump-key operation
             if (flags === '-f') {
                 if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
                     value = valueParts[0].slice(1, -1);
@@ -325,6 +340,7 @@ function Shell(port, ip, certkey, username, password) {
                 return recursivePrompt();
             }
         } else if (commandName === 'dumpKey') {
+            // event dump should dump the specific dump-key operation
             if (flags === '-f') {
                 if (valueParts.length === 1 && valueParts[0].startsWith('"') && valueParts[0].endsWith('"')) {
                     value = valueParts[0].slice(1, -1);
@@ -338,16 +354,20 @@ function Shell(port, ip, certkey, username, password) {
                 return recursivePrompt();
             }
         } else if (commandName === 'read') {
+            // event read should send new key-value pair
             value = valueParts.join(' ');
             console.log(`${value}`);
         } else if (commandName === 'has') {
+            // event has should get the new key-value pair
             value = valueParts.join(' ');
             console.log(`has ${value}`);
         } else if (commandName === 'get') {
+            // event get should get the current key-value pair
             value = valueParts.join(' ');
             let s = getKey(value)
             console.log(`${value} - ${s}`);
         } else if (commandName === 'del') {
+            // event del should delete sent key 
             value = valueParts.join(' ');
             console.log(`${value}`);
             // } else if (commandName === 'read' || commandName === 'has' || commandName === 'get' || commandName === 'del') {
@@ -404,7 +424,21 @@ function Shell(port, ip, certkey, username, password) {
     recursivePrompt();
 }
 
-Shell()
+// shellParser
+var results = shellParser();
+
+var type = results["-t"] = results["-t"] || "http";
+var port = results["-p"] = Number(results["-p"]) || 3443;
+var ip = results["-ip"] = results["-ip"] || "127.0.0.1";
+var key = results["-k"] = results["-k"] || null;
+var cert = results["-c"] = results["-c"] || null;
+var username = results["-u"] = results["-u"] || null;
+var password = results["-pwd"] = results["-pwd"] || null;
+var dataLoad = results["-dt"] = results["-dt"] || "{}";
+var mode = results["-s"] = results["-s"] || "shell";
+
+
+// Shell()
 
 module.exports = Shell
 
