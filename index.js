@@ -125,7 +125,7 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // minor codebase to test http protocol for kvjson [to be extended to ws and wss]
                     // 
                     // event name is "read"
-                    // data values is key
+                    // data key-values is key
                     // "data": {"key": "test"}
                     // 
                     // // read or get keys
@@ -143,9 +143,15 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                 case 'update':
                     // UPDATE: Uses 'update' as the event name
                     // // read or get keys
-                    // {"event": "update", "data": {"key": "test", "value": "testing"}}
-                    // {"event": "update", "data": {"key": "2", "value": 23}}
-                    // {"event": "update", "data": {"key": 12, "value": "testing23"}}
+                    // 
+                    // event name is "update"
+                    // data key-values is key and value is value
+                    // "data": {"key": "test", value: "value to update for test"}
+                    // 
+                    // {"event": "update", "data": {"test": "testing"}}
+                    // {"event": "update", "data": {"2": 23}}
+                    // {"event": "update", "data": {12: "testing23", "test": "testing", 34:testing}}
+                    // data now will be {"olskeys":"new value", 12: "testing23", "test": "testing", 34:testing}}
                     try {
                         let obj = data
                         app.dataManager.update(obj);
