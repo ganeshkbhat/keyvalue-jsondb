@@ -98,6 +98,28 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     } catch (e) {
                         return res.status(500).json({ status: 'failed', event: event, data: { key: data.key, error: e } });
                     }
+                case 'create':
+                    // // CREATE: Uses 'create' as the event name
+                    // // minor codebase to test http protocol for kvjson [to be extended to ws and wss]
+                    // // 
+                    // // event name is "set"
+                    // // data values are key, value pairs in as an array
+                    // // {"event": "create", "data": [{"key": 12, "value": "test"}, {"key": "12sdf", "value": "test"}]}
+                    // // 
+                    
+                    try {
+                        let result = {  }
+                        if (Array.isArray(data) && data.length) {
+                            for (let i = 0; i < data.length; i++) {
+                                app.dataManager.write(data[i].key, data[i].value)
+                                result[data[i].key] = data[i].value
+                            }
+                        }
+                        return res.status(201).json({ status: 'success', event: event, data: result });
+                    } catch(e) {
+                        return res.status(400).json({ status: 'error', event: event, message: 'Missing required fields: "key" (string) and "value" (object) for "set" event.' });
+                    }
+
                 case 'get':
                     // read: Uses 'read' or 'get' or getkey as the event name
                     // READ ONE: Uses 'get' as the event name
@@ -108,16 +130,16 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // "data": {"key": "test"}
                     // 
                     // // read or get keys
-                    // {"event": "get", "data": {"key": "test"}} 
-                    // {"event": "get", "data": {"key": "2"}}
-                    // {"event": "get", "data": {"key": 12}}
+                    // {"event": "get", "data": { "key": "setkey", "key2": "setvaluetwo" }} 
+                    // {"event": "get", "data": { "key": "setkey" }}
+                    // {"event": "get", "data": {"key": 12 }}
                     if (!data.key) {
                         return res.status(400).json({ status: 'error', event: event, message: 'Missing "key" field for "get" event.' });
                     }
                     foundItem = app.dataManager.getKey(data.key, { createKey: false });
-                    if (!foundItem) {
-                        return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found.` });
-                    }
+                    // if (!foundItem) {
+                    //     return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found.` });
+                    // }
                     return res.status(200).json({ status: 'success', event: event, data: { [data.key]: app.dataManager.getKey(data.key) } });
                 case 'read':
                     // read: Uses 'read' or 'get' or getkey as the event name
