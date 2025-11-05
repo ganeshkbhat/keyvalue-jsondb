@@ -74,6 +74,13 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // CREATE: Uses 'set' as the event name
                     // minor codebase to test http protocol for kvjson [to be extended to ws and wss]
                     // 
+                    // event name is "set"
+                    // data values are key, value 
+                    // data = { "key": "setkey", "value": "setvalue" }
+                    // 
+                    // {"event": "set", "data": {"key": "23v", "value": "12334fmc"}}
+                    // {"event": "set", "data": {"key": "2", "value": "123fmc"}}
+                    // {"event": "set", "data": {"key": 12, "value": 123}}
                     try {
                         // console.log(1, data.key, data.value, app.dataManager.read(data.key))
                         if (!data.key || !data.value) {
@@ -95,11 +102,19 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // read: Uses 'read' or 'get' or getkey as the event name
                     // READ ONE: Uses 'get' as the event name
                     // minor codebase to test http protocol for kvjson [to be extended to ws and wss]
+                    // 
+                    // event name is "get"
+                    // data value is key
+                    // "data": {"key": "test"}
+                    // 
+                    // // read or get keys
+                    // {"event": "get", "data": {"key": "test"}} 
+                    // {"event": "get", "data": {"key": "2"}}
+                    // {"event": "get", "data": {"key": 12}}
                     if (!data.key) {
                         return res.status(400).json({ status: 'error', event: event, message: 'Missing "key" field for "get" event.' });
                     }
                     foundItem = app.dataManager.getKey(data.key, { createKey: false });
-                    console.log(4, foundItem)
                     if (!foundItem) {
                         return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found.` });
                     }
@@ -108,16 +123,29 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // read: Uses 'read' or 'get' or getkey as the event name
                     // READ ONE: Uses 'get' as the event name
                     // minor codebase to test http protocol for kvjson [to be extended to ws and wss]
+                    // 
+                    // event name is "read"
+                    // data values is key
+                    // "data": {"key": "test"}
+                    // 
+                    // // read or get keys
+                    // {"event": "read", "data": {"key": "test"}} 
+                    // {"event": "read", "data": {"key": "2"}}
+                    // {"event": "read", "data": {"key": 12}}
                     if (!data.key) {
                         return res.status(400).json({ status: 'error', event: event, message: 'Missing "key" field for "get" event.' });
                     }
                     foundItem = app.dataManager.read(data.key, { createKey: false });
-                    if (foundItem !== undefined || foundItem !== null) {
-                        return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found.` });
-                    }
+                    // if (foundItem) {
+                    //     return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found.` });
+                    // }
                     return res.status(200).json({ status: 'success', event: event, data: { "key": data.key, "value": foundItem } });
                 case 'update':
                     // UPDATE: Uses 'update' as the event name
+                    // // read or get keys
+                    // {"event": "update", "data": {"key": "test", "value": "testing"}}
+                    // {"event": "update", "data": {"key": "2", "value": 23}}
+                    // {"event": "update", "data": {"key": 12, "value": "testing23"}}
                     try {
                         let obj = data
                         app.dataManager.update(obj);
@@ -127,6 +155,8 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     }
                 case 'dump':
                     // LIST ALL: Uses 'dump' as the event name
+                    // {"event": "dump", "data": {}}
+                    // {"event": "dump", "data": {key: "test"}}
                     try {
                         let allItems = app.dataManager.dump();
                         return res.status(200).json({ status: 'success', event: event, data: allItems, count: allItems.length });
