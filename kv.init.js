@@ -37,6 +37,9 @@ function shellParser(results = {}) {
         { prefix: "-pwd", handler: () => console.log },
         // -s : mode : mode of operation : shell, db
         { prefix: "-s", handler: () => console.log },
+        // -dt : load data for data : 
+        //      these are -dt load db data not shell args/data
+        { prefix: "-dt", handler: () => console.log },
         // // -j : json config file : password for authentication
         // { prefix: "-j", handler: () => console.log }
     ];
@@ -48,7 +51,25 @@ function shellParser(results = {}) {
     var middlewares = [];
     var app = (req, res, next) => { next() };
 
-    // parsing shell and their values and applying defaults
+    //
+    // // -j : "path to entire js file object"
+    // // considering
+    // // if all are not defined then parse json file for json object
+    // // if j is provided then no other values of shell will be parsed ignoring even default assignments
+    // if (!!results["-j"]) {
+    //     try {
+    //         let filepath = fs.readFileSync(path.join(process.cwd(), results["-j"]), "utf8")
+    //         results = { ...results, ...JSON.parse(JSON.stringify(require(filepath))) }
+    //         return results
+    //     } catch (e) {
+    //         results = { ...results, ...JSON.parse(JSON.stringify(require(path.join(process.cwd(), results["-j"])))) }
+    //         return results
+    //     }
+    // }
+
+
+    // parsing shell and their values 
+    //      and applying defaults if some important keys are missing
     var type = results["-t"] = results["-t"] || "http";
     var port = results["-p"] = Number(results["-p"]) || 3443;
     var ip = results["-ip"] = results["-ip"] || "127.0.0.1";
@@ -60,16 +81,6 @@ function shellParser(results = {}) {
     var mode = results["-s"] = results["-s"] || "shell";
 
     console.log("results of shell command : ", JSON.stringify(results));
-
-    // // -j : "path to entire js file object"
-    // // if all are not defined then parse json file for json object
-    // if (!!results["-j"]) {
-    //     try {
-    //         results = { ...results, ...JSON.parse(JSON.stringify(require(results["-j"]))) }
-    //     } catch (e) {
-    //         results = { ...results, ...JSON.parse(JSON.stringify(require(path.join(process.cwd(), results["-j"])))) }
-    //     }
-    // }
     return results
 }
 

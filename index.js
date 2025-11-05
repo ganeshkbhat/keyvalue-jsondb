@@ -15,26 +15,23 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
     const PORT = port || 7000;
     const HOSTNAME = hostname || "localhost";
 
-    // 2. Middleware
     // Use express.json() to parse incoming JSON bodies
     app.use(express.json());
 
-    // Set server datatime
+    // Set server start datatime 
     app.datetime = datetime;
 
     // if (!!apps || apps !== undefined) app.use(apps);
     if (!!middlewares.length) app.use(middlewares);
 
-    // Middleware to parse JSON request bodies
-    app.use(express.json());
 
     // Instantiate the manager for 'Item' entities
     app.dataManager = new JsonManager();
-    app.dataManager.init(loadObject)
+    app.dataManager.init(loadObject);
 
     /**
-         * GET route for debugging: shows the current state of the JSON store.
-         */
+     * GET route for debugging: shows the current state of the JSON store.
+     */
     app.get('/', (req, res) => {
         // console.log(app.mgr.dump())
         res.status(200).json({
@@ -103,7 +100,7 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     }
                     foundItem = app.dataManager.getKey(data.key, { createKey: false });
                     console.log(4, foundItem)
-                    if (foundItem !== true) {
+                    if (!foundItem) {
                         return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found.` });
                     }
                     return res.status(200).json({ status: 'success', event: event, data: { [data.key]: app.dataManager.getKey(data.key) } });
@@ -123,7 +120,8 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // UPDATE: Uses 'update' as the event name
                     try {
                         let obj = data
-                        return res.status(201).json({ status: 'success', event: event, data: { ...app.dataManager.update(obj) } });
+                        app.dataManager.update(obj);
+                        return res.status(201).json({ status: 'success', event: event, data: { ...obj } });
                     } catch (e) {
                         return res.status(500).json({ status: 'failed', event: event, data: e });
                     }
@@ -143,11 +141,10 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                         if (!!Array.isArray(data.keys) && !!data.keys) {
                             console.log(1)
                             // map to respond all keys in the requested data send back in an object data. date: {key: value, key2: value2}
-                            allItems = app.dataManager.dumpkey(data.keys, { like: true, regex: false }, "search");
+                            allItems = app.dataManager.dumpkeys(data.keys, { like: true, regex: false }, "search");
                         }
                         console.log(2)
                         return res.status(200).json({ status: 'success', event: event, data: allItems, count: allItems.length });
-
                     } catch (e) {
                         console.log(3)
                         return res.status(500).json({ status: 'failed', event: event, data: null, count: allItems.length });
@@ -157,7 +154,18 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     try {
                         let allItems = app.dataManager.search({
                             data: {},
-                            event: "searchkey"
+                            event: "search"
+                        });
+                        return res.status(200).json({ status: 'success', event: event, data: allItems, count: allItems.length });
+                    } catch (e) {
+                        return res.status(500).json({ status: 'failed', event: event, data: null, count: allItems.length });
+                    }
+                case 'searchvalue':
+                    // LIST ALL: Uses 'dump' as the event name to return key requested
+                    try {
+                        let allItems = app.dataManager.search({
+                            data: {},
+                            event: "searchvalue"
                         });
                     } catch (e) {
                         return res.status(500).json({ status: 'failed', event: event, data: null, count: allItems.length });
@@ -168,16 +176,6 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                         let allItems = app.dataManager.search({
                             data: {},
                             event: "searchkeyvalue"
-                        });
-                    } catch (e) {
-                        return res.status(500).json({ status: 'failed', event: event, data: null, count: allItems.length });
-                    }
-                case 'searchvalue':
-                    // LIST ALL: Uses 'dump' as the event name to return key requested
-                    try {
-                        let allItems = app.dataManager.search({
-                            data: {},
-                            event: "searchvalue"
                         });
                     } catch (e) {
                         return res.status(500).json({ status: 'failed', event: event, data: null, count: allItems.length });

@@ -8,8 +8,8 @@ const readline = require('readline');
 const express = require('express');
 const path = require("path");
 const shellParser = require("./kv.init");
-const JsonManager = require("json-faster").JsonManager;
-const manager = new JsonManager()
+// const JsonManager = require("json-faster").JsonManager;
+// const manager = new JsonManager()
 
 
 // -----------------------------------------------------------
@@ -126,8 +126,6 @@ function Shell(port, ip, certkey, username, password) {
     var serverkey = ""
     var dataLoad = "";
     var mode = "http";
-
-
 
 
     // set key value
