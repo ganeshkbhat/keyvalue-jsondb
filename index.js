@@ -30,7 +30,15 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
         879898: ["test", "for", "alues"],
         "testing": "for alues",
         "123tsj": "testing",
-        "store": ["vaue", "loads", 10]
+        "store": ["vaue", "loads", 10],
+        'user_id': 101,
+        'username': 'alpha_user',
+        'status': 'Active',
+        'tags': ['premium', 'new_member', 'verified'],
+        'location': 'New York City',
+        'last_login': '2025-11-10',
+        'settings': { theme: 'dark', notifications: true },
+        'scores': [95, 88, 92]
     }
 
     // Instantiate the manager for 'Item' entities
@@ -60,6 +68,8 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
         res.status(200).json({
             status: 'ok',
             // store_state: app.mgr.dump(),
+            serverStartDateTime: app.datetime,
+            requestDateTime: Date.now(),
             message: 'Current state of the JSON manager.',
             data: "hello"
         });
@@ -276,7 +286,10 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                         // searches key and value
                         // keys should be an array
                         // // { "event": "search", "data": { "keys": ["testing"] }}
-                        // 
+                        // // {"event":"search", "data": {"keys" : 14}, "options": {"like": true}}
+                        // // {"event":"search", "data": {"keys" : 12}, "options": {"like": true}}
+                        // // {"event":"search", "data": {"keys" : ["12", "testing", "50"]}, "options": {"like": true}}
+                        // // {"event":"search", "data": {"keys" : ["12", "test", "50"]}, "options": {"like": true}}
                         allsearchItems = app.dataManager.search(data.keys, { like: options?.like ? options?.like : true });
                         return res.status(200).json({ status: 'success', event: event, data: allsearchItems, count: allsearchItems?.length });
                     } catch (e) {
@@ -284,8 +297,8 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     }
                 case 'searchvalue':
                     // LIST ALL: 
-                    // { "event": "search", "data": { "keys": ["testing"] },  "type": "keyvalue", options = { like: true, regex: false} }
-                    
+                    // // { "event": "search", "data": { "keys": ["testing"] },  "type": "keyvalue", options = { like: true, regex: false} }
+                    // // {"event":"search", "data": {"keys" : ["12", "testing", "50"]}, "options": {"like": false}}
                     let allSearchValueItems
                     try {
                         // allSearchValueItems = app.dataManager.search(data.keys, { like: options?.like || true });
@@ -302,6 +315,8 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // 
                     //      >> give back all key values and value values in 
                     //      >>    the json key or value string searches
+                    // // {"event":"searchkeyvalue", "data": {"keys" : ["12", "testing", "50"]}, "options": {"like": false}}
+                    // // 
                     try {
                         allSearchKeyValueItems = app.dataManager.searchKeyValue(data.keys, { like: options?.like || true });
                         return res.status(200).json({ status: 'success', event: event, data: allSearchKeyValueItems, count: allSearchKeyValueItems?.length })
