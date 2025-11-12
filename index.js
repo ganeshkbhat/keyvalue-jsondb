@@ -229,7 +229,7 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // LIST ALL: Uses 'dump' as the event name to return keys requested
                     // {"event": "dumpkeys", "data": {"key": ["ke1", "key2", "key3"]}}
                     // {"event": "dumpkeys", "data": {"key": "test"}}
-                    
+
                     // dump keys loads keys of ["testing", "12"] if present
                     // { "event": "dumpkeys", "data": { "keys": ["testing", "12"] } }
                     let allDumpKeysItems
@@ -272,38 +272,40 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     let allsearchItems
                     try {
                         console.log("allsearchItems", data)
+
                         // searches key and value
                         // keys should be an array
+                        // // { "event": "search", "data": { "keys": ["testing"] }}
+                        // 
                         allsearchItems = app.dataManager.search(data.keys, { like: options?.like ? options?.like : true });
-                        console.log("allsearchItems", allsearchItems)
                         return res.status(200).json({ status: 'success', event: event, data: allsearchItems, count: allsearchItems?.length });
                     } catch (e) {
-                        console.log("allsearchItems", allsearchItems, e)
                         return res.status(500).json({ status: 'failed', event: event, data: allsearchItems, count: allsearchItems?.length, error: e });
                     }
                 case 'searchvalue':
                     // LIST ALL: 
+                    // { "event": "search", "data": { "keys": ["testing"] },  "type": "keyvalue", options = { like: true, regex: false} }
+                    
                     let allSearchValueItems
                     try {
-                        console.log("allSearchValueItems", data)
-                        allSearchValueItems = app.dataManager.search(data.keys, { like: options?.like || true });
-                        console.log("allSearchValueItems", allSearchValueItems)
+                        // allSearchValueItems = app.dataManager.search(data.keys, { like: options?.like || true });
                         allSearchValueItems = app.dataManager.searchValue(data.keys, { like: options?.like || true });
-                        console.log("allSearchValueItems", allSearchValueItems)
                         return res.status(200).json({ status: 'success', event: event, data: allSearchValueItems, count: allSearchValueItems?.length });
                     } catch (e) {
-                        console.log("allSearchValueItems", allSearchValueItems,  e)
+                        console.log("allSearchValueItems 4", allSearchValueItems, e)
                         return res.status(500).json({ status: 'failed', event: event, data: allSearchValueItems, count: allSearchValueItems?.length, error: e });
                     }
                 case 'searchkeyvalue':
                     // LIST ALL: 
+                    // // :
+                    // { "event": "searchkeyvalue", "data": { "keys": [12, "testing", "store"] }, "type": "keyvalue" }
+                    // 
+                    //      >> give back all key values and value values in 
+                    //      >>    the json key or value string searches
                     try {
-                        console.log("allSearchKeyValueItems 1", data)
                         allSearchKeyValueItems = app.dataManager.searchKeyValue(data.keys, { like: options?.like || true });
-                        console.log("allSearchKeyValueItems 23", allSearchKeyValueItems)
                         return res.status(200).json({ status: 'success', event: event, data: allSearchKeyValueItems, count: allSearchKeyValueItems?.length })
                     } catch (e) {
-                        console.log("allSearchKeyValueItems", allSearchKeyValueItems,  e)
                         return res.status(500).json({ status: 'failed', event: event, data: allSearchKeyValueItems, count: allSearchKeyValueItems?.length });
                     }
                 case 'delete':
