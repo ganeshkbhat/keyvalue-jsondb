@@ -83,9 +83,9 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
     app.post('/', (req, res) => {
         // Expected payload format: { event: 'action', key?: string, value?: object }
         // Renamed 'id' to 'key' for clarity in this handler
-        const { event, data } = req.body;
+        const { event, data, options } = req.body;
         // needed created same named values to create or update
-        var allItems, foundItem, createdItem, updatedItem, deleted
+        var allItems, foundItem, createdItem, updatedItem, deletedItems, allDumpItems, allDumpKeyItems, allDumpKeysItems, allsearchItems, allSearchValueItems, allSearchKeyValueItems;
 
         if (!event) {
             return res.status(400).json({ status: 'error', message: 'Missing required field: event (e.g., "set", "get", "dump", "update", "remove")' });
@@ -109,10 +109,11 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                             return res.status(400).json({ status: 'error', event: event, message: 'Missing required fields: "key" (string) and "value" (object) for "set" event.' });
                         }
 
-                        // data.key = ensureNumeric(data.key)
-                        // data.value = ensureNumeric(data.value)
                         // {"event": "set", "data": { "key": 12, "value": "tests" }} 
                         //  >> {"event": "set", "data": { "key": "12", "value": "tests" }}
+                        // data.key = ensureNumeric(data.key)
+                        // data.value = ensureNumeric(data.value)
+
                         app.dataManager.write(data.key, data.value)
                         // console.log(5, data.key, data.value)
                         return res.status(200).json({ status: 'success', event: event, data: { ...app.dataManager.read(data.key) } });
@@ -132,19 +133,18 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                         let result = {}
                         if (Array.isArray(data) && data.length) {
                             for (let i = 0; i < data.length; i++) {
-                                data[i].key = ensureNumeric(data[i].key)
-                                data[i].value = ensureNumeric(data[i].value)
-                                app.dataManager.write(data[i].key, data[i].value)
+                                // data[i].key = ensureNumeric(data[i].key)
+                                // data[i].value = ensureNumeric(data[i].value)
                                 result[data[i].key] = data[i].value
+                                app.dataManager.write(data[i].key, data[i].value)
                             }
                         }
-                        return res.status(201).json({ status: 'success', event: event, data: result });
+                        return res.status(200).json({ status: 'success', event: event, data: result });
                     } catch (e) {
                         return res.status(400).json({ status: 'error', event: event, message: 'Missing required fields: "key" (string) and "value" (object) for "set" event.' });
                     }
-
                 case 'get':
-                    // read: Uses 'read' or 'get' or getkey as the event name
+                    // read: Uses 'read' or 'get' or 'getkey' as the event name
                     // READ ONE: Uses 'get' as the event name
                     // minor codebase to test http protocol for kvjson [to be extended to ws and wss]
                     // 
@@ -159,11 +159,11 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     if (!data.key) {
                         return res.status(400).json({ status: 'error', event: event, message: 'Missing "key" field for "get" event.' });
                     }
+                    // createKey is false by default
                     foundItem = app.dataManager.getKey(data.key, { createKey: false });
                     if (!foundItem) {
                         return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found.` });
                     }
-                    // let dataKey = ensureNumeric(data.key)
                     return res.status(200).json({ status: 'success', event: event, data: { [data.key]: app.dataManager.get(data.key) } });
                 // return res.status(200).json({ status: 'success', event: event, data: { [data.key]: foundItem } });
                 case 'read':
@@ -183,15 +183,15 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                         return res.status(400).json({ status: 'error', event: event, message: 'Missing "key" field for "get" event.' });
                     }
                     try {
+                        // createKey is false by default
                         foundItem = app.dataManager.read(data.key, { createKey: false });
-                        if (!foundItem) {
+                        if (!foundItem && (foundItem !== undefined || foundItem !== null)) {
                             return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found.` });
                         }
                         return res.status(200).json({ status: 'success', event: event, data: { ...foundItem } });
                     } catch (e) {
-                        return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found.` });
+                        return res.status(500).json({ status: 'error', event: event, error: e, message: `Item with key "${data.key}" not found.` });
                     }
-
                 case 'update':
                     // UPDATE: Uses 'update' as the event name
                     // // read or get keys
@@ -206,12 +206,10 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // data now will be {"oldkeys":"new value", 12: "testing23", "test": "testing", 34:testing}}
                     try {
                         let obj = data
-                        let resobj = app.dataManager.dump()
-                        let r = { ...resobj, ...obj }
-                        app.dataManager.update(r);
-                        return res.status(201).json({ status: 'success', event: event, data: r });
+                        app.dataManager.update(obj);
+                        return res.status(201).json({ status: 'success', event: event, data: obj });
                     } catch (e) {
-                        return res.status(500).json({ status: 'failed', event: event, data: e });
+                        return res.status(500).json({ status: 'failed', event: event, error: e });
                     }
                 case 'dump':
                     // LIST ALL: Uses 'dump' as the event name
@@ -228,82 +226,121 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                         return res.status(400).json({ status: 'error', event: event, message: 'Missing "key" or wrong data field for "dump" event.' });
                     }
                 case 'dumpkeys':
-                    // LIST ALL: Uses 'dump' as the event name to return key requested
+                    // LIST ALL: Uses 'dump' as the event name to return keys requested
                     // {"event": "dumpkeys", "data": {"key": ["ke1", "key2", "key3"]}}
                     // {"event": "dumpkeys", "data": {"key": "test"}}
-                    let allDumpKeyItems
+                    
+                    // dump keys loads keys of ["testing", "12"] if present
+                    // { "event": "dumpkeys", "data": { "keys": ["testing", "12"] } }
+                    let allDumpKeysItems
                     try {
-
                         if (!!Array.isArray(data.keys) && !!data.keys) {
-                            // map to respond all keys in the requested data send back in an object data. date: {key: value, key2: value2}
-                            allDumpKeyItems = app.dataManager.dumpKeys(data.keys, { like: true, regex: false }, "search");
-                            return res.status(200).json({ status: 'success', event: event, data: allDumpKeyItems, count: allDumpKeyItems?.length });
+                            // map to respond all keys in the requested data send back in an object data. 
+                            // data: {key: value, key2: value2}
+                            let like = options?.like || true
+                            let regex = options?.regex || false
+                            let type = options?.type || "search"
+                            allDumpKeysItems = app.dataManager.dumpKeys(data.keys, { like: like || true, regex: regex || false }, type || "search");
+                            return res.status(200).json({ status: 'success', event: event, data: allDumpKeysItems, count: allDumpKeysItems?.length });
                         }
-
                     } catch (e) {
-                        return res.status(500).json({ status: 'failed', event: event, data: null, count: allDumpKeyItems?.length });
+                        return res.status(500).json({ status: 'failed', event: event, data: allDumpKeysItems, count: allDumpKeysItems?.length, error: e });
                     }
                 case 'load':
-                //     // // same as init: Uses 'load' as the event name
+                    // // same as init: Uses 'load' as the event name
+                    let c
+                    try {
+                        c = app.dataManager.load(data)
+                        // console.log(app.dataManager.dump())
+                        return res.status(200).json({ status: 'success', event: event, data: c })
+                    } catch (e) {
+                        return res.status(500).json({ status: 'failed', event: event, error: e });
+                    }
                 case 'init':
-                // case 'init':
-                //     // // same as set: Uses 'init' as the event name
+                    // case 'init':
+                    //     // // same as set: Uses 'init' as the event name
+                    // { "event": "init", "data": { "testmy data": "new data", "testing": "alues new" }}
+                    //      >> will only have above data since it is init
 
+                    try {
+                        app.dataManager.init(data)
+                        return res.status(200).json({ status: 'success', event: event, data: data })
+                    } catch (e) {
+                        return res.status(500).json({ status: 'failed', event: event, data: e });
+                    }
                 case 'search':
                     let allsearchItems
                     try {
+                        console.log("allsearchItems", data)
                         // searches key and value
                         // keys should be an array
-                        allsearchItems = app.dataManager.search({
-                            data: [...data.keys],
-                            event: "search"
-                        });
-                        console.log(allsearchItems);
+                        allsearchItems = app.dataManager.search(data.keys, { like: options?.like ? options?.like : true });
+                        console.log("allsearchItems", allsearchItems)
                         return res.status(200).json({ status: 'success', event: event, data: allsearchItems, count: allsearchItems?.length });
                     } catch (e) {
-                        return res.status(500).json({ status: 'failed', event: event, data: null, count: allsearchItems?.length });
+                        console.log("allsearchItems", allsearchItems, e)
+                        return res.status(500).json({ status: 'failed', event: event, data: allsearchItems, count: allsearchItems?.length, error: e });
                     }
                 case 'searchvalue':
                     // LIST ALL: 
                     let allSearchValueItems
                     try {
-                        allSearchValueItems = app.dataManager.searchValue({
-                            data: [...data.keys],
-                            event: "search"
-                        });
+                        console.log("allSearchValueItems", data)
+                        allSearchValueItems = app.dataManager.search(data.keys, { like: options?.like || true });
+                        console.log("allSearchValueItems", allSearchValueItems)
+                        allSearchValueItems = app.dataManager.searchValue(data.keys, { like: options?.like || true });
+                        console.log("allSearchValueItems", allSearchValueItems)
                         return res.status(200).json({ status: 'success', event: event, data: allSearchValueItems, count: allSearchValueItems?.length });
                     } catch (e) {
-                        return res.status(500).json({ status: 'failed', event: event, data: null, count: allSearchValueItems?.length });
+                        console.log("allSearchValueItems", allSearchValueItems,  e)
+                        return res.status(500).json({ status: 'failed', event: event, data: allSearchValueItems, count: allSearchValueItems?.length, error: e });
                     }
                 case 'searchkeyvalue':
                     // LIST ALL: 
                     try {
-                        let allItems = app.dataManager.searchKeyValue({
-                            data: [...data],
-                            event: "search"
-                        });
+                        console.log("allSearchKeyValueItems 1", data)
+                        allSearchKeyValueItems = app.dataManager.searchKeyValue(data.keys, { like: options?.like || true });
+                        console.log("allSearchKeyValueItems 23", allSearchKeyValueItems)
+                        return res.status(200).json({ status: 'success', event: event, data: allSearchKeyValueItems, count: allSearchKeyValueItems?.length })
                     } catch (e) {
-                        return res.status(500).json({ status: 'failed', event: event, data: null, count: allItems.length });
+                        console.log("allSearchKeyValueItems", allSearchKeyValueItems,  e)
+                        return res.status(500).json({ status: 'failed', event: event, data: allSearchKeyValueItems, count: allSearchKeyValueItems?.length });
                     }
-                // DELETE: Uses 'remove' as the event name
                 case 'delete':
+                    // DELETE: Uses 'remove' as the event name
+                    // this event delete removes/deletes the key send in the data with event details
+                    // // {"event": "delete", "data": {"key": "12" }}
                     if (!data.key) {
                         return res.status(400).json({ status: 'error', event: event, data: {}, message: 'Missing "key" field for "remove" event.' });
                     }
-                    deleted = app.dataManager.deleteKey(data.key);
-                    if (!deleted) {
-                        return res.status(401).json({ status: 'error', event: event, data: {}, message: `Item with key "${key}" not found for deletion.` });
+                    try {
+                        let dvalue = app.dataManager.getKey(data.key)
+                        deleted = app.dataManager.deleteKey(data.key);
+                        // if (!deleted) {
+                        //     return res.status(401).json({ status: 'error', event: event, data: {}, message: `Item with key "${key}" not found for deletion.` });
+                        // }
+                        return res.status(200).json({ status: 'success', event: event, data: { [data.key]: dvalue }, message: `Item with key "${data.key}" successfully removed.` })
+                    } catch (e) {
+                        return res.status(500).json({ status: 'failed', event: event, data: {}, error: e });
                     }
-                    return res.status(200).json({ status: 'success', event: event, data: { key: data.key } })
+
                 case 'remove':
-                    if (!key) {
+                    // this event delete removes/deletes the key send in the data with event details
+                    // // {"event": "delete", "data": {"key": "12" }}
+                    // remove event > same as delete. intent was to allow one for single and another for array
+                    if (!data.key) {
                         return res.status(400).json({ status: 'error', event: event, data: {}, message: 'Missing "key" field for "remove" event.' });
                     }
-                    deleted = app.dataManager.deleteKey(key);
-                    if (!deleted) {
-                        return res.status(404).json({ status: 'error', event: event, message: `Item with key "${key}" not found for deletion.` });
+                    try {
+                        let dValue = app.dataManager.getKey(data.key);
+                        deleted = app.dataManager.deleteKey(data.key);
+                        // if (!deleted) {
+                        //     return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found for deletion.` });
+                        // }
+                        return res.status(200).json({ status: 'success', event: event, data: { [data.key]: dValue }, message: `Item with key "${data.key}" successfully removed.` });
+                    } catch (e) {
+                        return res.status(500).json({ status: 'failed', event: event, data: {}, error: e });
                     }
-                    return res.status(200).json({ status: 'success', event: event, message: `Item with key "${key}" successfully removed.` });
                 default:
                     return res.status(400).json({ status: 'error', event: event ? event : "unknown", message: `Unknown event type: ${event}` });
             }
