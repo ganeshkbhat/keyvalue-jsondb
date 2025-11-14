@@ -7,7 +7,7 @@ const WebSocket = require('ws');
 const readline = require('readline');
 const express = require('express');
 const path = require("path");
-const shellParser = require("./kv.init");
+const shellParser = require("./kv.shellparser");
 // const JsonManager = require("json-faster").JsonManager;
 // const manager = new JsonManager()
 

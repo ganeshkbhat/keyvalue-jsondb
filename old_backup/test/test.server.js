@@ -7,7 +7,7 @@
 
 const request = require('supertest');
 const { expect } = require('chai');
-const initializeApp = require('../index'); // Import the function from server.js
+const initializeApp = require('../index'); // Import the function from server.js > index.js > startServer
 
 // Initialize the app without starting the listener (port: 0)
 const app = initializeApp( port = 0 );

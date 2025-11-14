@@ -85,5 +85,7 @@ function shellParser(results = {}) {
 }
 
 // shellParser()
+// 
+// results (of shell parsing) will be used to start the shell.js and/or server.js 
+module.exports = shellParser;
 
-module.export = shellParser;

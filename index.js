@@ -249,7 +249,7 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                             // data: {key: value, key2: value2}
                             let like = options?.like || true
                             let regex = options?.regex || false
-                            let type = options?.type || "search"
+                            let type = options?.type || "searchkeyvalue"
                             allDumpKeysItems = app.dataManager.dumpKeys(data.keys, { like: like || true, regex: regex || false }, type || "search");
                             return res.status(200).json({ status: 'success', event: event, data: allDumpKeysItems, count: allDumpKeysItems?.length });
                         }
@@ -281,31 +281,38 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                 case 'search':
                     let allsearchItems
                     try {
-                        console.log("allsearchItems", data)
 
                         // searches key and value
                         // keys should be an array
+                        // //
                         // // { "event": "search", "data": { "keys": ["testing"] }}
                         // // {"event":"search", "data": {"keys" : 14}, "options": {"like": true}}
                         // // {"event":"search", "data": {"keys" : 12}, "options": {"like": true}}
                         // // {"event":"search", "data": {"keys" : ["12", "testing", "50"]}, "options": {"like": true}}
                         // // {"event":"search", "data": {"keys" : ["12", "test", "50"]}, "options": {"like": true}}
-                        allsearchItems = app.dataManager.search(data.keys, { like: options?.like ? options?.like : true });
+                        // // 
+                        // // options like : true/ false
+                        // // 12 is different from "12" is different from ["12"] is different from [12]
+                        // // "tsj" is different from "ts" is different from ["ts"] is different from ["tsj"]
+                        allsearchItems = app.dataManager.search(data.keys, { like: options?.like ? options?.like : false });
                         return res.status(200).json({ status: 'success', event: event, data: allsearchItems, count: allsearchItems?.length });
                     } catch (e) {
                         return res.status(500).json({ status: 'failed', event: event, data: allsearchItems, count: allsearchItems?.length, error: e });
                     }
                 case 'searchvalue':
-                    // LIST ALL: 
+
+                    // // 
                     // // { "event": "search", "data": { "keys": ["testing"] },  "type": "keyvalue", options = { like: true, regex: false} }
-                    // // {"event":"search", "data": {"keys" : ["12", "testing", "50"]}, "options": {"like": false}}
+                    // // { "event": "search", "data": {"keys" : ["12", "testing", "50"]}, "options": {"like": false}}
+                    // // 
+                    // // options like : true/ false
+                    // // 12 is different from "12" is different from ["12"] is different from [12]
+                    // // "tsj" is different from "ts" is different from ["ts"] is different from ["tsj"]
                     let allSearchValueItems
                     try {
-                        // allSearchValueItems = app.dataManager.search(data.keys, { like: options?.like || true });
-                        allSearchValueItems = app.dataManager.searchValue(data.keys, { like: options?.like || true });
+                        allSearchValueItems = app.dataManager.searchValues(data.keys, { like: options?.like ? options?.like : false });
                         return res.status(200).json({ status: 'success', event: event, data: allSearchValueItems, count: allSearchValueItems?.length });
                     } catch (e) {
-                        console.log("allSearchValueItems 4", allSearchValueItems, e)
                         return res.status(500).json({ status: 'failed', event: event, data: allSearchValueItems, count: allSearchValueItems?.length, error: e });
                     }
                 case 'searchkeyvalue':
@@ -317,8 +324,11 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     //      >>    the json key or value string searches
                     // // {"event":"searchkeyvalue", "data": {"keys" : ["12", "testing", "50"]}, "options": {"like": false}}
                     // // 
+                    // // options like : true/ false
+                    // // 12 is different from "12" is different from ["12"] is different from [12]
+                    // // "tsj" is different from "ts" is different from ["ts"] is different from ["tsj"]
                     try {
-                        allSearchKeyValueItems = app.dataManager.searchKeyValue(data.keys, { like: options?.like || true });
+                        allSearchKeyValueItems = app.dataManager.searchKeyValue(data.keys, { like: options?.like ? options?.like : false });
                         return res.status(200).json({ status: 'success', event: event, data: allSearchKeyValueItems, count: allSearchKeyValueItems?.length })
                     } catch (e) {
                         return res.status(500).json({ status: 'failed', event: event, data: allSearchKeyValueItems, count: allSearchKeyValueItems?.length });
@@ -418,3 +428,6 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
 }
 
 startServer()
+
+
+module.exports = startServer;
