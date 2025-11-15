@@ -1,5 +1,6 @@
 const http = require('http');
-
+const assert = require('assert');
+const sinon = require('sinon');
 /**
  * Makes an HTTP POST request to a specified host and port.
  *
@@ -62,7 +63,7 @@ function makePostRequest(host, port, path, payload, requestOptions = {}) {
         req.on('error', (e) => {
             reject(new Error(`Problem with request: ${e.message}`));
         });
-        
+
         // Handle timeout if set in options
         if (options.timeout) {
             req.setTimeout(options.timeout, () => {
@@ -75,41 +76,86 @@ function makePostRequest(host, port, path, payload, requestOptions = {}) {
         req.end();
     });
 }
+// // load test data for server for testing
+// server.load({
+//     12: 20000,
+//     879898: ["test", "for", "alues"],
+//     "testing": "for alues",
+//     "123tsj": "testing",
+//     "store": ["vaue", "loads", 10],
+//     'user_id': 101,
+//     'username': 'alpha_user',
+//     'status': 'Active',
+//     'tags': ['premium', 'new_member', 'verified'],
+//     'location': 'New York City',
+//     'last_login': '2025-11-10',
+//     'settings': { theme: 'dark', notifications: true },
+//     'scores': [95, 88, 92]
+// })
 
 // --- Example Usage ---
 async function runExample() {
-    const host = 'jsonplaceholder.typicode.com'; // A public API for testing
+    const host = 'localhost'; // A public API for testing
+    const port = 7000;
 
     console.log(`Attempting POST request to https://${host}:${port}/posts...`);
 
     const testPayload = {
-        title: 'foo',
-        body: 'bar baz',
-        userId: 1,
-    };
-    
+        1: {
+            "payload": {
+                "event": 'read',
+                "data": {
+                    "key": "testing"
+                }
+            },
+            "response": {
+                "status": "success",
+                "event": "read",
+                "data": {},
+                "message": "message"
+            }
+        },
+        2: {
+            "payload": {
+                "event": 'read',
+                "data": {
+                    "key": "testing"
+                }
+            },
+            "response": {
+                "status": "success",
+                "event": "read",
+                "data": {},
+                "message": "message"
+            }
+        },
+    }
     // --- New: Custom options for the request ---
     const customOptions = {
         timeout: 5000, // Example: Set a 5 second timeout
         headers: {
-            'X-Custom-Auth': 'Bearer 12345' // Example: Add a custom header
+            // 'X-Custom-Auth': 'Bearer 12345' // Example: Add a custom header
         }
     };
 
     try {
         // Updated call signature to include customOptions
-        console.log(`\nSending request with timeout of ${customOptions.timeout}ms and custom header...`);
-        
+        // console.log(`\nSending request with timeout and custom header...`);
         // We use port 80 as per the 'http' require, but note the warning below.
-        const response = await makePostRequest(host, 80, '/posts', testPayload, customOptions);
-        
-        console.log('\n--- Request Successful ---');
-        console.log('Sent Data:', testPayload);
-        console.log('Received Response:', response);
-        
+        let response
+        for (let i = 0; i < payload.length; i++) {
+            // We use port 80 as per the 'http' require, but note the warning below.
+            response = await makePostRequest(host, port, '/', testPayload[i].payload, customOptions);
+        }
+
+
+        // console.log('\n--- Request Successful ---');
+        // console.log('Sent Data:', testPayload, 'Received Response:', response);
+
         // The jsonplaceholder service returns the posted data plus an ID
         const parsedResponse = JSON.parse(response);
-        console.log('New Resource ID:', parsedResponse.id);
+
+        // console.log('New Resource ID:', parsedResponse.id);
 
     } catch (error) {
         console.error('\n--- Request Failed ---');
