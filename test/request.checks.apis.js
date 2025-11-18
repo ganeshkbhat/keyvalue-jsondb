@@ -76,6 +76,7 @@ function makePostRequest(host, port, path, payload, requestOptions = {}) {
         req.end();
     });
 }
+
 // // load test data for server for testing
 // server.load({
 //     12: 20000,
@@ -100,36 +101,45 @@ async function runExample() {
 
     console.log(`Attempting POST request to https://${host}:${port}/posts...`);
 
-    const testPayload = {
-        1: {
-            "payload": {
-                "event": 'read',
-                "data": {
-                    "key": "testing"
-                }
-            },
-            "response": {
-                "status": "success",
-                "event": "read",
-                "data": {},
-                "message": "message"
-            }
-        },
-        2: {
-            "payload": {
-                "event": 'read',
-                "data": {
-                    "key": "testing"
-                }
-            },
-            "response": {
-                "status": "success",
-                "event": "read",
-                "data": {},
-                "message": "message"
-            }
-        },
-    }
+    // const testPayload = JSON.parse(JSON.stringify(
+    //     {
+    //         "1": {
+    //             "payload": { "event": 'read', "data": { "key": "testing" } },
+    //             "response": { "status": 'success', "event": 'read', "data": { "testing": 'for alues' } }
+    //         },
+    //         "2": {
+    //             "payload": { "event": 'read', "data": { "key": "testing" } },
+    //             "response": { "status": 'success', "event": 'read', "data": { "testing": 'for alues' } }
+    //         },
+    //         "3": {
+    //             "payload": { "event": 'read', "data": { "key": "testing" } },
+    //             "response": { "status": 'success', "event": 'read', "data": { "testing": 'for alues' } }
+    //         },
+    //         "4": {
+    //             "payload": { "event": 'read', "data": { "key": "testing" } },
+    //             "response": { "status": 'success', "event": 'read', "data": { "testing": 'for alues' } }
+    //         },
+    //         "5": {
+    //             "payload": { "event": 'read', "data": { "key": "testing" } },
+    //             "response": { "status": 'success', "event": 'read', "data": { "testing": 'for alues' } }
+    //         },
+    //         "6": {
+    //             "payload": { "event": 'read', "data": { "key": "testing" } },
+    //             "response": { "status": 'success', "event": 'read', "data": { "testing": 'for alues' } }
+    //         },
+    //         "7": {
+    //             "payload": { "event": 'read', "data": { "key": "testing" } },
+    //             "response": { "status": 'success', "event": 'read', "data": { "testing": 'for alues' } }
+    //         },
+    //         "8": {
+    //             "payload": { "event": 'read', "data": { "key": "testing" } },
+    //             "response": { "status": 'success', "event": 'read', "data": { "testing": 'for alues' } }
+    //         }
+    //     }
+    // ))
+
+    const testPayload = require("./payloads.read.json")
+
     // --- New: Custom options for the request ---
     const customOptions = {
         timeout: 5000, // Example: Set a 5 second timeout
@@ -142,20 +152,26 @@ async function runExample() {
         // Updated call signature to include customOptions
         // console.log(`\nSending request with timeout and custom header...`);
         // We use port 80 as per the 'http' require, but note the warning below.
-        let response
-        for (let i = 0; i < payload.length; i++) {
+        // console.log(Object.keys(testPayload))
+        let response, parsedResponse
+        let len = Object.keys(testPayload)
+        console.log(len, Object.keys(testPayload), testPayload);
+        for (let i = 0; i < len.length; i++) {
             // We use port 80 as per the 'http' require, but note the warning below.
-            response = await makePostRequest(host, port, '/', testPayload[i].payload, customOptions);
-        }
+            console.log('payload::', testPayload[len[i]]["payload"] );
+            response = await makePostRequest(host, port, '/', testPayload[len[i]]["payload"], customOptions);
 
+            // assert.equal(JSON.parse(JSON.stringify()), JSON.parse(JSON.stringify(parsedResponse)))
+            // The jsonplaceholder service returns the posted data plus an ID
+            parsedResponse = JSON.parse(response);
+            console.log('response:: ', parsedResponse);
+
+        }
 
         // console.log('\n--- Request Successful ---');
         // console.log('Sent Data:', testPayload, 'Received Response:', response);
 
-        // The jsonplaceholder service returns the posted data plus an ID
-        const parsedResponse = JSON.parse(response);
 
-        // console.log('New Resource ID:', parsedResponse.id);
 
     } catch (error) {
         console.error('\n--- Request Failed ---');

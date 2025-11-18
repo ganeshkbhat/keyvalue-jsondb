@@ -95,7 +95,7 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
         // Renamed 'id' to 'key' for clarity in this handler
         const { event, data, options } = req.body;
         // needed created same named values to create or update
-        var allItems, foundItem, createdItem, updatedItem, deletedItems, allDumpItems, allDumpKeyItems, allDumpKeysItems, allsearchItems, allSearchValueItems, allSearchKeyValueItems;
+        var allItems, foundItem, createdItem, updatedItem, deletedItems, allDumpItems, allDumpKeyItems, allDumpKeysItems, allsearchItems, allSearchValueItems, allSearchKeyValueItems, dValue, deleted;
 
         if (!event) {
             return res.status(400).json({ status: 'error', message: 'Missing required field: event (e.g., "set", "get", "dump", "update", "remove")' });
@@ -250,15 +250,21 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     let allDumpKeysItems
                     try {
                         // if (!!Arr/ay.isArray(data.keys) && !!data.keys) {
-                            // map to respond all keys in the requested data send back in an object data. 
-                            // data: {key: value, key2: value2}
-                            let like = options?.like || false
-                            let regex = options?.regex || false
-                            let type = options?.type || "keyvalue"
-                            allDumpKeysItems = app.dataManager.search(data.keys, { like: like || false, regex: regex || false }, (!!type) ? type : "search");
-                            return res.status(200).json({ status: 'success', event: event, data: allDumpKeysItems, count: allDumpKeysItems?.length });
+                        // map to respond all keys in the requested data send back in an object data. 
+                        // data: {key: value, key2: value2}
+                        let like = options?.like || false
+                        let regex = options?.regex || false
+                        let type = options?.type || "keyvalue"
+                        try {
+                            allSearchKeyValueItems = app.dataManager.search(data.keys, { like: options?.like ? options?.like : false });
+                            return res.status(200).json({ status: 'success', event: event, data: allSearchKeyValueItems, count: allSearchKeyValueItems?.length })
+                        } catch (e) {
+                            return res.status(500).json({ status: 'failed', event: event, data: allSearchKeyValueItems, count: allSearchKeyValueItems?.length });
+                        }
+                        // allDumpKeysItems = app.dataManager.search(data.keys, { like: like || false, regex: regex || false }, (!!type) ? type : "search");
+                        // return res.status(200).json({ status: 'success', event: event, data: allDumpKeysItems, count: allDumpKeysItems?.length });
                         // } else {
-                            // allDumpKeysItems = app.dataManager.search(data.keys, { like: like || false, regex: regex || false }, (!!type) ? type : "search");
+                        // allDumpKeysItems = app.dataManager.search(data.keys, { like: like || false, regex: regex || false }, (!!type) ? type : "search");
                         // }
                     } catch (e) {
                         return res.status(500).json({ status: 'failed', event: event, data: allDumpKeysItems, count: allDumpKeysItems?.length, error: e });
@@ -360,17 +366,26 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // DELETE: Uses 'remove' as the event name
                     // this event delete removes/deletes the key send in the data with event details
                     // // {"event": "delete", "data": {"key": "12" }}
-                    if (!data.key) {
-                        return res.status(400).json({ status: 'error', event: event, data: {}, message: 'Missing "key" field for "remove" event.' });
-                    }
+                    // if (!data.key) {
+                    //     return res.status(400).json({ status: 'error', event: event, data: {}, message: 'Missing "key" field for "remove" event.' });
+                    // }
                     try {
-                        let dvalue = app.dataManager.getKey(data.key)
                         deleted = app.dataManager.deleteKey(data.key);
-                        // if (!deleted) {
-                        //     return res.status(401).json({ status: 'error', event: event, data: {}, message: `Item with key "${key}" not found for deletion.` });
-                        // }
-                        return res.status(200).json({ status: 'success', event: event, data: { [data.key]: dvalue }, message: `Item with key "${data.key}" successfully removed.` })
+                        if (!deleted) throw new Error("the key was not deleted")
+                        return res.status(200).json({ status: 'success', event: event, data: { key: data.key }, message: `Item with key "${data.key}" successfully removed.` })
                     } catch (e) {
+
+                        return res.status(500).json({ status: 'failed', event: event, data: {}, error: e });
+                    }
+                case 'deletedkeys':
+                    // DELETE: Uses 'remove' as the event name
+
+                    try {
+                        deleted = app.dataManager.deleteKeys(data.keys);
+                        if (!deleted) throw new Error("the key was not deleted")
+                        return res.status(200).json({ status: 'success', event: event, data: { key: deleted }, message: `Item with key "${data.key}" successfully removed.` })
+                    } catch (e) {
+
                         return res.status(500).json({ status: 'failed', event: event, data: {}, error: e });
                     }
 
@@ -378,16 +393,21 @@ function startServer(port, hostname = "localhost", options = {}, apps = [], midd
                     // this event delete removes/deletes the key send in the data with event details
                     // // {"event": "delete", "data": {"key": "12" }}
                     // remove event > same as delete. intent was to allow one for single and another for array
-                    if (!data.key) {
-                        return res.status(400).json({ status: 'error', event: event, data: {}, message: 'Missing "key" field for "remove" event.' });
-                    }
+                    // if (!data.keys) {
+                    //     return res.status(400).json({ status: 'error', event: event, data: {}, message: 'Missing "key" field for "remove" event.' });
+                    // }
                     try {
-                        let dValue = app.dataManager.getKey(data.key);
-                        deleted = app.dataManager.deleteKey(data.key);
+
+                        let rValue = app.dataManager.deleteKeys(data.keys); // <<
+                        // console.log("rValue remove", rValue)
+                        // for (let i = 0; i < rValue.length; i++) {
+                        //     app.dataManager.deleteKey(rValue[i].key);
+                        // }
+                        // deleted = app.dataManager.deleteKey(data.key);
                         // if (!deleted) {
                         //     return res.status(404).json({ status: 'error', event: event, message: `Item with key "${data.key}" not found for deletion.` });
                         // }
-                        return res.status(200).json({ status: 'success', event: event, data: { [data.key]: dValue }, message: `Item with key "${data.key}" successfully removed.` });
+                        return res.status(200).json({ status: 'success', event: event, data: { keys: rValue }, message: `Item with key "${data.keys}" successfully removed.` });
                     } catch (e) {
                         return res.status(500).json({ status: 'failed', event: event, data: {}, error: e });
                     }
