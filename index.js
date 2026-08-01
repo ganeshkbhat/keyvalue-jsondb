@@ -121,6 +121,20 @@ if (MODE === 'db') {
             const hashedAdminPassword = bcrypt.hashSync('admin', 10);
             await dbRun(dbInstance, "INSERT INTO users (username, email, password) VALUES ('admin', 'admin@admin.com', ?)", [hashedAdminPassword]);
         }
+
+        const adminGroupCheck = await dbGet(dbInstance, "SELECT id FROM groups WHERE name = 'admin'");
+        let adminGroupId;
+        if (!adminGroupCheck) {
+            const groupResult = await dbRun(dbInstance, "INSERT INTO groups (name, description) VALUES ('admin', 'Administrator Group')");
+            adminGroupId = groupResult.lastID;
+        } else {
+            adminGroupId = adminGroupCheck.id;
+        }
+
+        const adminUser = await dbGet(dbInstance, "SELECT id FROM users WHERE username = 'admin'");
+        if (adminUser) {
+            await dbRun(dbInstance, "INSERT OR IGNORE INTO user_groups (user_id, group_id) VALUES (?, ?)", [adminUser.id, adminGroupId]);
+        }
     }
 
     async function bootstrapDatabase() {
@@ -194,6 +208,11 @@ if (MODE === 'db') {
         const groupIds = await getUserGroups(userId);
         if (!groupIds.length) return [];
         return await dbAll(memDb, `SELECT id, name FROM groups WHERE id IN (${groupIds.map(() => '?').join(',')}) AND status = 'active'`, groupIds);
+    }
+
+    async function isUserInAdminGroup(userId) {
+        const groups = await getUserGroupDetails(userId);
+        return groups.some(g => g.name === 'admin');
     }
 
     async function recordAutomaticCreatorPermissions(session, table, key) {
@@ -431,7 +450,7 @@ if (MODE === 'db') {
 
     async function executeCommand(cmd, args, socket) {
         const command = cmd ? cmd.toLowerCase() : '';
-        const writeCmds = ['set', 'delete', 'clear', 'init', 'load', 'sql', 'use', 'drop', 'groupadd', 'groupassign', 'groupremove', 'grant', 'revoke', 'register', 'passwd', 'login', 'logout'];
+        const writeCmds = ['set', 'delete', 'clear', 'init', 'load', 'sql', 'use', 'drop', 'dump', 'groupadd', 'groupassign', 'groupremove', 'grant', 'revoke', 'register', 'passwd', 'login', 'logout'];
         if (writeCmds.includes(command)) globalLock = true;
 
         const finalize = (err, result) => {
@@ -448,6 +467,15 @@ if (MODE === 'db') {
 
         try {
             switch (command) {
+                case 'dump': {
+                    await requireSession(args, socket);
+                    const dumpFilePath = args.f || DB_PATH;
+                    const success = await persistToDisk(dumpFilePath, socket, 'dump');
+                    if (!success) {
+                        return finalize(new Error(`Failed to write dump snapshot to target: ${dumpFilePath}`));
+                    }
+                    break;
+                }
                 case 'login': {
                     const username = args.k;
                     const rawPassword = args.v;
@@ -625,6 +653,117 @@ if (MODE === 'db') {
                     }
                     socket.cursor = { results: keyResults, limit, index: 0, total: keyResults.length };
                     sendCursorBatch(socket, finalize);
+                    break;
+                }
+                case 'grant': {
+                    await requireSession(args, socket);
+                    const principalType = args.principal_type || 'user';
+                    const principalName = args.principal;
+                    const resourceTable = args.resource_table || 'store';
+                    const resourceKey = args.resource || '*';
+                    const perms = args.permissions || 'read';
+
+                    if (!principalName) return finalize(new Error("Principal target identifier required"));
+
+                    let principalId = null;
+                    if (principalType === 'user') {
+                        const userRow = await dbGet(memDb, "SELECT id FROM users WHERE username = ?", [principalName]);
+                        if (!userRow) return finalize(new Error("Target user profile not found"));
+                        principalId = userRow.id;
+                    } else {
+                        const groupRow = await dbGet(memDb, "SELECT id FROM groups WHERE name = ?", [principalName]);
+                        if (!groupRow) return finalize(new Error("Target group profile not found"));
+                        principalId = groupRow.id;
+                    }
+
+                    const canRead = perms.includes('read') ? 1 : 0;
+                    const canCreate = perms.includes('create') ? 1 : 0;
+                    const canUpdate = perms.includes('update') ? 1 : 0;
+                    const canDelete = perms.includes('delete') ? 1 : 0;
+
+                    await dbRun(memDb, `
+                        INSERT OR REPLACE INTO access_controls 
+                        (resource_table, resource_key, principal_type, principal_id, principal_name, can_read, can_create, can_update, can_delete)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    `, [resourceTable, resourceKey, principalType, principalId, principalName, canRead, canCreate, canUpdate, canDelete]);
+
+                    await persistToDisk();
+                    finalize(null, `Granted [${perms}] control privileges to ${principalType} '${principalName}' over ${resourceTable}:${resourceKey}`);
+                    break;
+                }
+                case 'sql': {
+                    const session = await requireSession(args, socket);
+                    if (!args.sql) return finalize(new Error("SQL query payload required"));
+                    
+                    const rawSql = args.sql;
+
+                    // Enforce "SELECT 1" restriction: Disallow SELECT 1 queries for all users unconditionally
+                    const isSelectOne = /\bSELECT\s+1\b/i.test(rawSql);
+                    if (isSelectOne) {
+                        return finalize(new Error("Permission denied: 'SELECT 1' query execution is disabled for all users"));
+                    }
+
+                    // 1. Check if user can execute shell commands
+                    await ensurePermission(session.userId, session.username, 'sql', '*', 'create');
+
+                    // 2. Perform table level authorization mapping.
+                    const results = await dbAll(memDb, rawSql);
+
+                    // Bypassing row checks for admin username
+                    if (session.username === 'admin') {
+                        finalize(null, results);
+                        break;
+                    }
+
+                    // Extract database table structures
+                    const allSystemTables = await dbAll(memDb, "SELECT name FROM sqlite_master WHERE type='table'");
+                    const discoveredTables = [];
+                    for (const tableRow of allSystemTables) {
+                        const regex = new RegExp(`\\b${tableRow.name}\\b`, 'i');
+                        if (regex.test(rawSql)) {
+                            discoveredTables.push(tableRow.name);
+                        }
+                    }
+
+                    // Validate table read authorizations
+                    const permittedTables = [];
+                    for (const tableName of discoveredTables) {
+                        const accessAllowed = await hasPermission(session.userId, session.username, tableName, '*', 'read');
+                        if (accessAllowed) {
+                            permittedTables.push(tableName);
+                        }
+                    }
+
+                    // Filter authorized rows
+                    const filteredResults = [];
+                    for (const row of results) {
+                        let rowAllowed = true;
+                        
+                        if (row && typeof row.key === 'string') {
+                            for (const table of discoveredTables) {
+                                if (permittedTables.includes(table)) continue;
+
+                                const individualKeyAllowed = await hasPermission(session.userId, session.username, table, row.key, 'read');
+                                if (!individualKeyAllowed) {
+                                    rowAllowed = false;
+                                    break;
+                                }
+                            }
+                        } else {
+                            for (const table of discoveredTables) {
+                                if (!permittedTables.includes(table)) {
+                                    rowAllowed = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (rowAllowed) {
+                            filteredResults.push(row);
+                        }
+                    }
+
+                    finalize(null, filteredResults);
                     break;
                 }
                 case 'register': {

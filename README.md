@@ -329,6 +329,21 @@ Purpose: Strips a user of a group assignment, removing their inherited permissio
 
 Purpose: Displays all created groups, their descriptions, and status entries.
 
+1. Create a Manager User
+
+`sql -cmd INSERT OR REPLACE INTO users (username, email, password) VALUES ('manager_user', 'manager@company.com', '$2a$10$wT8K4.y5Q6lR2eH3uE4F5O6P7Q8R9S0T1U2V3W4X5Y6Z7A8B9C0D1');`
+
+2. Create the Manager Group
+
+`sql -cmd "INSERT OR IGNORE INTO groups (name, description) VALUES ('manager', 'Manager Group');"`
+
+3. Add the User to the Manager Group
+
+`sql -cmd "INSERT OR IGNORE INTO user_groups (user_id, group_id) SELECT u.id, g.id FROM users u, groups g WHERE u.username = 'manager_user' AND g.name = 'manager';"`
+
+4. & 5. Create a Wildcard ACL Entry Giving full CRUD Access to the Manager Group across 'store'
+
+`sql -cmd "INSERT INTO access_controls (resource_table, resource_key, principal_type, principal_id, principal_name, can_read, can_create, can_update, can_delete) SELECT 'store', '*', 'group', id, name, 1, 1, 1, 1 FROM groups WHERE name = 'manager';"`
 
 #### TODO
 
